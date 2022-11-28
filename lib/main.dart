@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momento_medico/pages/homepage.dart';
+import 'package:momento_medico/pages/search.dart';
+import 'package:momento_medico/utils/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,6 +9,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   // This widget is the root of your application.
   @override
@@ -17,6 +21,11 @@ class MyApp extends StatelessWidget {
       theme:
           ThemeData(primarySwatch: Colors.blue, backgroundColor: Colors.grey),
       home: const Homepage(title: 'MedicUP'),
+      navigatorKey: MyApp.navigatorKey,
+      routes: <String, WidgetBuilder>{
+        '/homepage': (context) => const Homepage(title: 'Homepage'),
+        '/search': (context) => const Search(),
+      },
     );
   }
 }
