@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momento_medico/pages/homepage.dart';
-import 'package:momento_medico/pages/search.dart';
+import 'package:momento_medico/pages/searchByName.dart';
+import 'package:momento_medico/pages/searchByPrincipioAttivo.dart';
 import 'package:momento_medico/utils/routes.dart';
 
 void main() {
@@ -24,7 +25,9 @@ class MyApp extends StatelessWidget {
       navigatorKey: MyApp.navigatorKey,
       routes: <String, WidgetBuilder>{
         '/homepage': (context) => const Homepage(title: 'Homepage'),
-        '/search': (context) => const Search(),
+        '/searchbyname': (context) => const SearchByName(),
+        '/searchbyprincipioattivo': (context) =>
+            const SearchByPrincipioAttivo(),
       },
     );
   }
