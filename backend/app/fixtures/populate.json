@@ -1,0 +1,18 @@
+[
+    {
+      "pk": 1,
+      "model": "app.User",
+      "fields": {
+        "email": "paziente@mome.it",
+        "pw": "paziente"
+      }
+    },
+    {
+      "pk": 1,
+        "model": "app.Doctor",
+        "fields": {
+          "codice": 666,
+          "pw": "medico"
+        }
+      }
+  ]
