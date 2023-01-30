@@ -13,7 +13,10 @@ SECRET_KEY = 'django-insecure-*@xaevb$4!@sz9l+*l+_dnelc6bq3rb*e$+l+b9k8!t$kv=u1p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '10.0.2.2', #android emulator
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -25,9 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apis',
+    'apis.apps.ApisConfig',
     'rest_framework',
-    'app',
+    'app.apps.AppConfig',
 ]
 
 MIDDLEWARE = [

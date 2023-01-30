@@ -5,26 +5,52 @@ from django.db import models
 class User(models.Model):  
     email = models.EmailField(max_length=254, primary_key=True)
     pw = models.CharField(max_length=16)
-
     def __str__(self):
         return self.email
 
 class Doctor(models.Model):  
     codice = models.IntegerField(primary_key=True)
     pw = models.CharField(max_length=16)
-
     def __str__(self):
         return self.codice
 
-"""
-#farmaci
-class Medicine(models.Model):
-    barcode = models.PositiveIntegerField(primary_key=True)
-    commercial_name = models.CharField(max_length=20)
-
+class PrincipioAttivo(models.Model):
+    nome = models.CharField(max_length=20, primary_key=True)
     def __str__(self):
-        return self.barcode
+        return self.nome
 
+#farmaci
+class Farmaco(models.Model):
+    nome = models.CharField(max_length=20, primary_key=True)
+    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE)
+    precauzioni = models.CharField(max_length=500)
+    controindicazioni = models.CharField(max_length=500)
+    posologia = models.CharField(max_length=500)
+    def __str__(self):
+        return self.nome
+
+class Promemoria(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    inizio = models.DateField
+    fine = models.DateField
+    ora = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.id
+
+class Posologia(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.id
+
+class Reminder(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    posologia = models.ForeignKey(Posologia, on_delete=models.CASCADE)
+    promemoria = models.ForeignKey(Promemoria, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.id
+'''
 #armadietto - utente 1,1
 class Closet(models.Model): 
     id = models.PositiveIntegerField(primary_key=True)
@@ -80,10 +106,5 @@ class HDcholesterol(models.Model):
     def __str__(self):
         return self.id
 
-class Posology(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    def __str__(self):
-        return self.id
-"""
+
+'''

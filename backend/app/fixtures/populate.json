@@ -11,8 +11,44 @@
       "pk": 1,
         "model": "app.Doctor",
         "fields": {
-          "codice": 666,
+          "codice": 123456789,
           "pw": "medico"
+        }
+      },
+      {
+        "pk": 1,
+        "model": "app.PrincipioAttivo",
+        "fields":{
+            "nome":"Paracetamolo"
+        }
+      },
+      {
+        "pk": 2,
+        "model": "app.PrincipioAttivo",
+        "fields":{
+            "nome":"Acido"
+        }
+      },
+      {
+        "pk": 1,
+        "model": "app.Farmaco",
+        "fields":{
+            "nome":"Tachpirina 1000",
+            "principio": "Paracetamolo",
+            "precauzioni": "In caso di uso protratto è consigliabile monitorare la funzione epatica e renale e la crasi ematica.",
+            "controindicazioni": "Ipersensibilità al paracetamolo o ad uno qualsiasi degli eccipienti.",
+            "posologia": "Negli adulti, la posologia massima per via orale è di 3000 mg di paracetamolo al giorno."
+        }
+      },
+      {
+        "pk": 2,
+        "model": "app.Farmaco",
+        "fields":{
+            "nome":"Aspirina 500",
+            "principio": "Acido",
+            "precauzioni": "lorem lorem lorem precauzioni",
+            "controindicazioni": "lorem lorem controindicazioni",
+            "posologia": "posologia dell'aspirina"
         }
       }
   ]
