@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:momento_medico/pages/homepage.dart';
+import 'package:momento_medico/pages/intropage.dart';
 import 'package:momento_medico/pages/searchByName.dart';
 import 'package:momento_medico/pages/searchByPrincipioAttivo.dart';
 import 'package:momento_medico/pages/signin.dart';
 import 'package:momento_medico/pages/signup.dart';
+import 'package:momento_medico/utils/ResearchBar.dart';
 import 'package:momento_medico/utils/routes.dart';
 
 void main() {
@@ -15,7 +17,6 @@ class MyApp extends StatelessWidget {
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,12 +24,13 @@ class MyApp extends StatelessWidget {
       title: 'MedicUP',
       theme:
           ThemeData(primarySwatch: Colors.blue, backgroundColor: Colors.grey),
-      home:  SignInPage(),
+      home: const IntroPage(),
       navigatorKey: MyApp.navigatorKey,
       routes: <String, WidgetBuilder>{
-        '/signup': (context) =>  SignUpPage(),
-        '/signin': (context) =>  SignInPage(),
-        '/homepage': (context) => const Homepage(title: 'Homepage'),
+        '/signup': (context) => SignUpPage(),
+        '/signin': (context) => const SignInPage(),
+        '/homepage': (context) => const Homepage(),
+        '/research': (context) => const ResearchPage(),
         '/searchbyname': (context) => const SearchByName(),
         '/searchbyprincipioattivo': (context) =>
             const SearchByPrincipioAttivo(),

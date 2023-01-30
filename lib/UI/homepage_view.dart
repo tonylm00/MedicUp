@@ -1,14 +1,221 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:momento_medico/pages/homepage.dart';
+import 'package:momento_medico/utils/AnimatedCard.dart';
 import 'package:momento_medico/utils/AppColors.dart';
+import 'package:momento_medico/utils/ColorUtils.dart';
 import 'package:momento_medico/utils/routes.dart';
 
 class HomePageView {
-  const HomePageView();
+  final HomepageColumnWidgetState state;
+  HomePageView(this.state) : super();
 
   Widget getView(BuildContext context) {
     return SingleChildScrollView(
+        child: Column(
+      children: <Widget>[
+        Card(
+          elevation: 8,
+          child: Column(
+            children: <Widget>[
+              //_buildLogo(),
+              SizedBox(
+                height: 30,
+              ),
+              _buildIntroText(),
+              _buildCardArmadietto(),
+              _buildCardPromemoria(),
+              _buildCardRicerca()
+            ],
+          ),
+        ),
+      ],
+    ));
+  }
+
+  Widget _buildIntroText() {
+    return Column(
+      children: const <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 5, bottom: 30),
+          child: Text(
+            "I servizi di Medic Up",
+            style: TextStyle(
+                color: ColorUtils.primaryColor,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLogo() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Container(
+        height: 200,
+        width: 200,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            image: AssetImage("assets/images/logo.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardArmadietto() {
+    return Card(
+      color: ColorUtils.lightTransPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 10,
+      margin: const EdgeInsets.all(20),
+      child: Container(
+        height: 140,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Armadietto",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Qui troverai l'elenco dei tuoi farmaci.",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  // Add button functionality
+                },
+                child: const Icon(
+                  Icons.local_hospital,
+                  color: ColorUtils.primaryColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardPromemoria() {
+    return Card(
+      color: ColorUtils.lightTransPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 10,
+      margin: const EdgeInsets.all(20),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Promemoria",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Qui puoi impostare dei promemoria.",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  // Add button functionality
+                },
+                child: const Text(
+                  "Vai",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardRicerca() {
+    return Card(
+      color: ColorUtils.lightTransPrimary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 10,
+      margin: const EdgeInsets.all(20),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Ricerca",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Qui potrai ricercare un farmaco.",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[500],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  //Navigator.pushNamed(state.context, Routes.research);
+                },
+                child: const Text(
+                  "Vai",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /*  return SingleChildScrollView(
         child: Column(children: [
       const SizedBox(height: 30),
       BootstrapContainer(
@@ -233,6 +440,5 @@ class HomePageView {
                           )))))
         ],
       ),
-    ]));
-  }
+    ])); */
 }

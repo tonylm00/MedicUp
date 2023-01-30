@@ -37,7 +37,8 @@ dependencies:
   flutter_bootstrap: ^2.0.0
   fluro: ^2.0.4
   flutter_speed_dial: ^6.2.0
-  
+
+   
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +56,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+  assets:
+    - assets/images/logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
