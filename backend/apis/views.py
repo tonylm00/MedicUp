@@ -10,14 +10,19 @@ class ListUser(generics.ListCreateAPIView):
     queryset=models.User.objects.all()
     serializer_class=UserSerializer
 
-#visualizzione di tutti i farmaci / di uno specifico
+#visualizzione di tutti i farmaci
 class ListFarmaco(generics.ListCreateAPIView):
+    queryset=models.Farmaco.objects.all()
+    serializer_class=FarmacoSerializer
+
+#visualizzione di un farmaco
+class SingleFarmaco(generics.CreateAPIView):
     serializer_class=FarmacoSerializer
     def get_queryset(self):
         queryset=models.Farmaco.objects.all()
-        nome = self.request.query_params.get('nome')
-        if nome is not None:
-            queryset = queryset.filter(farmaco__nome=nome)
+        par = self.request.query_params.get('id')
+        if par is not None:
+            queryset = queryset.filter(farmaco__id=par)
         return queryset
 
 
