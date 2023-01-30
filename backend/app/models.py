@@ -51,27 +51,28 @@ class Reminder(models.Model):
     promemoria = models.ForeignKey(Promemoria, on_delete=models.CASCADE)
     def __str__(self):
         return self.id
-'''
+
 #armadietto - utente 1,1
-class Closet(models.Model): 
+class Armadio(models.Model): 
     id = models.PositiveIntegerField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.id
 
 #armadietto contiene farmaci - n,m
-class ClosetContains(models.Model):
-    idCloset = models.ForeignKey(Closet, on_delete=models.CASCADE)
-    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    type = models.CharField(max_length=10)    #pillola, compressa, dose endovena <3
+class ArmadioContiene(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    armadio = models.ForeignKey(Armadio, on_delete=models.CASCADE)
+    farmaco = models.TextField(max_length=20)
+    scadenza = models.DateField()
+    quantita = models.PositiveIntegerField()
+    tipo = models.CharField(max_length=10)    #pillola, compressa, dose endovena <3
     def __str__(self):
-        return self.idCloset 
+        return self.id 
 
-##################################################################################################################################
 #utente - dati sanitari 1,n
 #dati sanitari (health data) - pressione sanguigna
-class HDblood(models.Model):
+class DSpressione(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -81,31 +82,28 @@ class HDblood(models.Model):
         return self.id
 
 #dati sanitari - peso
-class HDweight(models.Model):
+class DSpeso(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.IntegerField(null=False)
+    peso = models.IntegerField(null=False)
     def __str__(self):
         return self.id
 
 #dati sanitari - frequenza cardiaca
-class HDheart(models.Model):
+class DSbpm(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.IntegerField(null=False)
+    valore = models.IntegerField(null=False)
     def __str__(self):
         return self.id
 
 #dati sanitari - colesterolo
-class HDcholesterol(models.Model):
+class DScolesterolo(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.IntegerField(null=False)
+    valore = models.IntegerField(null=False)
     def __str__(self):
         return self.id
-
-
-'''

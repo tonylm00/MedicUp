@@ -6,12 +6,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = [ 'email','pw']
-'''
+
 class DoctoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Doctor
         fields = [ 'codice','pw']
-'''        
+     
 class FarmacoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Farmaco
@@ -31,3 +31,38 @@ class RemiderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Posologia
         fields = ['id', 'posologia', 'promemoria']
+
+class Aramdio(serializers.ModelSerializer):
+    class Meta:
+        model = models.Armadio
+        fields = ['id', 'user']
+
+class AramdioContiene(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'armadio', 'farmaco', 'scadenza', 'quantita', 'tipo']    
+
+class DSpressione(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'data', 'user', 'min', 'max']        
+
+class DSpressione(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'data', 'user', 'min', 'max'] 
+   
+class DSpeso(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'data', 'user', 'peso'] 
+
+class DSbpm(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'data', 'user', 'valore']
+
+class DScolesterolo(serializers.ModelSerializer):
+    class Meta:
+        model = models.ArmadioContiene
+        fields = ['id', 'data', 'user', 'valore']  

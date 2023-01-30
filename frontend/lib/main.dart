@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Page1(
                   "Send Money Fast",
-                  "images\1.png",
+                  "images/1.png",
                   Color.fromARGB(255, 255, 255, 255),
                 ),
                 Page1(
