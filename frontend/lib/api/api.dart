@@ -41,6 +41,7 @@ class UserProvider with ChangeNotifier {
         .get(Uri.parse('http://10.0.2.2:8000/apis/user/?format=json'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;
+
       _users = data.map((json) => User.fromJson(json)).toList();
       notifyListeners();
     }
@@ -61,8 +62,8 @@ class FarmacoProvider with ChangeNotifier {
 
   void showFarmaco(Farmaco farmaco) async {
     final response = await http
-        .get(Uri.parse('http://10.0.2.2:8000/apis/user/${farmaco.nome}/'));
-    if (response.statusCode == 204) {
+        .get(Uri.parse('http://10.0.2.2:8000/apis/farmaco/${farmaco.id}/'));
+    if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;
       _farmaco = data.map((json) => Farmaco.fromJson(json)).toList();
       notifyListeners();

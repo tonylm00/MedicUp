@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Farmaco {
+  final int id;
   final String nome, principio, precauzioni, controindicazioni, posologia;
 
   Farmaco(
-      {required this.nome,
+      {required this.id,
+      required this.nome,
       required this.principio,
       required this.precauzioni,
       required this.controindicazioni,
@@ -12,6 +14,7 @@ class Farmaco {
 
   factory Farmaco.fromJson(Map<String, dynamic> json) {
     return Farmaco(
+        id: json['id'],
         nome: json['nome'],
         principio: json['principio'],
         precauzioni: json['precauzioni'],

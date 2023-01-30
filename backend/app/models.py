@@ -21,7 +21,8 @@ class PrincipioAttivo(models.Model):
 
 #farmaci
 class Farmaco(models.Model):
-    nome = models.CharField(max_length=20, primary_key=True)
+    id = models.PositiveIntegerField(primary_key=True)
+    nome = models.CharField(max_length=20)
     principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE)
     precauzioni = models.CharField(max_length=500)
     controindicazioni = models.CharField(max_length=500)

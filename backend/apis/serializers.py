@@ -15,7 +15,7 @@ class DoctoreSerializer(serializers.ModelSerializer):
 class FarmacoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Farmaco
-        fields = ['nome', 'principio', 'precauzioni', 'controindicazioni', 'posologia']
+        fields = ['id','nome', 'principio', 'precauzioni', 'controindicazioni', 'posologia']
 
 class PromemoriaSerializer(serializers.ModelSerializer):
     class Meta:

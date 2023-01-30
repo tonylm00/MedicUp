@@ -33,7 +33,7 @@
         "pk": 1,
         "model": "app.Farmaco",
         "fields":{
-            "nome":"Tachpirina 1000",
+            "nome":"Tachpirina",
             "principio": "Paracetamolo",
             "precauzioni": "In caso di uso protratto è consigliabile monitorare la funzione epatica e renale e la crasi ematica.",
             "controindicazioni": "Ipersensibilità al paracetamolo o ad uno qualsiasi degli eccipienti.",
@@ -44,7 +44,7 @@
         "pk": 2,
         "model": "app.Farmaco",
         "fields":{
-            "nome":"Aspirina 500",
+            "nome":"Aspirina",
             "principio": "Acido",
             "precauzioni": "lorem lorem lorem precauzioni",
             "controindicazioni": "lorem lorem controindicazioni",
