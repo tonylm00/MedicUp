@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 
 import '../pages/signup.dart';
 import '../utils/ColorUtils.dart';
@@ -28,6 +28,7 @@ class SignUpWidget {
                     ? _buildUserCfField(context)
                     : _buildMedIdField(context),
                 _buildEmailField(context),
+                _buildUserBirthDateField(context),
                 _buildPasswordField(context),
                 _buildSignUpButton(context),
               ],
@@ -164,6 +165,27 @@ class SignUpWidget {
         },
         //validator: (value) => _emailValidation(value!),
         decoration: CommonStyles.textFormFieldStyle("Cognome", ""),
+      ),
+    );
+  }
+
+  selectDate(BuildContext context) {
+    return Text(
+        "Selected date: ${DateFormat.yMMMMd().format(state.selectedDate)}");
+  }
+
+  Widget _buildUserBirthDateField(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+      child: InkWell(
+        onTap: () => state.selectDate(context),
+        child: Container(
+          padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+          child: Text(
+            DateFormat.yMMMMd().format(state.selectedDate),
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }

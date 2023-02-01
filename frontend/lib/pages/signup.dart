@@ -60,7 +60,6 @@ class SignUpPageState extends State<SignUpPage> {
 
 import 'package:flutter/material.dart';
 
-
 import '../UI/signup_widget.dart';
 import '../utils/ColorUtils.dart';
 import '../utils/CommonStyle.dart';
@@ -141,6 +140,22 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   bool isPaziente = true;
   bool isPasswordVisible = true;
 
+  late DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) => SignUpWidget(this).getView(context);
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(1950, 8),
+      lastDate: DateTime(2024),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 }
