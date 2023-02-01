@@ -1,13 +1,26 @@
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 
- # 'paziente', specializzazione di utente, scelto il collasso verso il basso e chiamato user per semplicità
-class User(models.Model):  
-    email = models.EmailField(max_length=254, primary_key=True)
-    pw = models.CharField(max_length=16)
-    def __str__(self):
-        return self.email
-
+class Paziente(AbstractUser):
+    groups = models.ManyToManyField(
+        Group,
+        related_name='paziente_groups',
+        blank=True,
+        help_text=(
+            'The groups this user belongs to. A user will get all permissions '
+            'granted to each of their groups.'
+        ),
+        related_query_name='paziente',
+        )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='paziente_user_permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        related_query_name='paziente',
+    )
+    
 class Doctor(models.Model):  
     codice = models.IntegerField(primary_key=True)
     pw = models.CharField(max_length=16)
@@ -30,6 +43,7 @@ class Farmaco(models.Model):
     def __str__(self):
         return self.nome
 
+'''
 class Promemoria(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     inizio = models.DateField
@@ -40,7 +54,7 @@ class Promemoria(models.Model):
 
 class Posologia(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     def __str__(self):
         return self.id
@@ -55,7 +69,7 @@ class Reminder(models.Model):
 #armadietto - utente 1,1
 class Armadio(models.Model): 
     id = models.PositiveIntegerField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     def __str__(self):
         return self.id
 
@@ -75,7 +89,7 @@ class ArmadioContiene(models.Model):
 class DSpressione(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     minvalue = models.IntegerField(null=False)
     maxvalue = models.IntegerField(null=False)
     def __str__(self):
@@ -85,7 +99,7 @@ class DSpressione(models.Model):
 class DSpeso(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     peso = models.IntegerField(null=False)
     def __str__(self):
         return self.id
@@ -94,7 +108,7 @@ class DSpeso(models.Model):
 class DSbpm(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     valore = models.IntegerField(null=False)
     def __str__(self):
         return self.id
@@ -103,7 +117,8 @@ class DSbpm(models.Model):
 class DScolesterolo(models.Model):
     id = models.IntegerField(primary_key=True)
     date = models.DateField(null=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    paziente = models.ForeignKey(Paziente, on_delete=models.CASCADE)
     valore = models.IntegerField(null=False)
     def __str__(self):
         return self.id
+'''
