@@ -129,14 +129,6 @@ class SignUpWidget {
     );
   }
 
-  String? _userNameValidation(String value) {
-    if (value.isEmpty) {
-      return "Inserisci un nome utente valido";
-    } else {
-      return null;
-    }
-  }
-
   Widget _buildUserNameField(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
@@ -147,8 +139,8 @@ class SignUpWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.surnameFocusNode);
         },
-        //validator: (value) => _emailValidation(value!),
-        decoration: CommonStyles.textFormFieldStyle("Nome", ""),
+        validator: (value) => state.validateName(value!),
+        decoration: CommonStyles.textFormFieldStyle("Nome", "es: Mario"),
       ),
     );
   }
@@ -163,8 +155,8 @@ class SignUpWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.userCfFocusNode);
         },
-        //validator: (value) => _emailValidation(value!),
-        decoration: CommonStyles.textFormFieldStyle("Cognome", ""),
+        validator: (value) => state.validateSurname(value!),
+        decoration: CommonStyles.textFormFieldStyle("Cognome", "es: Rossi"),
       ),
     );
   }
@@ -178,27 +170,18 @@ class SignUpWidget {
     return Visibility(
         visible: state.isPaziente,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-          child: TextFormField(
-            controller: state.userDataNascitaController,
-            keyboardType: TextInputType.datetime,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(state.emailFocusNode);
-            },
-            //validator: (value) => _emailValidation(value!),
-            decoration: CommonStyles.textFormFieldStyle("Data di Nascita", ""),
-          ), /* Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text('Selected Date: ${state.selectedDate}'),
-          ElevatedButton(
-            onPressed: () => state.selectDate(context),
-            child: Text('Select Date'),
-          ),
-        ],
-      ), */
-        ));
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+            child: TextFormField(
+              controller: state.userDataNascitaController,
+              keyboardType: TextInputType.datetime,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(state.emailFocusNode);
+              },
+              validator: (value) => state.validateBirthDate(value!),
+              decoration: CommonStyles.textFormFieldStyle(
+                  "Data di Nascita", "es: 23/10/1998"),
+            )));
   }
 
   Widget _buildUserCfField(BuildContext context) {
@@ -211,8 +194,9 @@ class SignUpWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
         },
-        //validator: (value) => _emailValidation(value!),
-        decoration: CommonStyles.textFormFieldStyle("Codice Fiscale", ""),
+        validator: (value) => state.validateFiscalCode(value!),
+        decoration: CommonStyles.textFormFieldStyle(
+            "Codice Fiscale", "es: CSLMTN98R63I422K"),
       ),
     );
   }
@@ -227,9 +211,9 @@ class SignUpWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
         },
-        //validator: (value) => _emailValidation(value!),
-        decoration:
-            CommonStyles.textFormFieldStyle("Identificativo Medico", ""),
+        validator: (value) => state.validateMedCode(value!),
+        decoration: CommonStyles.textFormFieldStyle(
+            "Identificativo Medico", "es: 2310980MED1"),
       ),
     );
   }
@@ -244,20 +228,11 @@ class SignUpWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
-        validator: (value) => _emailValidation(value!),
-        decoration: CommonStyles.textFormFieldStyle("Email", ""),
+        validator: (value) => state.validateEmail(value!),
+        decoration:
+            CommonStyles.textFormFieldStyle("Email", "es: jm1@example.com"),
       ),
     );
-  }
-
-  String? _emailValidation(String value) {
-    bool emailValid =
-        RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-    if (!emailValid) {
-      return "Inserisci una e-mail valida";
-    } else {
-      return null;
-    }
   }
 
   Widget _buildPasswordField(BuildContext context) {
@@ -265,16 +240,15 @@ class SignUpWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
       child: TextFormField(
         controller: state.userPasswordController,
-        keyboardType: TextInputType.text,
-        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.visiblePassword,
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
         },
-        validator: (value) => _userNameValidation(value!),
+        validator: (value) => state.validatePassword(value!),
         obscureText: state.isPasswordVisible,
         decoration: InputDecoration(
           labelText: "Password",
-          hintText: "",
+          hintText: "es: SecurePassword1@",
           labelStyle: const TextStyle(color: Colors.black),
           alignLabelWithHint: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),

@@ -1,64 +1,9 @@
-/* import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:momento_medico/UI/signup_widget.dart';
+// ignore_for_file: non_constant_identifier_names
 
-import '../utils/AppColors.dart';
-
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
-
-  @override
-  SignUpPageState createState() {
-    return SignUpPageState();
-  }
-}
-
-class SignUpPageState extends State<SignUpPage> {
-  TextEditingController nome_ctrl = TextEditingController();
-  TextEditingController cognome_ctrl = TextEditingController();
-  TextEditingController idUtente_ctrl = TextEditingController();
-
-  TextEditingController mail_ctrl = TextEditingController();
-  TextEditingController password_ctrl = TextEditingController();
-
-  bool isPaziente = false;
-  bool isMedico = false;
-  bool show = true;
-
-  String labelSignup = 'Registrazione';
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'MedicUP - Registrazione',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: AppColors.medicUpColor,
-        ),
-        backgroundColor: AppColors.backgroundLight,
-        body: SignUpWidget(this).getView(context),
-      );
-
-  onChangePaziente() {
-    setState(() {
-      isPaziente = true;
-      labelSignup = 'Registrazione Paziente';
-      show = false;
-    });
-  }
-
-  onChangeMedico() {
-    setState(() {
-      isMedico = true;
-      labelSignup = 'Registrazione Medico';
-      show = false;
-    });
-  }
-}
- */
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/RegExp_SignUp.dart';
 
 import '../UI/signup_widget.dart';
 import '../utils/ColorUtils.dart';
@@ -123,14 +68,14 @@ class RegisterFormWidget extends StatefulWidget {
 
 class RegisterFormWidgetState extends State<RegisterFormWidget> {
   final formKey = GlobalKey<FormState>();
-  var userEmailController = TextEditingController(text: "jm1@example.com");
-  var userPasswordController = TextEditingController(text: "jay@123");
-  final userNameController = TextEditingController(text: "Mario");
-  final userSurnameController = TextEditingController(text: "Rossi");
-  final userCFController = TextEditingController(text: "CSLMTN98R63I422K");
-  final userDataNascitaController = TextEditingController(text: '23/10/1998');
+  var userEmailController = TextEditingController(text: "");
+  var userPasswordController = TextEditingController(text: "");
+  final userNameController = TextEditingController(text: "");
+  final userSurnameController = TextEditingController(text: "");
+  final userCFController = TextEditingController(text: "");
+  final userDataNascitaController = TextEditingController(text: '');
 
-  final medIdController = TextEditingController(text: "Med001");
+  final medIdController = TextEditingController(text: '');
 
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
@@ -143,6 +88,14 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   bool isPasswordVisible = true;
 
   late DateTime selectedDate = DateTime.now();
+
+  bool isValidate_birthdate = false;
+  bool isValidate_name = false;
+  bool isValidate_surname = false;
+  bool isValidate_cf = false;
+  bool isValidate_email = false;
+  bool isValidate_password = false;
+  bool isValidate_medCode = false;
 
   @override
   Widget build(BuildContext context) => SignUpWidget(this).getView(context);
@@ -158,6 +111,140 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
       setState(() {
         selectedDate = picked;
       });
+    }
+  }
+
+  validateMedCode(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_medcode.hasMatch(value)) {
+        setState(() {
+          isValidate_medCode = true;
+        });
+        log('VALIDATE : $value  : $isValidate_medCode');
+      } else {
+        setState(() {
+          isValidate_birthdate = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_medCode');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validateBirthDate(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_birthdate.hasMatch(value)) {
+        setState(() {
+          isValidate_birthdate = true;
+        });
+        log('VALIDATE : $value  : $isValidate_birthdate');
+      } else {
+        setState(() {
+          isValidate_birthdate = false;
+        });
+
+        log('VALIDATE ERROR: $value  : $isValidate_birthdate');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validateName(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_name.hasMatch(value)) {
+        setState(() {
+          isValidate_name = true;
+        });
+        log('VALIDATE : $value  : $isValidate_name');
+      } else {
+        setState(() {
+          isValidate_name = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_name');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validateSurname(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_surname.hasMatch(value)) {
+        setState(() {
+          isValidate_surname = true;
+        });
+        log('VALIDATE : $value  : $isValidate_surname');
+      } else {
+        setState(() {
+          isValidate_surname = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_surname');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validateFiscalCode(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_CF.hasMatch(value)) {
+        setState(() {
+          isValidate_cf = true;
+        });
+        log('VALIDATE : $value  : $isValidate_cf');
+      } else {
+        setState(() {
+          isValidate_cf = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_cf');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validateEmail(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_email.hasMatch(value)) {
+        setState(() {
+          isValidate_email = true;
+        });
+        log('VALIDATE : $value  : $isValidate_email');
+      } else {
+        setState(() {
+          isValidate_email = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_email');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
+    }
+  }
+
+  validatePassword(String value) {
+    if (value.isNotEmpty) {
+      if (SignUpRegExp.regExp_password.hasMatch(value)) {
+        setState(() {
+          isValidate_password = true;
+        });
+        log('VALIDATE : $value  : $isValidate_password');
+      } else {
+        setState(() {
+          isValidate_password = false;
+        });
+        log('VALIDATE ERROR: $value  : $isValidate_password');
+        return 'Errore: formato non corretto.';
+      }
+    } else {
+      return 'Attenzione! Questo campo non può essere vuoto.';
     }
   }
 }
