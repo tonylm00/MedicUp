@@ -1,43 +1,22 @@
-from django.shortcuts import render
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from app.models import Paziente, Farmaco
-from .serializers import FarmacoSerializer, PazienteSerializer
-from django.contrib.auth import authenticate
+from rest_framework import generics
+from app.models import Patient, Farmaco, Doctor, Reminder, FarmacoInArmadietto
+from .serializers import FarmacoSerializer, PatientSerializer, DoctorSerializer, ReminderSerializer, FarmacoInArmadiettoSerializer
 
-#registrazione paziente
-class RegistrazionePazienteView(generics.CreateAPIView):
-    serializer_class = PazienteSerializer
+class PatientList(generics.ListCreateAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            "user": PazienteSerializer(user, context=self.get_serializer_context()).data,
-            "token": token.key
-        })
+class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Patient.objects.all()
+    serializer_class = PatientSerializer
 
-#login paziente
-class LoginPazienteView(generics.GenericAPIView):
-    serializer_class = PazienteSerializer
+class DoctorList(generics.ListCreateAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
 
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, *args, **kwargs):
-        username = request.data.get("username")
-        password = request.data.get("password")
-        user = Paziente.objects.filter(username=username, password=password).first()
-        if user:
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({
-                "token": token.key
-            })
-        else:
-            return Response({"error": "Invalid credentials"}, status=400)
-        
+class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Doctor.objects.all()
+    serializer_class = DoctorSerializer
 
 #visualizzione di tutti i farmaci
 class ElencoFarmaciView(generics.ListCreateAPIView):
@@ -48,3 +27,35 @@ class ElencoFarmaciView(generics.ListCreateAPIView):
 class DettaglioFarmacoView(generics.RetrieveAPIView):
     queryset=Farmaco.objects.all()
     serializer_class=FarmacoSerializer
+
+#visualizzazione dei suoi promemoria da parte di un paziente
+class PatientReminderListView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reminder.objects.all()
+    serializer_class = ReminderSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(patient=self.request.user)
+
+class ReminderCreateView(generics.CreateAPIView):
+    queryset = Reminder.objects.all()
+    serializer_class = ReminderSerializer
+
+#visualizzazione dei promemoria condivisi
+class DoctorReminderListView(generics.ListAPIView):
+    serializer_class = ReminderSerializer
+
+    def get_queryset(self):
+        doctor = self.request.user
+        return Reminder.objects.filter(doctor=doctor, is_visible=True)
+
+#aggiungere farmaci all'armadietto
+class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
+    serializer_class = FarmacoSerializer
+    def perform_create(self, serializer):
+        serializer.save(patient=self.request.user.patient)
+
+#visualizzazione armadietto dei farmaci
+class ArmadiettoView(generics.ListAPIView):
+    serializer_class = FarmacoInArmadiettoSerializer
+    def get_queryset(self):
+        return FarmacoInArmadietto.objects.filter(patient=self.request.user.patient)
