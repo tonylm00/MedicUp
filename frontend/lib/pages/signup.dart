@@ -128,6 +128,8 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   final userNameController = TextEditingController(text: "Mario");
   final userSurnameController = TextEditingController(text: "Rossi");
   final userCFController = TextEditingController(text: "CSLMTN98R63I422K");
+  final userDataNascitaController = TextEditingController(text: '23/10/1998');
+
   final medIdController = TextEditingController(text: "Med001");
 
   final emailFocusNode = FocusNode();

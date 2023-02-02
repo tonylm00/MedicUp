@@ -27,8 +27,8 @@ class SignUpWidget {
                 (state.isPaziente)
                     ? _buildUserCfField(context)
                     : _buildMedIdField(context),
-                _buildEmailField(context),
                 _buildUserBirthDateField(context),
+                _buildEmailField(context),
                 _buildPasswordField(context),
                 _buildSignUpButton(context),
               ],
@@ -175,19 +175,30 @@ class SignUpWidget {
   }
 
   Widget _buildUserBirthDateField(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-      child: InkWell(
-        onTap: () => state.selectDate(context),
-        child: Container(
-          padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-          child: Text(
-            DateFormat.yMMMMd().format(state.selectedDate),
-            style: TextStyle(fontWeight: FontWeight.bold),
+    return Visibility(
+        visible: state.isPaziente,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+          child: TextFormField(
+            controller: state.userDataNascitaController,
+            keyboardType: TextInputType.datetime,
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(state.emailFocusNode);
+            },
+            //validator: (value) => _emailValidation(value!),
+            decoration: CommonStyles.textFormFieldStyle("Data di Nascita", ""),
+          ), /* Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Selected Date: ${state.selectedDate}'),
+          ElevatedButton(
+            onPressed: () => state.selectDate(context),
+            child: Text('Select Date'),
           ),
-        ),
-      ),
-    );
+        ],
+      ), */
+        ));
   }
 
   Widget _buildUserCfField(BuildContext context) {
