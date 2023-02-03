@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluro/fluro.dart' as rManager;
+import 'package:frontend/pages/accountInfo.dart';
 import 'package:frontend/utils/routes.dart';
 
 
@@ -15,6 +16,13 @@ var introHandler =
     rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
   Navigator.of(context!).pushNamed(Routes.intro);
   return const IntroPage();
+});
+
+
+var accountInfoHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.intro);
+  return  AccountPage();
 });
 
 var signupHandler =

@@ -301,7 +301,7 @@ class SignUpWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              _signUpProcess(context);
+              state.signUpCallMethod();
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.accentColor,

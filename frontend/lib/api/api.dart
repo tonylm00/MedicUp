@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
-import '../models/farmaco.dart';
+import '../model_object/farmaco.dart';
 import 'package:http/http.dart' as http;
 
 class UserProvider with ChangeNotifier {
@@ -17,9 +18,11 @@ class UserProvider with ChangeNotifier {
 
   void registerUser(User user) async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/apis/user/?format=json'),
+        Uri.parse('http://10.0.2.2:8080/apis/user/?format=json'),
         headers: {"Content-Type": "application/json"},
         body: json.encode(user));
+    log(response.toString());
+
     if (response.statusCode == 201) {
       user.email = json.decode(response.body)['email'];
       _users.add(user);

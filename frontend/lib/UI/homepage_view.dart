@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:frontend/utils/routes.dart';
 
 import '../pages/homepage.dart';
 import '../utils/ColorUtils.dart';
@@ -17,7 +17,7 @@ class HomePageView {
           child: Column(
             children: <Widget>[
               //_buildLogo(),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               _buildIntroText(),
@@ -33,9 +33,9 @@ class HomePageView {
 
   Widget _buildIntroText() {
     return Column(
-      children: const <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 5, bottom: 30),
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.only(top: 5, bottom: 10),
           child: Text(
             "I servizi di Medic Up",
             style: TextStyle(
@@ -44,6 +44,16 @@ class HomePageView {
                 fontWeight: FontWeight.bold),
           ),
         ),
+        Padding(
+            padding:
+                const EdgeInsets.only(top: 5, right: 0, bottom: 10, left: 290),
+            child: IconButton(
+                iconSize: 37,
+                color: ColorUtils.primaryColor,
+                onPressed: (() {
+                  Navigator.pushNamed(state.context, Routes.accountInfo);
+                }),
+                icon: const Icon(Icons.account_circle))),
       ],
     );
   }

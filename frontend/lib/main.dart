@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/accountInfo.dart';
 import 'package:frontend/pages/intropage.dart';
 import 'package:frontend/pages/signin.dart';
 import 'package:frontend/pages/signup.dart';
@@ -7,7 +8,6 @@ import 'pages/homepage.dart';
 import 'pages/searchByName.dart';
 import 'pages/searchByPrincipioAttivo.dart';
 import 'utils/ResearchBar.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/signin': (context) => const SignInPage(),
         '/homepage': (context) => const Homepage(),
+        '/accountinfo': (context) => AccountPage(),
         '/research': (context) => const ResearchPage(),
         '/searchbyname': (context) => const SearchByName(),
         '/searchbyprincipioattivo': (context) =>

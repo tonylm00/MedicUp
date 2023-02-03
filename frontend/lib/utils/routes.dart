@@ -9,7 +9,7 @@ class Routes {
   static String signin = '/signin';
   static String homepage = '/homepage';
   static String research = '/research';
-
+  static String accountInfo = '/accountinfo';
   static String searchByName = '/searchbyname';
   static String searchByPrincipioAttivo = '/searchbyprincipioattivo';
 
@@ -17,6 +17,10 @@ class Routes {
     // INTRO
     router.define(intro,
         handler: introHandler, transitionType: TransitionType.none);
+
+ // ACCOUNT INFO
+    router.define(accountInfo,
+        handler: accountInfoHandler, transitionType: TransitionType.none);
 
     // SIGNUP
     router.define(signup,

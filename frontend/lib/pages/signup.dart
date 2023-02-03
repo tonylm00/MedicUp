@@ -3,6 +3,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/api/api.dart';
+import 'package:frontend/models/user.dart';
 import 'package:frontend/utils/RegExp_SignUp.dart';
 
 import '../UI/signup_widget.dart';
@@ -246,5 +248,11 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     } else {
       return 'Attenzione! Questo campo non può essere vuoto.';
     }
+  }
+
+  signUpCallMethod() async {
+    User user = User(email: 'email', pw: 'pw');
+    UserProvider().registerUser(user);
+    log('USER REGISTER');
   }
 }
