@@ -1,38 +1,36 @@
+// ignore_for_file: constant_identifier_names, prefer_conditional_assignment
+
 import 'dart:convert';
-import 'dart:html';
-import 'package:dio/dio.dart';
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:frontend/model_object/medico.dart';
+import 'package:frontend/model_object/paziente.dart';
 
 import 'package:http/http.dart' as clientHttp;
 
+import '../model_object/farmaco.dart';
 import 'ResponseMessage.dart';
 
 class Environmments {
-  static final ENV_ = "";
+  static const ENV_API = "http://tonylm.pythonanywhere.com";
 }
 
 class RestClient {
-  static final TAG = "";
+  static const TAG = "REST CLIENT";
 
-  static final LOCALHOST_ENV = Environmments.ENV_;
-
-// PATH
-  static final String _atlasPath = '/atlas';
+  static const ONLINE_API_ENV = Environmments.ENV_API;
 
   // API ENDPOINT PATH
-  static final String _apiUrl = '/api/v1.0/customer';
+  static const String _apiUrl = '/api';
 
   // API SERVER URL
-  static final String _localhostUrl = LOCALHOST_ENV + _atlasPath + _apiUrl;
+  static const String _onlineUrl = ONLINE_API_ENV + _apiUrl;
 
-  static final String _baseUrl =
-      (window.location.origin.contains("localhost") ||
-              window.location.origin.contains("svil.dizme.io"))
-          ? _localhostUrl
-          : window.location.origin + _atlasPath + _apiUrl;
+  static const String _baseUrl = _onlineUrl;
 
   static Future<ResponseMessage> _makePost(String path,
-      {dynamic data, Map<String, dynamic>? headers}) async {
-    String mn = "_makePost";
+      {dynamic data, Map<String, String>? headers}) async {
     try {
       String url = _baseUrl + path;
 
@@ -40,123 +38,370 @@ class RestClient {
 
       if (headers == null) headers = Map<String, String>();
       headers['content-type'] = 'application/json';
-      headers['accept'] = 'application/json';
-/* 
-      dynamic sessionId = await SessionManager.getSessionToken();
-      dynamic apiToken = await SessionManager.getApiToken();
-
-      if (apiToken != null) {
-        headers['X-Auth-Token'] = apiToken.toString();
-      }
-      if (sessionId != null) {
-        headers['Sessionid'] = sessionId.toString();
-      } */
 
       var httpResponse;
+
       var client = clientHttp.Client();
-      if (data != null)
-        data = json.encode(data);
-      else
 
-        // ignore: curly_braces_in_flow_control_structures
-        httpResponse = await client.post(
-          Uri.parse(url),
-          body: data, /* headers: headers */
-        );
+      httpResponse = await client.post(
+        headers: headers,
+        Uri.parse(url),
+        body: json.encode(data),
+      );
 
-      //  var httpResponse = await dio.post(url, data: data);
-
-      if (httpResponse.statusCode == 401) {
-        return ResponseMessage.buildWrongData();
-      }
-      if (!statusCodeOk(httpResponse.statusCode)) {
-        return ResponseMessage.buildError();
-      }
-
-      if (httpResponse.body == null) {
-        return ResponseMessage.buildError();
-      }
-      ResponseMessage resp = ResponseMessage.fromJson(
-          json.decode(utf8.decode(httpResponse.bodyBytes)));
-      if (resp.statusCode == null) {
-        return ResponseMessage.buildError();
-      }
-      if (resp.statusCode != ResponseMessageCode.SUCCESS) {
-        return resp;
-      }
-      return ResponseMessage.buildOk(data: resp.data);
+      return ResponseMessage.buildOk();
     } on Exception catch (e) {
       return ResponseMessage.buildError();
     }
   }
 
-  static bool statusCodeOk(int statusCode) {
-    return statusCode < 299;
-  }
   //********************************************************************************
-  //********************************************************************************
-  // PUBLIC
-  //********************************************************************************
-  //********************************************************************************
-
-  static Future<Dio> getDioWithBaseHeaders() async {
-    Dio dio = new Dio();
-    dio.options.connectTimeout = 30000;
-    dio.options.receiveTimeout = 30000;
-    dio.options.sendTimeout = 30000;
-    dio.options.headers['content-type'] = 'application/json';
-    dio.options.headers['accept'] = 'application/json';
-    return dio;
-  }
-
-  static Future<Dio> getDioWithSessionHeaders() async {
-    Dio dio = new Dio();
-    dio.options.connectTimeout = 30000;
-    dio.options.receiveTimeout = 30000;
-    dio.options.sendTimeout = 30000;
-    dio.options.headers['content-type'] = 'application/json';
-    dio.options.headers['accept'] = 'application/json';
-
-    /* dynamic sessionId = await SessionManager.getSessionToken();
-    dynamic apiToken = await SessionManager.getApiToken();
-
-    if (apiToken != null) {
-      dio.options.headers['X-Auth-Token'] = apiToken;
-    }
-    if (sessionId != null) {
-      dio.options.headers['Sessionid'] = sessionId;
-    } */
-    return dio;
-  }
-
-  //********************************************************************************
-  // PAYMENTS ACTIVITY
+  //  REGISTRAZIONE E LOGIN
   //********************************************************************************
 
 /**
- * Token by Customer
+ * PAZIENTE
  */
-  /* static Future<ResponseMessage> customersToken(
-      String start_time, String end_time,
-      {String org_bc}) async {
-    try {
-      final org = org_bc ?? await SessionManager.getBusinessCode();
 
-      ResponseMessage responseMessage = await _makePost(
-          "/token_gain_loss/$org?start_time=$start_time&end_time=$end_time");
-      if (responseMessage.isOk()) {
-        List<CustomersToken> list = [];
-        if (responseMessage.data != null && responseMessage.data is List) {
-          for (var j in responseMessage.data) {
-            list.add(CustomersToken.fromJson(j));
-          }
+  static Future<ResponseMessage> registrazionePaziente(
+      Paziente paziente) async {
+    try {
+      Map<dynamic, String> dataToSend = {};
+      if (paziente != null) {
+        if (paziente.nome.isNotEmpty) {
+          dataToSend['nome'] = paziente.nome;
         }
-        responseMessage.data = list;
+      }
+      ResponseMessage responseMessage =
+          await _makePost("/paziente/registration/", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          var paziente = Paziente.fromJson(responseMessage.data);
+        }
+
+        responseMessage.data = paziente;
       }
       return responseMessage;
     } catch (e) {
-      MyLog.e(TAG, "getCustomersToken: Error $e");
+      log("${TAG} REGISTRAZIONE paziente: Error ${e.toString()}");
       return ResponseMessage.buildError();
     }
-  } */
+  }
+
+  ///bisogna differenziare medico da paziente anche nel login
+  static Future<ResponseMessage> loginPaziente(Paziente paziente) async {
+    try {
+      Map<dynamic, String> dataToSend = {};
+      if (paziente != null) {
+        if (paziente.nome.isNotEmpty) {
+          dataToSend['nome'] = paziente.nome;
+        }
+      }
+      ResponseMessage responseMessage =
+          await _makePost("/login/", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          var paziente = Paziente.fromJson(responseMessage.data);
+        }
+
+        responseMessage.data = paziente;
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} LOGIN paziente: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+/**
+ * MEDICO
+ */
+
+  static Future<ResponseMessage> registrazioneMedico(Medico medico) async {
+    try {
+      Map<dynamic, String> dataToSend = {};
+      if (medico != null) {
+        if (medico.nome.isNotEmpty) {
+          dataToSend['nome'] = medico.nome;
+        }
+      }
+      ResponseMessage responseMessage =
+          await _makePost("/dottore/registration", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          var paziente = Paziente.fromJson(responseMessage.data);
+        }
+
+        responseMessage.data = medico;
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} REGISTRAZIONE medico: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  static Future<ResponseMessage> loginMedico(Medico medico) async {
+    try {
+      Map<dynamic, String> dataToSend = {};
+      if (medico != null) {
+        if (medico.nome.isNotEmpty) {
+          dataToSend['nome'] = medico.nome;
+        }
+      }
+      ResponseMessage responseMessage =
+          await _makePost("/login/", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          var paziente = Paziente.fromJson(responseMessage.data);
+        }
+
+        responseMessage.data = medico;
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} LOGIN medico: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  //********************************************************************************
+  //  FARMACI
+  //********************************************************************************
+
+  static Future<ResponseMessage> listaFarmaci() async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/farmaco/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          List<Farmaco> lista = [];
+          for (var j in responseMessage.data) {
+            lista.add(Farmaco.fromJson(j));
+          }
+
+          responseMessage.data = lista;
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} LISTA farmaci: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  static Future<ResponseMessage> detailFarmaco({int? id}) async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/farmaco/$id");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          Farmaco farmaco;
+
+          farmaco = Farmaco.fromJson(responseMessage.data);
+
+          responseMessage.data = farmaco;
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} DETTAGLI farmaco: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  //********************************************************************************
+  //  LISTE GETTER
+  //********************************************************************************
+
+/**
+ * LISTA PAZIENTI
+ */
+  static Future<ResponseMessage> listaPazienti() async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/paziente/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          List<Paziente> list = [];
+          for (var j in responseMessage.data) {
+            list.add(Paziente.fromJson(j));
+          }
+
+          responseMessage.data = list;
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} LISTA pazienti: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+/**
+ * LISTA MEDICI
+ */
+  static Future<ResponseMessage> listaMedici() async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/dottore/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          List<Medico> list = [];
+          for (var j in responseMessage.data) {
+            list.add(Medico.fromJson(j));
+          }
+
+          responseMessage.data = list;
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} LISTA medici: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  //********************************************************************************
+  //  ARMADIETTO
+  //********************************************************************************
+
+  static Future<ResponseMessage> armadietto(Farmaco farmaco) async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/armadietto/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          //cosa restituisce?
+          //responseMessage.data = farmacoAggiunto;
+
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} ARMADIETTO : Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  static Future<ResponseMessage> addFarmaco(Farmaco farmaco) async {
+    try {
+      Map<String, dynamic> dataToSend = {};
+
+      if (farmaco != null) {
+        dataToSend['farmaco'] = farmaco;
+      }
+      ResponseMessage responseMessage =
+          await _makePost("/armadietto/aggiungifarmaco", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          Farmaco farmacoAggiunto = Farmaco(
+              id: farmaco.id,
+              nome: farmaco.nome,
+              principio: farmaco.principio,
+              precauzioni: farmaco.precauzioni,
+              controindicazioni: farmaco.controindicazioni,
+              posologia: farmaco.posologia);
+
+          Farmaco.fromJson(responseMessage.data);
+
+          responseMessage.data = farmacoAggiunto;
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} ARMADIETTO nuovo farmaco: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  //********************************************************************************
+  //  REMINDERS
+  //********************************************************************************
+
+  static Future<ResponseMessage> addReminder(
+      /**BISOGNA DEFINIRE STRUTTURA REMINDER */) async {
+    try {
+      Map<String, dynamic> dataToSend = {};
+
+      ResponseMessage responseMessage =
+          await _makePost("/reminders/", data: dataToSend);
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          /*  Farmaco farmacoAggiunto = Farmaco(
+              id: farmaco.id,
+              nome: farmaco.nome,
+              principio: farmaco.principio,
+              precauzioni: farmaco.precauzioni,
+              controindicazioni: farmaco.controindicazioni,
+              posologia: farmaco.posologia);
+
+          Farmaco.fromJson(responseMessage.data);
+
+          responseMessage.data = farmacoAggiunto; */
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} REMINDER creazione nuovo: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  /**
+   * DOTTORE VIEW
+   */
+
+  static Future<ResponseMessage> getReminderMed() async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/doctors/reminders/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          //definire lista reminders restituiti da chiamata
+
+          /*  Farmaco farmacoAggiunto = Farmaco(
+              id: farmaco.id,
+              nome: farmaco.nome,
+              principio: farmaco.principio,
+              precauzioni: farmaco.precauzioni,
+              controindicazioni: farmaco.controindicazioni,
+              posologia: farmaco.posologia);
+
+          Farmaco.fromJson(responseMessage.data);
+
+          responseMessage.data = farmacoAggiunto; */
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} REMINDER condivisi medico: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
+
+  /**
+   * PAZIENTE VIEW
+   */
+
+  static Future<ResponseMessage> getReminderPaziente() async {
+    try {
+      ResponseMessage responseMessage = await _makePost("/patients/reminders/");
+      if (responseMessage.isOk()) {
+        if (responseMessage.data != null) {
+          //definire lista reminders restituiti da chiamata
+
+          /*  Farmaco farmacoAggiunto = Farmaco(
+              id: farmaco.id,
+              nome: farmaco.nome,
+              principio: farmaco.principio,
+              precauzioni: farmaco.precauzioni,
+              controindicazioni: farmaco.controindicazioni,
+              posologia: farmaco.posologia);
+
+          Farmaco.fromJson(responseMessage.data);
+
+          responseMessage.data = farmacoAggiunto; */
+        }
+      }
+      return responseMessage;
+    } catch (e) {
+      log("${TAG} REMINDER get lista: Error ${e.toString()}");
+      return ResponseMessage.buildError();
+    }
+  }
 }

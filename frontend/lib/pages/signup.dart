@@ -4,12 +4,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/api/api.dart';
+import 'package:frontend/model_object/paziente.dart';
 import 'package:frontend/models/user.dart';
 import 'package:frontend/utils/RegExp_SignUp.dart';
 
 import '../UI/signup_widget.dart';
 import '../utils/ColorUtils.dart';
 import '../utils/CommonStyle.dart';
+import '../utils/restClient.dart';
+import '../utils/restClient.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -251,8 +254,14 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   }
 
   signUpCallMethod() async {
-    User user = User(email: 'email', pw: 'pw');
-    UserProvider().registerUser(user);
+    Paziente paziente = Paziente(
+        nome: 'mario',
+        cognome: 'rossi',
+        email: 'email',
+        cf: 'pwasdfs',
+        dataNascita: '',
+        password: '');
+    await RestClient.registrazionePaziente(paziente);
     log('USER REGISTER');
   }
 }
