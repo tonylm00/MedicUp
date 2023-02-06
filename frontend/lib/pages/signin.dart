@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../UI/signin_widget.dart';
 import '../utils/ColorUtils.dart';
 import '../utils/CommonStyle.dart';
@@ -95,6 +94,9 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
   bool isPasswordVisible = true;
   bool toggle = true;
   bool isPaziente = true;
+
+/* LoginData loginData = response.data;
+      SessionManager.setSessionFromLogin(loginData); */
 
   @override
   Widget build(BuildContext context) => SignInWidget(this).getView(context);
