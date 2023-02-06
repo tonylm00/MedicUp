@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/armadietto_view.dart';
+import 'package:frontend/model_object/farmaco.dart';
 
 import '../utils/ColorUtils.dart';
+import '../utils/ResponseMessage.dart';
+import '../utils/restClient.dart';
 
 class ArmadiettoPage extends StatefulWidget {
   const ArmadiettoPage({super.key});
@@ -64,6 +69,35 @@ class ArmadiettoWidget extends StatefulWidget {
 }
 
 class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
+  String TAG = '[ARMADIETTO FARMACI LIST] : ';
+
+  List<Farmaco> listaFarmaciArmadietto = [];
+  String messageEmpty = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+  }
+
+  callBackToRestApi() async {
+    ResponseMessage responseMessage = await RestClient.armadietto();
+
+    if (responseMessage.isOk()) {
+      log('$TAG response ok');
+
+      if (responseMessage.data != null) {
+        listaFarmaciArmadietto = responseMessage.data;
+      } else {
+        listaFarmaciArmadietto = [];
+        setState(() {
+          messageEmpty = 'Armadietto vuoto.';
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) =>
       ArmadiettoWidgetView(this).getView(context);

@@ -262,7 +262,7 @@ class RestClient {
   //  ARMADIETTO
   //********************************************************************************
 
-  static Future<ResponseMessage> armadietto(Farmaco farmaco) async {
+  static Future<ResponseMessage> armadietto() async {
     try {
       ResponseMessage responseMessage = await _makePost("/armadietto/");
       if (responseMessage.isOk()) {

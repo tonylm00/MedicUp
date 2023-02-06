@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/armadietto_view.dart';
+import 'package:frontend/model_object/reminder.dart';
 
 import '../UI/farmaciList_view.dart';
 import '../UI/remindersList_view.dart';
 import '../utils/ColorUtils.dart';
+import '../utils/ResponseMessage.dart';
+import '../utils/restClient.dart';
 
 class PromemoriaListPage extends StatefulWidget {
   const PromemoriaListPage({super.key});
@@ -66,6 +71,36 @@ class PromemoriaListPageWidget extends StatefulWidget {
 }
 
 class PromemoriaListPageWidgetState extends State<PromemoriaListPageWidget> {
+  String TAG = '[REMINDERS LIST] : ';
+
+  List<Reminder> listaReminder = [];
+  String messageEmpty = '';
+
   @override
-  Widget build(BuildContext context) => PromemoriaListView(this).getView(context);
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+  }
+
+  callBackToRestApi() async {
+    ResponseMessage responseMessage = await RestClient.getReminderPaziente();
+
+    if (responseMessage.isOk()) {
+      log('$TAG response ok');
+
+      if (responseMessage.data != null) {
+        listaReminder = responseMessage.data;
+      } else {
+        listaReminder = [];
+        setState(() {
+          messageEmpty = 'Nessun promemoria trovato.';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      PromemoriaListView(this).getView(context);
 }

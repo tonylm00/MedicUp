@@ -71,67 +71,97 @@ class PromemoriaListView {
           child: Column(
             children: [
               const Text("Ecco la lista dei tuoi promemoria : "),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                      title: Card(
-                          color: ColorUtils.lightTransPrimary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 10,
-                          margin: const EdgeInsets.all(20),
-                          child: Container(
-                              width: 300,
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Text(
-                                          "Nome Promemoria",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+              (state.listaReminder != null && state.listaReminder.isNotEmpty)
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 10),
+                            title: Card(
+                                color: ColorUtils.lightTransPrimary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 10,
+                                margin: const EdgeInsets.all(20),
+                                child: Container(
+                                    width: 300,
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                state.listaReminder[index].nome,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.zoom_in,
+                                                  color: Colors.black,
+                                                  size: 30,
+                                                ),
+                                                onPressed: () {
+                                                  // Navigator.pushNamed(state.context, Routes.accountInfo);
+                                                },
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.zoom_in,
-                                            color: Colors.black,
-                                            size: 30,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                state
+                                                    .listaReminder[index].giorni
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          onPressed: () {
-                                            // Navigator.pushNamed(state.context, Routes.accountInfo);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: const [
-                                        Text(
-                                          "Descrizione",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ]))));
-                },
-              ),
+                                        ]))));
+                      },
+                    )
+                  : SizedBox(height: 35, child: Container()),
+              state.listaReminder.isEmpty ? emptyResult() : Container()
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget emptyResult() {
+    return SizedBox(
+        height: 140,
+        child: Column(children: [
+          Text(state.messageEmpty),
+          const SizedBox(
+            height: 50,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TextButton(
+              child: const Text(
+                'Ritorna alla pagina iniziale',
+                style: TextStyle(color: ColorUtils.primaryColor, fontSize: 17),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(state.context, Routes.homepage);
+              },
+            ),
+          )
+        ]));
   }
 }

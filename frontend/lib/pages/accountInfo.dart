@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/accountinfo_view.dart';
+import 'package:frontend/model_object/paziente.dart';
 
 import '../utils/ColorUtils.dart';
+import '../utils/ResponseMessage.dart';
+import '../utils/restClient.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -63,6 +68,30 @@ class AccountPageWidget extends StatefulWidget {
 }
 
 class AccountPageWidgetState extends State<AccountPageWidget> {
+  String TAG = '[PAZIENTE GET ACCOUNT INFO] : ';
+
+  late Paziente getPaziente;
+
+  @override
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+  }
+
+  callBackToRestApi() async {
+    //CREARE UN SERVIZIO CHE RESTITUISCE I DATI DI UN PAZIENTE
+    //ResponseMessage responseMessage = await RestClient.armadietto();
+/* 
+    if (responseMessage.isOk()) {
+      log('$TAG response ok');
+
+      if (responseMessage.data != null) {
+        getPaziente = responseMessage.data;
+      }
+    } */
+  }
+
   @override
   Widget build(BuildContext context) => AccountInfoView(this).getView(context);
 }
