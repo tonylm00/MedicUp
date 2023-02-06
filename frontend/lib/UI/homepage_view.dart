@@ -23,7 +23,8 @@ class HomePageView {
               _buildIntroText(),
               _buildCardArmadietto(),
               _buildCardPromemoria(),
-              _buildCardRicerca()
+              _buildCardFarmaci(),
+              _buildCardAreaPersonale()
             ],
           ),
         ),
@@ -33,8 +34,8 @@ class HomePageView {
 
   Widget _buildIntroText() {
     return Column(
-      children: <Widget>[
-        const Padding(
+      children: const <Widget>[
+        Padding(
           padding: EdgeInsets.only(top: 5, bottom: 10),
           child: Text(
             "I servizi di Medic Up",
@@ -44,7 +45,7 @@ class HomePageView {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Padding(
+        /*  Padding(
             padding:
                 const EdgeInsets.only(top: 5, right: 0, bottom: 10, left: 290),
             child: IconButton(
@@ -53,7 +54,7 @@ class HomePageView {
                 onPressed: (() {
                   Navigator.pushNamed(state.context, Routes.accountInfo);
                 }),
-                icon: const Icon(Icons.account_circle))),
+                icon: const Icon(Icons.account_circle))), */
       ],
     );
   }
@@ -84,95 +85,138 @@ class HomePageView {
       elevation: 10,
       margin: const EdgeInsets.all(20),
       child: Container(
-        height: 140,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Armadietto",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Qui troverai l'elenco dei tuoi farmaci.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  // Add button functionality
-                },
-                child: const Icon(
-                  Icons.local_hospital,
-                  color: ColorUtils.primaryColor,
+          width: 300,
+          padding: const EdgeInsets.all(20),
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Armadietto",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.local_pharmacy,
+                    size: 35,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(state.context, Routes.armadietto);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+            Row(
+              children: const [
+                Text(
+                  "Descrizione",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ])),
     );
+  }
+
+  Widget _buildCardAreaPersonale() {
+    return Card(
+        color: ColorUtils.lightTransPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 10,
+        margin: const EdgeInsets.all(20),
+        child: Container(
+            width: 300,
+            padding: const EdgeInsets.all(20),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Profilo",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.account_circle,
+                      size: 35,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(state.context, Routes.accountInfo);
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                children: const [
+                  Text(
+                    "Descrizione",
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ])));
   }
 
   Widget _buildCardPromemoria() {
     return Card(
-      color: ColorUtils.lightTransPrimary,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 10,
-      margin: const EdgeInsets.all(20),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Promemoria",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Qui puoi impostare dei promemoria.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  // Add button functionality
-                },
-                child: const Text(
-                  "Vai",
+        color: ColorUtils.lightTransPrimary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 10,
+        margin: const EdgeInsets.all(20),
+        child: Container(
+          width: 300,
+          padding: const EdgeInsets.all(20),
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Promemoria",
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.alarm,
+                    size: 35,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(state.context, Routes.promemoria);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+            Row(
+              children: const [
+                Text(
+                  "Descrizione",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        ));
   }
 
-  Widget _buildCardRicerca() {
+  Widget _buildCardFarmaci() {
     return Card(
       color: ColorUtils.lightTransPrimary,
       shape: RoundedRectangleBorder(
@@ -181,271 +225,41 @@ class HomePageView {
       elevation: 10,
       margin: const EdgeInsets.all(20),
       child: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Ricerca",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Qui potrai ricercare un farmaco.",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  //Navigator.pushNamed(state.context, Routes.research);
-                },
-                child: const Text(
-                  "Vai",
+          width: 300,
+          padding: const EdgeInsets.all(20),
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Farmaci",
                   style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.medication_outlined,
+                    size: 35,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(state.context, Routes.farmaci);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+            Row(
+              children: const [
+                Text(
+                  "Descrizione",
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ])),
     );
   }
-
-  /*  return SingleChildScrollView(
-        child: Column(children: [
-      const SizedBox(height: 30),
-      BootstrapContainer(
-        children: [
-          BootstrapCol(
-              sizes: "col-12 col-sm-12 col-md-12 col-lg-12",
-              child: const Center(
-                  child: SizedBox(
-                height: 110,
-                width: 450,
-                child: Text(
-                  'Benvenuto,\n Tizio',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontStyle: FontStyle.italic),
-                ),
-              ))),
-          BootstrapCol(
-              sizes: "col-12 col-sm-12 col-md-12 col-lg-12",
-              child: Center(
-                  child: SizedBox(
-                      height: 110,
-                      width: 350,
-                      child: Card(
-                        elevation: 7,
-                        child: ClipPath(
-                          clipper: ShapeBorderClipper(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3))),
-                          child: Container(
-                              padding: const EdgeInsets.only(left: 20),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  left: BorderSide(
-                                      color: AppColors.medicUpColor, width: 13),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    'Armadietto',
-                                    style: TextStyle(
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    width: 9,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.medication_liquid),
-                                    iconSize: 35,
-                                    color: AppColors.medicUpColor,
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              )),
-                        ),
-                      )))),
-          const Divider(
-            color: Colors.transparent,
-          ),
-          BootstrapCol(
-              sizes: "col-12 col-sm-12 col-md-12 col-lg-12",
-              child: Center(
-                  child: SizedBox(
-                      height: 110,
-                      width: 350,
-                      child: Card(
-                        elevation: 7,
-                        child: ClipPath(
-                          clipper: ShapeBorderClipper(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3))),
-                          child: Container(
-                              padding: const EdgeInsets.only(left: 20),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  left: BorderSide(
-                                      color: AppColors.medicUpColor, width: 13),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    'Promemoria',
-                                    style: TextStyle(
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    width: 9,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.notifications),
-                                    iconSize: 35,
-                                    color: AppColors.medicUpColor,
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              )),
-                        ),
-                      )))),
-          const Divider(
-            color: Colors.transparent,
-          ),
-          BootstrapCol(
-              sizes: "col-12 col-sm-12 col-md-12 col-lg-12",
-              child: Center(
-                  child: SizedBox(
-                      height: 110,
-                      width: 350,
-                      child: Card(
-                        elevation: 7,
-                        child: ClipPath(
-                          clipper: ShapeBorderClipper(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3))),
-                          child: Container(
-                              padding: const EdgeInsets.only(left: 20),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  left: BorderSide(
-                                      color: AppColors.medicUpColor, width: 13),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    'Verifica compatibilità',
-                                    style: TextStyle(
-                                        fontSize: 21,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    width: 9,
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.compare_arrows),
-                                    iconSize: 35,
-                                    color: AppColors.medicUpColor,
-                                    onPressed: () {},
-                                  ),
-                                ],
-                              )),
-                        ),
-                      )))),
-          const SizedBox(height: 230),
-          BootstrapCol(
-              sizes: "col-12 col-sm-12 col-md-12 col-lg-12",
-              child: Center(
-                  child: SizedBox(
-                      height: 75,
-                      width: 330,
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                              color: AppColors.medicUpColor,
-                            ),
-                            borderRadius: BorderRadius.circular(37.0),
-                          ),
-                          color: AppColors.medicUpColor,
-                          elevation: 5.0,
-                          child: Container(
-                            padding: const EdgeInsets.only(
-                                left: 20, top: 0, right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SpeedDial(
-                                    buttonSize: Size(20.0, 70.0),
-                                    elevation: 0,
-                                    icon: Icons.home,
-                                    backgroundColor: AppColors.medicUpColor,
-                                    children: []),
-                                const SpeedDial(
-                                    buttonSize: Size(20.0, 70.0),
-                                    elevation: 0,
-                                    icon: Icons.medical_services_outlined,
-                                    backgroundColor: AppColors.medicUpColor,
-                                    children: []),
-                                SpeedDial(
-                                    buttonSize: const Size(20.0, 70.0),
-                                    elevation: 0,
-                                    icon: Icons.search,
-                                    backgroundColor: AppColors.medicUpColor,
-                                    children: [
-                                      SpeedDialChild(
-                                        child: const Icon(
-                                          Icons.search,
-                                          color: Colors.white,
-                                        ),
-                                        label: 'Ricerca per nome',
-                                        backgroundColor: AppColors.medicUpColor,
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, Routes.searchByName);
-                                        },
-                                      ),
-                                      SpeedDialChild(
-                                        child: const Icon(
-                                          Icons.medication_liquid,
-                                          color: Colors.white,
-                                        ),
-                                        label: 'Ricerca per principio attivo',
-                                        backgroundColor: AppColors.medicUpColor,
-                                        onTap: () {
-                                          Navigator.pushNamed(context,
-                                              Routes.searchByPrincipioAttivo);
-                                        },
-                                      ),
-                                    ]),
-                                const SpeedDial(
-                                    buttonSize: Size(20.0, 70.0),
-                                    elevation: 0,
-                                    icon: Icons.account_circle,
-                                    backgroundColor: AppColors.medicUpColor,
-                                    children: []),
-                              ],
-                            ),
-                          )))))
-        ],
-      ),
-    ])); */
 }

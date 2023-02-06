@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/accountInfo.dart';
+import 'package:frontend/pages/armadiettoPage.dart';
+import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/farmacoDetail.dart';
+import 'package:frontend/pages/getReminders.dart';
 import 'package:frontend/pages/intropage.dart';
 import 'package:frontend/pages/signin.dart';
 import 'package:frontend/pages/signup.dart';
@@ -31,7 +35,11 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/signin': (context) => const SignInPage(),
         '/homepage': (context) => const Homepage(),
-        '/accountinfo': (context) => AccountPage(),
+        '/accountinfo': (context) => const AccountPage(),
+        '/armadietto': (context) => const ArmadiettoPage(),
+        '/farmaci': (context) => const FarmaciListPage(),
+        '/promemoria': (context) => const PromemoriaListPage(),
+        '/farmacodetail': (context) => const FarmacoDetailPage(),
         '/research': (context) => const ResearchPage(),
         '/searchbyname': (context) => const SearchByName(),
         '/searchbyprincipioattivo': (context) =>

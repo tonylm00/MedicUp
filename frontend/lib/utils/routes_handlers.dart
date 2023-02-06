@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluro/fluro.dart' as rManager;
 import 'package:frontend/pages/accountInfo.dart';
+import 'package:frontend/pages/armadiettoPage.dart';
+import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/farmacoDetail.dart';
+import 'package:frontend/pages/getReminders.dart';
 import 'package:frontend/utils/routes.dart';
-
 
 import '../pages/homepage.dart';
 import '../pages/intropage.dart';
@@ -18,11 +21,35 @@ var introHandler =
   return const IntroPage();
 });
 
+var promemoriaHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.promemoria);
+  return const PromemoriaListPage();
+});
+
+var farmacoDetailHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.farmacoDetail);
+  return const FarmacoDetailPage();
+});
+
+
+var farmaciHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.farmaci);
+  return const FarmaciListPage();
+});
+
+var armadiettoHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.armadietto);
+  return const ArmadiettoPage();
+});
 
 var accountInfoHandler =
     rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
-  Navigator.of(context!).pushNamed(Routes.intro);
-  return  AccountPage();
+  Navigator.of(context!).pushNamed(Routes.accountInfo);
+  return const AccountPage();
 });
 
 var signupHandler =
