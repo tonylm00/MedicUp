@@ -44,7 +44,7 @@ class FarmaciListView {
             "Lista di farmaci disponibili",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 19.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -101,7 +101,7 @@ class FarmaciListView {
                                               Text(
                                                 state.listaFarmaci[index].nome,
                                                 style: const TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),

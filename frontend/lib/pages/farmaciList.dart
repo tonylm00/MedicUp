@@ -75,7 +75,7 @@ class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
   @override
   Widget build(BuildContext context) => FarmaciListView(this).getView(context);
 
-  List<Farmaco> listaFarmaci = [];
+  List<FarmacoPaziente> listaFarmaci = [];
   String messageEmpty = '';
 
   @override

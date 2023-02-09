@@ -71,7 +71,7 @@ class ArmadiettoWidget extends StatefulWidget {
 class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
   String TAG = '[ARMADIETTO FARMACI LIST] : ';
 
-  List<Farmaco> listaFarmaciArmadietto = [];
+  List<FarmacoPaziente> listaFarmaciArmadietto = [];
   String messageEmpty = '';
 
   @override

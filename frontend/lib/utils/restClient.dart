@@ -66,6 +66,9 @@ class RestClient {
   static Future<ResponseMessage> registrazionePaziente(
       Paziente paziente) async {
     try {
+      //quey params, lista param paziente
+      //return bool
+
       Map<dynamic, String> dataToSend = {};
       if (paziente != null) {
         if (paziente.nome.isNotEmpty) {
@@ -91,6 +94,8 @@ class RestClient {
   ///bisogna differenziare medico da paziente anche nel login
   static Future<ResponseMessage> loginPaziente(Paziente paziente) async {
     try {
+      //paziente, query params email e password --> Paziente (session manager)
+
       Map<dynamic, String> dataToSend = {};
       if (paziente != null) {
         if (paziente.nome.isNotEmpty) {
@@ -119,6 +124,9 @@ class RestClient {
 
   static Future<ResponseMessage> registrazioneMedico(Medico medico) async {
     try {
+      //quey params, lista param medico
+      //return bool
+
       Map<dynamic, String> dataToSend = {};
       if (medico != null) {
         if (medico.nome.isNotEmpty) {
@@ -143,6 +151,8 @@ class RestClient {
 
   static Future<ResponseMessage> loginMedico(Medico medico) async {
     try {
+      //medico, query params medcod e password --> Medico (session manager)
+
       Map<dynamic, String> dataToSend = {};
       if (medico != null) {
         if (medico.nome.isNotEmpty) {
@@ -174,9 +184,9 @@ class RestClient {
       ResponseMessage responseMessage = await _makePost("/farmaco/");
       if (responseMessage.isOk()) {
         if (responseMessage.data != null) {
-          List<Farmaco> lista = [];
+          List<FarmacoPaziente> lista = [];
           for (var j in responseMessage.data) {
-            lista.add(Farmaco.fromJson(j));
+            lista.add(FarmacoPaziente.fromJson(j));
           }
 
           responseMessage.data = lista;
@@ -191,12 +201,15 @@ class RestClient {
 
   static Future<ResponseMessage> detailFarmaco({int? id}) async {
     try {
+      //paziente view bugiardino (add campi Farmaco)
+      //medico view schede RCP (add campi Farmaco)
+
       ResponseMessage responseMessage = await _makePost("/farmaco/$id");
       if (responseMessage.isOk()) {
         if (responseMessage.data != null) {
-          Farmaco farmaco;
+          FarmacoPaziente farmaco;
 
-          farmaco = Farmaco.fromJson(responseMessage.data);
+          farmaco = FarmacoPaziente.fromJson(responseMessage.data);
 
           responseMessage.data = farmaco;
         }
@@ -267,8 +280,8 @@ class RestClient {
       ResponseMessage responseMessage = await _makePost("/armadietto/");
       if (responseMessage.isOk()) {
         if (responseMessage.data != null) {
-          //cosa restituisce?
-          //responseMessage.data = farmacoAggiunto;
+          //lista FarmacoArmadietto != Farmaco presenti in armadietto
+          //oggetto paziente come query params
 
         }
       }
@@ -279,9 +292,11 @@ class RestClient {
     }
   }
 
-  static Future<ResponseMessage> addFarmaco(Farmaco farmaco) async {
+  static Future<ResponseMessage> addFarmaco(FarmacoPaziente farmaco) async {
     try {
       Map<String, dynamic> dataToSend = {};
+      //query params oggetto Farmaco
+      //da lista farmaci pulsante +
 
       if (farmaco != null) {
         dataToSend['farmaco'] = farmaco;
@@ -290,15 +305,16 @@ class RestClient {
           await _makePost("/armadietto/aggiungifarmaco", data: dataToSend);
       if (responseMessage.isOk()) {
         if (responseMessage.data != null) {
-          Farmaco farmacoAggiunto = Farmaco(
+          /*  FarmacoPaziente farmacoAggiunto = FarmacoPaziente(
               id: farmaco.id,
               nome: farmaco.nome,
               principio: farmaco.principio,
-              precauzioni: farmaco.precauzioni,
-              controindicazioni: farmaco.controindicazioni,
-              posologia: farmaco.posologia);
+              descrizioneBug: farmaco.descrizioneBug,
+              precauzioniBug: farmaco.precauzioniBug,
+              controindicazioniBug: farmaco.controindicazioniBug,
+              posologiaBug: farmaco.posologiaBug); */
 
-          Farmaco.fromJson(responseMessage.data);
+          var farmacoAggiunto = FarmacoPaziente.fromJson(responseMessage.data);
 
           responseMessage.data = farmacoAggiunto;
         }
@@ -314,8 +330,7 @@ class RestClient {
   //  REMINDERS
   //********************************************************************************
 
-  static Future<ResponseMessage> addReminder(
-      /**BISOGNA DEFINIRE STRUTTURA REMINDER */) async {
+  static Future<ResponseMessage> addReminder() async {
     try {
       Map<String, dynamic> dataToSend = {};
 

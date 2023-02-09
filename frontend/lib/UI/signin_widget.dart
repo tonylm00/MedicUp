@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import '../pages/signin.dart';
 import '../utils/ColorUtils.dart';
 import '../utils/CommonStyle.dart';
@@ -71,7 +70,7 @@ class SignInWidget {
                 'Paziente',
                 style: TextStyle(
                   color: state.toggle ? Colors.white : Colors.black,
-                  fontSize: 14.0,
+                  fontSize: 20.0,
                 ),
               ),
             ),
@@ -92,7 +91,7 @@ class SignInWidget {
                 'Medico',
                 style: TextStyle(
                   color: state.toggle ? Colors.black : Colors.white,
-                  fontSize: 14.0,
+                  fontSize: 20.0,
                 ),
               ),
             ),
@@ -111,7 +110,7 @@ class SignInWidget {
             "Medic Up",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 23.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -126,9 +125,9 @@ class SignInWidget {
     );
   }
 
-  String? _userNameValidation(String value) {
+  String? _userPasswordValidation(String value) {
     if (value.isEmpty) {
-      return "Inserisci un nome utente valido";
+      return "Inserisci una password valida";
     } else {
       return null;
     }
@@ -144,7 +143,7 @@ class SignInWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
-        // validator: (value) => _emailValidation(value!),
+        validator: (value) => state.validateMedCode(value!),
         decoration:
             CommonStyles.textFormFieldStyle("Identificativo Medico", ""),
       ),
@@ -161,7 +160,7 @@ class SignInWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
-        validator: (value) => _emailValidation(value!),
+        validator: (value) => state.validateEmail(value!),
         decoration: CommonStyles.textFormFieldStyle("Email", ""),
       ),
     );
@@ -177,6 +176,16 @@ class SignInWidget {
     }
   }
 
+  String? _medIdValidation(String value) {
+    bool emailValid =
+        RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+    if (!emailValid) {
+      return "Inserisci un ID valido";
+    } else {
+      return null;
+    }
+  }
+
   Widget _buildPasswordField(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
@@ -187,12 +196,12 @@ class SignInWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
         },
-        validator: (value) => _userNameValidation(value!),
+        validator: (value) => state.validatePassword(value!),
         obscureText: state.isPasswordVisible,
         decoration: InputDecoration(
           labelText: "Password",
           hintText: "",
-          labelStyle: const TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 21),
           alignLabelWithHint: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           suffixIcon: IconButton(
@@ -230,7 +239,9 @@ class SignInWidget {
             child: const Text(
               'Password dimenticata ?',
               style: TextStyle(
-                  color: ColorUtils.gradientStart, fontWeight: FontWeight.w500),
+                  color: ColorUtils.gradientStart,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17),
             )),
       ),
     );
@@ -254,7 +265,7 @@ class SignInWidget {
               "Login",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 23,
                   fontWeight: FontWeight.w600),
             ),
           )),
@@ -290,7 +301,7 @@ class SignInWidget {
             children: [
               const Text(
                 "Non hai un account ? ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
               TextButton(
                   onPressed: () {
@@ -300,7 +311,8 @@ class SignInWidget {
                     'Registrati',
                     style: TextStyle(
                         color: ColorUtils.gradientStart,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17),
                   )),
             ],
           ),

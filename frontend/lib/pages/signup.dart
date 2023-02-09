@@ -128,7 +128,7 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         log('VALIDATE : $value  : $isValidate_medCode');
       } else {
         setState(() {
-          isValidate_birthdate = false;
+          isValidate_medCode = false;
         });
         log('VALIDATE ERROR: $value  : $isValidate_medCode');
         return 'Errore: formato non corretto.';

@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MedicUP',
-      theme:
-          ThemeData(primarySwatch: Colors.blue, backgroundColor: Colors.grey),
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          backgroundColor: Colors.grey,
+          fontFamily: 'Raleway'),
       home: const IntroPage(),
       navigatorKey: MyApp.navigatorKey,
       routes: <String, WidgetBuilder>{

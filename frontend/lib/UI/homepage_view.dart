@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/routes.dart';
 
@@ -187,7 +189,7 @@ class HomePageView {
                 const Text(
                   "Promemoria",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 21,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

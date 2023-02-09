@@ -74,7 +74,7 @@ class SignUpWidget {
                 'Paziente',
                 style: TextStyle(
                   color: state.toggle ? Colors.white : Colors.black,
-                  fontSize: 14.0,
+                  fontSize: 20.0,
                 ),
               ),
             ),
@@ -95,7 +95,7 @@ class SignUpWidget {
                 'Medico',
                 style: TextStyle(
                   color: state.toggle ? Colors.black : Colors.white,
-                  fontSize: 14.0,
+                  fontSize: 20.0,
                 ),
               ),
             ),
@@ -114,7 +114,7 @@ class SignUpWidget {
             "Medic Up",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 23.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -249,7 +249,7 @@ class SignUpWidget {
         decoration: InputDecoration(
           labelText: "Password",
           hintText: "es: SecurePassword1@",
-          labelStyle: const TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black, fontSize: 21),
           alignLabelWithHint: true,
           contentPadding: const EdgeInsets.symmetric(vertical: 5),
           suffixIcon: IconButton(
@@ -311,7 +311,7 @@ class SignUpWidget {
               "Registrati",
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 23,
                   fontWeight: FontWeight.w600),
             ),
           )),
@@ -346,7 +346,7 @@ class SignUpWidget {
             children: [
               const Text(
                 "Hai già un account ? ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
               ),
               TextButton(
                   onPressed: () {
@@ -356,7 +356,8 @@ class SignUpWidget {
                     'Accedi',
                     style: TextStyle(
                         color: ColorUtils.gradientStart,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17),
                   )),
             ],
           ),

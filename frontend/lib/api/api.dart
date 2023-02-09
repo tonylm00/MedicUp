@@ -57,18 +57,18 @@ class FarmacoProvider with ChangeNotifier {
     this.fetchTasks();
   }
 
-  List<Farmaco> _farmaco = [];
+  List<FarmacoPaziente> _farmaco = [];
 
-  List<Farmaco> get farmaco {
+  List<FarmacoPaziente> get farmaco {
     return [..._farmaco];
   }
 
-  void showFarmaco(Farmaco farmaco) async {
+  void showFarmaco(FarmacoPaziente farmaco) async {
     final response = await http
         .get(Uri.parse('http://10.0.2.2:8000/apis/farmaco/${farmaco.id}/'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;
-      _farmaco = data.map((json) => Farmaco.fromJson(json)).toList();
+      _farmaco = data.map((json) => FarmacoPaziente.fromJson(json)).toList();
       notifyListeners();
     }
   }
@@ -78,7 +78,7 @@ class FarmacoProvider with ChangeNotifier {
         .get(Uri.parse('http://10.0.2.2:8000/apis/farmaco/?format=json/'));
     if (response.statusCode == 200) {
       var data = json.decode(response.body) as List;
-      _farmaco = data.map((json) => Farmaco.fromJson(json)).toList();
+      _farmaco = data.map((json) => FarmacoPaziente.fromJson(json)).toList();
       notifyListeners();
     }
   }
