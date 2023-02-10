@@ -24,7 +24,7 @@ class PrincipioAttivo(models.Model):
 #farmaci
 class Farmaco(models.Model):
     nome = models.CharField(max_length=20, unique=True)
-    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE, related_name='patient_medicines')
+    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE) #farmaco - principioattivo
     descrizioneBugiardino = models.CharField(max_length=500)
     descrizioneRCP = models.CharField(max_length=500)
     precauzioniBugiardino = models.CharField(max_length=500)
@@ -39,8 +39,8 @@ class Farmaco(models.Model):
         return self.nome
 
 class FarmacoInArmadietto(models.Model):
-    farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE, related_name='patient_medicines')
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_medicines')
+    farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE) #farmaco
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE) #paziente
     scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
     type = models.CharField(max_length=50)

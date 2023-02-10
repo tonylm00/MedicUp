@@ -7,7 +7,7 @@ from app.models import Patient, Doctor, FarmacoInArmadietto, Farmaco
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = ['nome', 'cognome', 'cf', 'data_nascita', 'email', 'password']
 
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:

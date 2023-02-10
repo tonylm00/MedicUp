@@ -19,7 +19,6 @@ urlpatterns = [
     path('paziente/login/', PatientLoginView.as_view(), name='login'),
     path('dottore/login/', DoctorLoginView.as_view(), name='login'),
 
-
     #path('reminders/', ReminderCreateView.as_view(), name='reminders'),
     #path('doctors/reminders/', DoctorReminderListView.as_view(), name='doctor_reminders'),
     #path('patients/reminders/', PatientReminderListView.as_view(), name='patient_reminders'),
