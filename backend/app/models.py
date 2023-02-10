@@ -16,24 +16,21 @@ class Doctor(models.Model):
     cognome = models.CharField(max_length=150, blank=True)
     password = models.CharField(null=False, max_length=64)
 
-class PrincipioAttivo(models.Model):
-    nome = models.CharField(max_length=20, primary_key=True)
-    def __str__(self):
-        return self.nome
-
 #farmaci
 class Farmaco(models.Model):
     nome = models.CharField(max_length=20, unique=True)
-    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE) #farmaco - principioattivo
-    descrizioneBugiardino = models.CharField(max_length=500)
-    descrizioneRCP = models.CharField(max_length=500)
-    precauzioniBugiardino = models.CharField(max_length=500)
-    precauzioniRCP = models.CharField(max_length=500)
-    posologiaBugiardino = models.CharField(max_length=500)
-    posologiaRCP = models.CharField(max_length=500)
-    controindicazioniBugiardino = models.CharField(max_length=500)
-    controindicazioniRCP = models.CharField(max_length=500)
-    informazioni = models.CharField(max_length=500)
+    principio = models.CharField(max_length=30)
+    descrizioneBugiardino = models.TextField()
+    descrizioneRCP = models.TextField()
+    precauzioniBugiardino = models.TextField()
+    precauzioniRCP = models.TextField()
+    posologiaBugiardino = models.TextField()
+    posologiaRCP = models.TextField()
+    controindicazioniBugiardino = models.TextField()
+    controindicazioniRCP = models.TextField()
+    informazioniBugiardino = models.TextField()
+    informazioniRCP = models.TextField()
+
 
     def __str__(self):
         return self.nome

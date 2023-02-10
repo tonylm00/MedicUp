@@ -26,6 +26,7 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
+#registrazione paziente
 class PatientRegistration(generics.CreateAPIView):
     serializer_class = PatientSerializer
     queryset = Patient.objects.all()
@@ -38,9 +39,7 @@ class PatientRegistration(generics.CreateAPIView):
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
     
     def perform_create(self, serializer):
-        password = serializer.validated_data.get("password")
-        # Utilizza una funzione di hash per crittografare la password
-        serializer.save(password=make_password(password))
+        serializer.save()
 
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
@@ -50,6 +49,7 @@ class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
+#registrazione medico
 class DoctorRegistration(generics.CreateAPIView):
     serializer_class = DoctorSerializer
     queryset = Doctor.objects.all()
@@ -62,39 +62,37 @@ class DoctorRegistration(generics.CreateAPIView):
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
     
     def perform_create(self, serializer):
-        password = serializer.validated_data.get("password")
-        # Utilizza una funzione di hash per crittografare la password
-        serializer.save(password=make_password(password))
+        serializer.save()
 
 class PatientLoginView(generics.RetrieveAPIView):
-    serializer_class = LoginSerializerPaziente
+    #serializer_class = LoginSerializerPaziente
+    serializer_class = PatientSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        email = request.query_params.get('email', None)
-        password = request.query_params.get('password', None)
-
-        paziente = authenticate(email=email, password=password)
-        if paziente is not None and paziente.is_active:
-            patient = Patient.objects.get(paziente=paziente)
+        email = request.data.get('email')
+        password = request.data.get('password')
+        patient = Patient.objects.get(email=email, password=password)
+        if patient is not None:
             serializer = self.get_serializer(patient)
             return Response(serializer.data)
         else:
-            return Response({"error": "Credenziali login paziente non valide"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Paziente non registrato o Credenziali non valide"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class DoctorLoginView(generics.RetrieveAPIView):
-    serializer_class = LoginSerializerDottore
+    #serializer_class = LoginSerializerDottore
+    serializer_class = DoctorSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        fnomceo = request.query_params.get('fnomceo', None)
-        password = request.query_params.get('password', None)
+        fnomceo = request.data.get('fnomceo')
+        password = request.data.get('password')
 
-        doctor = authenticate(fnomceo=fnomceo, password=password)
-        if doctor is not None and doctor.is_active:
-            doctor = Doctor.objects.get(doctor=doctor)
+        doctor = Doctor.objects.get(fnomceo=fnomceo, password=password)
+        if doctor is not None :#and doctor.is_active:
+            doctor = Doctor.objects.get(fnomceo=fnomceo, password=password)
             serializer = self.get_serializer(doctor)
             return Response(serializer.data)
         else:
-            return Response({"error": "Credenziali login dottore non valide"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Dottore non registrato o Credenziali non valide"}, status=status.HTTP_401_UNAUTHORIZED)
 
 #visualizzione di tutti i farmaci
 class ElencoFarmaciView(generics.ListCreateAPIView):
@@ -105,7 +103,7 @@ class ElencoFarmaciView(generics.ListCreateAPIView):
 class DettaglioFarmacoView(generics.RetrieveAPIView):
     queryset = Farmaco.objects.all()
     serializer_class = FarmacoSerializer
-    lookup_field = 'id'
+    lookup_field = 'pk'
 
 #ricerca di un farmaco per nome
 class FarmacoSearchNomeView(generics.RetrieveAPIView):
