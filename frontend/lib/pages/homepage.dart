@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../UI/homepage_view.dart';
+import '../UI/paziente_view/homepage_view.dart';
 import '../utils/ColorUtils.dart';
 
 

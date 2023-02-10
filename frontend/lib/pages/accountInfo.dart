@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/accountinfo_view.dart';
+import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
 import 'package:frontend/model_object/paziente.dart';
 
 import '../utils/ColorUtils.dart';

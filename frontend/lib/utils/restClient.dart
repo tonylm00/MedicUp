@@ -68,21 +68,34 @@ class RestClient {
     try {
       //quey params, lista param paziente
       //return bool
+      Map<String, dynamic> mapToSend = {};
 
-      Map<dynamic, String> dataToSend = {};
       if (paziente != null) {
         if (paziente.nome.isNotEmpty) {
-          dataToSend['nome'] = paziente.nome;
+          mapToSend['nome'] = paziente.nome;
+        }
+        if (paziente.cognome.isNotEmpty) {
+          mapToSend['cognome'] = paziente.cognome;
+        }
+        if (paziente.cf.isNotEmpty) {
+          mapToSend['cf'] = paziente.cf;
+        }
+        if (paziente.dataNascita.isNotEmpty) {
+          mapToSend['data_nascita'] = paziente.dataNascita;
+        }
+        if (paziente.email.isNotEmpty) {
+          mapToSend['email'] = paziente.email;
+        }
+        if (paziente.password.isNotEmpty) {
+          mapToSend['password'] = paziente.password;
         }
       }
       ResponseMessage responseMessage =
-          await _makePost("/paziente/registration/", data: dataToSend);
+          await _makePost("/paziente/registration/", data: mapToSend);
       if (responseMessage.isOk()) {
         if (responseMessage.data != null) {
-          var paziente = Paziente.fromJson(responseMessage.data);
+          print('REG PAZIENTE OK');
         }
-
-        responseMessage.data = paziente;
       }
       return responseMessage;
     } catch (e) {
@@ -132,13 +145,24 @@ class RestClient {
         if (medico.nome.isNotEmpty) {
           dataToSend['nome'] = medico.nome;
         }
+        if (medico.cognome.isNotEmpty) {
+          dataToSend['cognome'] = medico.cognome;
+        }
+        if (medico.id.isNotEmpty) {
+          dataToSend['fnomceo'] = medico.id;
+        }
+
+        if (medico.email.isNotEmpty) {
+          dataToSend['email'] = medico.email;
+        }
+        if (medico.password.isNotEmpty) {
+          dataToSend['password'] = medico.password;
+        }
       }
       ResponseMessage responseMessage =
-          await _makePost("/dottore/registration", data: dataToSend);
+          await _makePost("/dottore/registration/", data: dataToSend);
       if (responseMessage.isOk()) {
-        if (responseMessage.data != null) {
-          var paziente = Paziente.fromJson(responseMessage.data);
-        }
+        if (responseMessage.data != null) {}
 
         responseMessage.data = medico;
       }

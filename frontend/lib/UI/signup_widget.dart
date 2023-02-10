@@ -15,7 +15,12 @@ class SignUpWidget {
       key: state.formKey,
       child: Column(
         children: <Widget>[
-          Card(
+          Visibility(
+            visible: state.isFirstPage,
+            child: firstPage(context),
+          ),
+          Visibility(visible: state.isSecondPage, child: secondPage(context)),
+          /* Card(
             elevation: 8,
             child: Column(
               children: <Widget>[
@@ -33,8 +38,91 @@ class SignUpWidget {
                 _buildSignUpButton(context),
               ],
             ),
+          ), */
+          //_buildSignIn()
+        ],
+      ),
+    );
+  }
+
+  Widget firstPage(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 40,
           ),
-          _buildSignIn()
+          _buildIntroText(),
+          const SizedBox(
+            height: 40,
+          ),
+          toggleOptions(),
+          const SizedBox(
+            height: 30,
+          ),
+          _buildNextTextFirst()
+        ],
+      ),
+    );
+  }
+
+  Widget thirdPage(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          _buildUserBirthDateField(context),
+          const SizedBox(
+            height: 40,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget insertDati() {
+    return Column(
+      children: const <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 5, bottom: 30),
+          child: Text(
+            "Medic Up",
+            style: TextStyle(
+                color: ColorUtils.primaryColor,
+                fontSize: 23.0,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            "Inserisci i tuoi dati : ",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 23.0,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget secondPage(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 40,
+          ),
+          insertDati(),
+          _buildUserNameField(context),
+          _buildUserSurnameField(context),
+          (state.isPaziente)
+              ? _buildUserCfField(context)
+              : _buildMedIdField(context),
+          _buildNextTextSecond()
         ],
       ),
     );
@@ -55,7 +143,7 @@ class SignUpWidget {
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
@@ -118,6 +206,69 @@ class SignUpWidget {
                 fontWeight: FontWeight.bold),
           ),
         ),
+        Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            "Scegli il tipo di utente che vuoi registrare : ",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 23.0,
+                fontWeight: FontWeight.normal),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNextTextFirst() {
+    return Column(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+              onPressed: () {
+                state.setState(() {
+                  state.isFirstPage = false;
+                  state.isSecondPage = true;
+                });
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Text(
+                  "Avanti",
+                  style: TextStyle(
+                      color: ColorUtils.primaryColor,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              )),
+        )
+      ],
+    );
+  }
+
+  Widget _buildNextTextSecond() {
+    return Column(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+              onPressed: () {
+                state.setState(() {
+                  state.isSecondPage = false;
+                });
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Text(
+                  "Avanti",
+                  style: TextStyle(
+                      color: ColorUtils.primaryColor,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              )),
+        )
       ],
     );
   }

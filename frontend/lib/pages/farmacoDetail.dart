@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/armadietto_view.dart';
+import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/UI/farmacoDetail_view.dart';
 
 import '../utils/ColorUtils.dart';

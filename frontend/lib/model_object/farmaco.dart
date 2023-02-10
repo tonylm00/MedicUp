@@ -1,6 +1,6 @@
 class FarmacoPaziente {
   late int id;
-  late String nome, principio, conservazioni, informazioni;
+  late String nome, principio, informazioni;
 
   //paziente
   late String descrizioneBug,
@@ -12,7 +12,6 @@ class FarmacoPaziente {
       {required this.id,
       required this.nome,
       required this.principio,
-      required this.conservazioni,
       required this.informazioni,
       required this.descrizioneBug,
       required this.precauzioniBug,
@@ -23,7 +22,6 @@ class FarmacoPaziente {
     id = json['id'];
     nome = json['nome'];
     principio = json['principio'];
-    conservazioni = json['conservazioni'];
     informazioni = json['informazioni'];
     posologiaBug = json['posologia_bugiardino'];
     descrizioneBug = json['descrizione_bugiardino'];
@@ -35,7 +33,6 @@ class FarmacoPaziente {
     data['nome'] = nome;
     data['id'] = id;
     data['principio'] = principio;
-    data['conservazioni'] = conservazioni;
     data['informazioni'] = informazioni;
     data['descrizione_bugiardino'] = descrizioneBug;
     data['precauzioni_bugiardino'] = precauzioniBug;
@@ -47,7 +44,7 @@ class FarmacoPaziente {
 
 class FarmacoMedico {
   late int id;
-  late String nome, principio, conservazioni, informazioni;
+  late String nome, principio, informazioni;
 
   //medico
   late String descrizioneRCP,
@@ -59,7 +56,6 @@ class FarmacoMedico {
       {required this.id,
       required this.nome,
       required this.principio,
-      required this.conservazioni,
       required this.informazioni,
       required this.descrizioneRCP,
       required this.precauzioniRCP,
@@ -70,7 +66,6 @@ class FarmacoMedico {
     id = json['id'];
     nome = json['nome'];
     principio = json['principio'];
-    conservazioni = json['conservazioni'];
     informazioni = json['informazioni'];
     descrizioneRCP = json['descrizione_RCP'];
     precauzioniRCP = json['precauzioni_RCP'];
@@ -82,7 +77,6 @@ class FarmacoMedico {
     data['nome'] = nome;
     data['id'] = id;
     data['principio'] = principio;
-    data['conservazioni'] = conservazioni;
     data['informazioni'] = informazioni;
     data['descrizione_RCP'] = descrizioneRCP;
     data['precauzioni_RCP'] = precauzioniRCP;

@@ -7,6 +7,7 @@ import 'package:frontend/pages/getReminders.dart';
 import 'package:frontend/pages/intropage.dart';
 import 'package:frontend/pages/signin.dart';
 import 'package:frontend/pages/signup.dart';
+import 'package:frontend/pages/test.dart';
 
 import 'pages/homepage.dart';
 import 'pages/searchByName.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/searchbyname': (context) => const SearchByName(),
         '/searchbyprincipioattivo': (context) =>
             const SearchByPrincipioAttivo(),
+        '/homepage_med': (context) => const Homepage(),
       },
     );
   }

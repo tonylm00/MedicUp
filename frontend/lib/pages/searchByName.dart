@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-import '../UI/search_view.dart';
+import '../UI/paziente_view/search_view.dart';
 import '../utils/AppColors.dart';
 
 class SearchByName extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/armadietto_view.dart';
+import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/model_object/farmaco.dart';
 
 import '../utils/ColorUtils.dart';

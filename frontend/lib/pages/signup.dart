@@ -91,6 +91,10 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   bool toggle = true;
   bool isPaziente = true;
   bool isPasswordVisible = true;
+    bool isFirstPage = true;
+        bool isSecondPage = false;
+
+
 
   late DateTime selectedDate = DateTime.now();
 
