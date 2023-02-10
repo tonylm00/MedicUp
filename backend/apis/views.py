@@ -131,10 +131,22 @@ class FarmacoSearchPrincipioView(generics.ListCreateAPIView):
 
 #aggiungere farmaci all'armadietto
 class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
-    serializer_class = FarmacoSerializer
-    def perform_create(self, serializer):
-        serializer.save(patient=self.request.user.patient)
+    #serializer_class = FarmacoSerializer
+    #def perform_create(self, serializer):
+    #    serializer.save(patient=self.request.user.patient)
+    serializer_class = FarmacoInArmadiettoSerializer
+    queryset = FarmacoInArmadietto.objects.all()
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def perform_create(self, serializer):
+        serializer.save()
+        
 #visualizzazione armadietto dei farmaci
 class ArmadiettoView(generics.ListCreateAPIView):
     serializer_class = FarmacoInArmadiettoSerializer

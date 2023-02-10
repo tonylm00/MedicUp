@@ -28,16 +28,16 @@ class FarmacoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FarmacoInArmadiettoSerializer(serializers.ModelSerializer):
-    medicine = FarmacoSerializer(many=False)
+
     class Meta:
         model = FarmacoInArmadietto
-        fields = ['id', 'farmaco', 'scadenza', 'quantity', 'type']
+        fields = '__all__'
 
-    def create(self, validated_data):
-            medicine_data = validated_data.pop('medicine')
-            farmaco = Farmaco.objects.create(**medicine_data)
-            FarmacoInArmadietto = FarmacoInArmadietto.object.create(farmaco=farmaco, **validated_data)
-            return FarmacoInArmadietto
+    #def create(self, validated_data):
+    #        medicine_data = validated_data.pop('medicine')
+    #        farmaco = Farmaco.objects.create(**medicine_data)
+    #        FarmacoInArmadietto = FarmacoInArmadietto.object.create(farmaco=farmaco, **validated_data)
+    #        return FarmacoInArmadietto
 
 '''
 class ReminderHourSerializer(serializers.ModelSerializer):
