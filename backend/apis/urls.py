@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import FarmacoSearchNomeView, FarmacoSearchPrincipioView,PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, DoctorLoginView, PatientLoginView, ElencoFarmaciView, DettaglioFarmacoView, ReminderCreateView, DoctorReminderListView, PatientReminderListView, AggiungiFarmacoArmadiettoView, ArmadiettoView
+from .views import FarmacoSearchNomeView, FarmacoSearchPrincipioView,PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, DoctorLoginView, PatientLoginView, ElencoFarmaciView, DettaglioFarmacoView, ArmadiettoView, AggiungiFarmacoArmadiettoView
 
 urlpatterns = [
     path('farmaco/', ElencoFarmaciView.as_view(), name="Elenco dei farmaci"),
@@ -19,9 +19,10 @@ urlpatterns = [
     path('paziente/login/', PatientLoginView.as_view(), name='login'),
     path('dottore/login/', DoctorLoginView.as_view(), name='login'),
 
-    path('reminders/', ReminderCreateView.as_view(), name='reminders'),
-    path('doctors/reminders/', DoctorReminderListView.as_view(), name='doctor_reminders'),
-    path('patients/reminders/', PatientReminderListView.as_view(), name='patient_reminders'),
+
+    #path('reminders/', ReminderCreateView.as_view(), name='reminders'),
+    #path('doctors/reminders/', DoctorReminderListView.as_view(), name='doctor_reminders'),
+    #path('patients/reminders/', PatientReminderListView.as_view(), name='patient_reminders'),
 
     path('armadietto/', ArmadiettoView.as_view(), name='arm'),
     path('armadietto/aggiungifarmaco/', AggiungiFarmacoArmadiettoView.as_view(), name='add_med_to_arm'),

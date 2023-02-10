@@ -1,50 +1,20 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-class User(AbstractBaseUser, PermissionsMixin):
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_groups',
-        blank=True,
-        help_text=(
-            'The groups this user belongs to. A user will get all permissions '
-            'granted to each of their groups.'
-        ),
-        related_query_name='user',
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_user_permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_query_name='user',
-    )
+class Patient(models.Model):
+    cf = models.CharField(max_length=16, unique=True)
+    data_nascita = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
     nome = models.CharField(max_length=30, blank=True)
     cognome = models.CharField(max_length=150, blank=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-    password = models.CharField(null=False)
+    password = models.CharField(null=False, max_length=64)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
-        
-    def __str__(self):
-        return self.email
-
-class Patient(User):
-    cf = models.CharField(max_length=16, unique=True)
-    data_nascita = models.CharField(max_length=10)
-
-class Doctor(User):
+class Doctor(models.Model):
     fnomceo = models.CharField(max_length=20, unique=True)
+    email = models.EmailField(unique=True)
+    nome = models.CharField(max_length=30, blank=True)
+    cognome = models.CharField(max_length=150, blank=True)
+    password = models.CharField(null=False, max_length=64)
 
 class PrincipioAttivo(models.Model):
     nome = models.CharField(max_length=20, primary_key=True)
@@ -70,7 +40,7 @@ class Farmaco(models.Model):
 
 class FarmacoInArmadietto(models.Model):
     farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE, related_name='patient_medicines')
-    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_medicines')
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_medicines')
     scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
     type = models.CharField(max_length=50)
@@ -87,8 +57,8 @@ class Reminder(models.Model):
         (6, 'Domenica'),
     ]
 
-    patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reminders')
-    doctor = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='shared_reminders', null=True, blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reminders')
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, related_name='shared_reminders', null=True, blank=True)
     is_visible = models.BooleanField(default=False)
     nome = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

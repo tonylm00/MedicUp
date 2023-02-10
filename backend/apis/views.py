@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from app.models import Patient, Farmaco, Doctor, Reminder, FarmacoInArmadietto
-from .serializers import LoginSerializerDottore, LoginSerializerPaziente,FarmacoSerializer, PatientSerializer, DoctorSerializer, ReminderSerializer, FarmacoInArmadiettoSerializer, PatientRegistrationSerializer, DoctorRegistrationSerializer, LoginSerializer
+from .serializers import LoginSerializerDottore, LoginSerializerPaziente,FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer
 
 '''
 Login diversi, in cui restituisco tutto l'oggetto Paziente o Dottore, utilizzando queryparams
@@ -26,7 +26,8 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientSerializer
 
 class PatientRegistration(generics.CreateAPIView):
-    serializer_class = PatientRegistrationSerializer
+    serializer_class = PatientSerializer
+    queryset = Patient.objects.all()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -34,6 +35,9 @@ class PatientRegistration(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def perform_create(self, serializer):
+        serializer.save()
 
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
@@ -44,7 +48,8 @@ class DoctorDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = DoctorSerializer
 
 class DoctorRegistration(generics.CreateAPIView):
-    serializer_class = DoctorRegistrationSerializer
+    serializer_class = DoctorSerializer
+    queryset = Doctor.objects.all()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -52,6 +57,9 @@ class DoctorRegistration(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def perform_create(self, serializer):
+        serializer.save()
 
 class PatientLoginView(generics.RetrieveAPIView):
     serializer_class = LoginSerializerPaziente
@@ -118,6 +126,19 @@ class FarmacoSearchPrincipioView(generics.RetrieveAPIView):
         obj = get_object_or_404(queryset, **filter_kwargs)
         return obj
 
+#aggiungere farmaci all'armadietto
+class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
+    serializer_class = FarmacoSerializer
+    def perform_create(self, serializer):
+        serializer.save(patient=self.request.user.patient)
+
+#visualizzazione armadietto dei farmaci
+class ArmadiettoView(generics.ListAPIView):
+    serializer_class = FarmacoInArmadiettoSerializer
+    def get_queryset(self):
+        return FarmacoInArmadietto.objects.filter(patient=self.request.user.patient)
+
+'''
 #visualizzazione dei suoi promemoria da parte di un paziente
 class PatientReminderListView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reminder.objects.all()
@@ -138,14 +159,4 @@ class DoctorReminderListView(generics.ListAPIView):
         doctor = self.request.user
         return Reminder.objects.filter(doctor=doctor, is_visible=True)
 
-#aggiungere farmaci all'armadietto
-class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
-    serializer_class = FarmacoSerializer
-    def perform_create(self, serializer):
-        serializer.save(patient=self.request.user.patient)
-
-#visualizzazione armadietto dei farmaci
-class ArmadiettoView(generics.ListAPIView):
-    serializer_class = FarmacoInArmadiettoSerializer
-    def get_queryset(self):
-        return FarmacoInArmadietto.objects.filter(patient=self.request.user.patient)
+'''
