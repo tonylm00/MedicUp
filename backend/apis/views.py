@@ -118,14 +118,14 @@ class FarmacoSearchNomeView(generics.RetrieveAPIView):
         return obj
 
 #ricerca di un farmaco per principio attivo
-class FarmacoSearchPrincipioView(generics.RetrieveAPIView):
+class FarmacoSearchPrincipioView(generics.ListCreateAPIView):
     serializer_class = FarmacoSerializer
     queryset = Farmaco.objects.all()
     lookup_field = 'principio'
 
     def get_object(self):
         queryset = self.get_queryset()
-        filter_kwargs = {self.lookup_field: self.request.query_params.get("nome")}
+        filter_kwargs = {self.lookup_field: self.request.query_params.get("principio")}
         obj = get_object_or_404(queryset, **filter_kwargs)
         return obj
 
@@ -136,10 +136,18 @@ class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
         serializer.save(patient=self.request.user.patient)
 
 #visualizzazione armadietto dei farmaci
-class ArmadiettoView(generics.ListAPIView):
+class ArmadiettoView(generics.ListCreateAPIView):
     serializer_class = FarmacoInArmadiettoSerializer
-    def get_queryset(self):
-        return FarmacoInArmadietto.objects.filter(patient=self.request.user.patient)
+    queryset = FarmacoInArmadietto.objects.all()
+    lookup_field = 'paziente'
+    
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.request.query_params.get("paziente")}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        return obj
+
+        
 
 '''
 #visualizzazione dei suoi promemoria da parte di un paziente
