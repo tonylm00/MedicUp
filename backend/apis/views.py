@@ -1,10 +1,22 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
 from app.models import Patient, Farmaco, Doctor, Reminder, FarmacoInArmadietto
-from .serializers import FarmacoSerializer, PatientSerializer, DoctorSerializer, ReminderSerializer, FarmacoInArmadiettoSerializer, PatientRegistrationSerializer, DoctorRegistrationSerializer, LoginSerializer
+from .serializers import LoginSerializerDottore, LoginSerializerPaziente,FarmacoSerializer, PatientSerializer, DoctorSerializer, ReminderSerializer, FarmacoInArmadiettoSerializer, PatientRegistrationSerializer, DoctorRegistrationSerializer, LoginSerializer
 
+'''
+Login diversi, in cui restituisco tutto l'oggetto Paziente o Dottore, utilizzando queryparams
+
+Paziente login -> email, pass
+Dottore login -> codefnomceo, pass
+
+Registrazione Paziente, Dottore
+Restituire true e false
+
+Aggiungere campi al farmaco
+'''
 class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
@@ -21,7 +33,7 @@ class PatientRegistration(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
 
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
@@ -39,46 +51,72 @@ class DoctorRegistration(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
 
-class LoginView(APIView):
-    def post(self, request):
-        email = request.data.get('email')
-        password = request.data.get('password')
-        
-        # Try to authenticate as a Patient
-        patient = authenticate(username=email, password=password)
-        if patient is not None:
-            if patient.is_active:
-                login(request, patient)
-                serializer = PatientSerializer(patient)
-                return Response(serializer.data)
-            else:
-                return Response({'error': 'Patient account is inactive'}, status=400)
-        
-        # Try to authenticate as a Doctor
-        doctor = authenticate(username=email, password=password)
-        if doctor is not None:
-            if doctor.is_active:
-                login(request, doctor)
-                serializer = DoctorSerializer(doctor)
-                return Response(serializer.data)
-            else:
-                return Response({'error': 'Doctor account is inactive'}, status=400)
-        
-        # Authentication failed
-        return Response({'error': 'Invalid email or password'}, status=400)
+class PatientLoginView(generics.RetrieveAPIView):
+    serializer_class = LoginSerializerPaziente
 
+    def retrieve(self, request, *args, **kwargs):
+        email = request.query_params.get('email', None)
+        password = request.query_params.get('password', None)
+
+        paziente = authenticate(email=email, password=password)
+        if paziente is not None and paziente.is_active:
+            patient = Patient.objects.get(paziente=paziente)
+            serializer = self.get_serializer(patient)
+            return Response(serializer.data)
+        else:
+            return Response({"error": "Credenziali login paziente non valide"}, status=status.HTTP_401_UNAUTHORIZED)
+
+class DoctorLoginView(generics.RetrieveAPIView):
+    serializer_class = LoginSerializerDottore
+
+    def retrieve(self, request, *args, **kwargs):
+        fnomceo = request.query_params.get('fnomceo', None)
+        password = request.query_params.get('password', None)
+
+        doctor = authenticate(fnomceo=fnomceo, password=password)
+        if doctor is not None and doctor.is_active:
+            doctor = Doctor.objects.get(doctor=doctor)
+            serializer = self.get_serializer(doctor)
+            return Response(serializer.data)
+        else:
+            return Response({"error": "Credenziali login dottore non valide"}, status=status.HTTP_401_UNAUTHORIZED)
 
 #visualizzione di tutti i farmaci
 class ElencoFarmaciView(generics.ListCreateAPIView):
     queryset=Farmaco.objects.all()
     serializer_class=FarmacoSerializer
     
-#visualizzione di un farmaco
+#visualizzione di un farmaco tramite id
 class DettaglioFarmacoView(generics.RetrieveAPIView):
-    queryset=Farmaco.objects.all()
-    serializer_class=FarmacoSerializer
+    queryset = Farmaco.objects.all()
+    serializer_class = FarmacoSerializer
+    lookup_field = 'id'
+
+#ricerca di un farmaco per nome
+class FarmacoSearchNomeView(generics.RetrieveAPIView):
+    serializer_class = FarmacoSerializer
+    queryset = Farmaco.objects.all()
+    lookup_field = 'nome'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.request.query_params.get("nome")}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        return obj
+
+#ricerca di un farmaco per principio attivo
+class FarmacoSearchPrincipioView(generics.RetrieveAPIView):
+    serializer_class = FarmacoSerializer
+    queryset = Farmaco.objects.all()
+    lookup_field = 'principio'
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.request.query_params.get("nome")}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        return obj
 
 #visualizzazione dei suoi promemoria da parte di un paziente
 class PatientReminderListView(generics.RetrieveUpdateDestroyAPIView):

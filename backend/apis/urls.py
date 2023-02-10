@@ -1,9 +1,12 @@
 from django.urls import path
-from .views import PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, LoginView, ElencoFarmaciView, DettaglioFarmacoView, ReminderCreateView, DoctorReminderListView, PatientReminderListView, AggiungiFarmacoArmadiettoView, ArmadiettoView
+from .views import FarmacoSearchNomeView, FarmacoSearchPrincipioView,PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, DoctorLoginView, PatientLoginView, ElencoFarmaciView, DettaglioFarmacoView, ReminderCreateView, DoctorReminderListView, PatientReminderListView, AggiungiFarmacoArmadiettoView, ArmadiettoView
 
 urlpatterns = [
     path('farmaco/', ElencoFarmaciView.as_view(), name="Elenco dei farmaci"),
     path('farmaco/<int:pk>/', DettaglioFarmacoView.as_view(), name="Visualizza Farmaco"),
+    path('farmaco/cerca/nome/', FarmacoSearchNomeView.as_view(), name="Ricerca Farmaco per Nome"),
+    path('farmaco/cerca/principio/', FarmacoSearchPrincipioView.as_view(), name="Ricerca Farmaco per Nome"),
+
 
     path('paziente/', PatientList.as_view(), name='patient-list'),
     path('paziente/<int:pk>/', PatientDetail.as_view(), name='patient-detail'),
@@ -13,7 +16,8 @@ urlpatterns = [
     path('dottore/<int:pk>/', DoctorDetail.as_view(), name='doctor-detail'),
     path('dottore/registration/', DoctorRegistration.as_view(), name='patient-detail'),
 
-    path('login/', LoginView.as_view(), name='login'),
+    path('paziente/login/', PatientLoginView.as_view(), name='login'),
+    path('dottore/login/', DoctorLoginView.as_view(), name='login'),
 
     path('reminders/', ReminderCreateView.as_view(), name='reminders'),
     path('doctors/reminders/', DoctorReminderListView.as_view(), name='doctor_reminders'),

@@ -14,14 +14,15 @@ class PatientRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patient
-        fields = ['cf','first_name', 'last_name', 'email', 'password']
+        fields = ['cf','nome', 'cognome', 'email', 'password', 'data_nascita']
 
     def create(self, validated_data):
         patient = Patient.objects.create(
             cf=validated_data['cf'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            email=validated_data['email']
+            nome=validated_data['nome'],
+            cognome=validated_data['cognome'],
+            email=validated_data['email'],
+            data_nascita=validated_data['data_nascita']
         )
         patient.set_password(validated_data['password'])
         patient.save()
@@ -37,21 +38,25 @@ class DoctorRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['codefnomceo','first_name', 'last_name', 'email', 'password']
+        fields = ['fnomceo','nome', 'cognome', 'email', 'password']
 
     def create(self, validated_data):
-        patient = Patient.objects.create(
-            codefnomceo=validated_data['codefnomceo'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
+        Doctor = Doctor.objects.create(
+            fnomceo=validated_data['fnomceo'],
+            nome=validated_data['nome'],
+            cognome=validated_data['cognome'],
             email=validated_data['email']
         )
         Doctor.set_password(validated_data['password'])
         Doctor.save()
         return Doctor
 
-class LoginSerializer(serializers.Serializer):
+class LoginSerializerPaziente(serializers.Serializer):
     email = serializers.EmailField()
+    password = serializers.CharField()
+
+class LoginSerializerDottore(serializers.Serializer):
+    fnomceo = serializers.CharField()
     password = serializers.CharField()
     
 class FarmacoSerializer(serializers.ModelSerializer):

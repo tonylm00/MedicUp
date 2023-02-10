@@ -21,12 +21,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         help_text='Specific permissions for this user.',
         related_query_name='user',
     )
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=30, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    email = models.EmailField(unique=True)
+    nome = models.CharField(max_length=30, blank=True)
+    cognome = models.CharField(max_length=150, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    password = models.CharField(null=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -39,10 +40,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 class Patient(User):
-    cf = models.CharField(max_length=16)
+    cf = models.CharField(max_length=16, unique=True)
+    data_nascita = models.CharField(max_length=10)
 
 class Doctor(User):
-    codefnomceo = models.CharField(max_length=20)
+    fnomceo = models.CharField(max_length=20, unique=True)
 
 class PrincipioAttivo(models.Model):
     nome = models.CharField(max_length=20, primary_key=True)
@@ -51,18 +53,25 @@ class PrincipioAttivo(models.Model):
 
 #farmaci
 class Farmaco(models.Model):
-    nome = models.CharField(max_length=20)
-    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE)
-    precauzioni = models.CharField(max_length=500)
-    controindicazioni = models.CharField(max_length=500)
-    posologia = models.CharField(max_length=500)
+    nome = models.CharField(max_length=20, unique=True)
+    principio = models.ForeignKey(PrincipioAttivo, on_delete=models.CASCADE, related_name='patient_medicines')
+    descrizioneBugiardino = models.CharField(max_length=500)
+    descrizioneRCP = models.CharField(max_length=500)
+    precauzioniBugiardino = models.CharField(max_length=500)
+    precauzioniRCP = models.CharField(max_length=500)
+    posologiaBugiardino = models.CharField(max_length=500)
+    posologiaRCP = models.CharField(max_length=500)
+    controindicazioniBugiardino = models.CharField(max_length=500)
+    controindicazioniRCP = models.CharField(max_length=500)
+    informazioni = models.CharField(max_length=500)
+
     def __str__(self):
         return self.nome
 
 class FarmacoInArmadietto(models.Model):
     farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE, related_name='patient_medicines')
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient_medicines')
-    scadenza = models.DateField()
+    scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
     type = models.CharField(max_length=50)
 
@@ -81,7 +90,7 @@ class Reminder(models.Model):
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reminders')
     doctor = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='shared_reminders', null=True, blank=True)
     is_visible = models.BooleanField(default=False)
-    text = models.TextField()
+    nome = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
