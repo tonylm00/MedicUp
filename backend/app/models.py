@@ -10,7 +10,7 @@ class Patient(models.Model):
     password = models.CharField(null=False, max_length=64)
 
 class Doctor(models.Model):
-    fnomceo = models.CharField(max_length=20, unique=True)
+    fnomceo = models.CharField(max_length=7)
     email = models.EmailField(unique=True)
     nome = models.CharField(max_length=30, blank=True)
     cognome = models.CharField(max_length=150, blank=True)
@@ -39,13 +39,13 @@ class Farmaco(models.Model):
         return self.nome
 
 class FarmacoInArmadietto(models.Model):
+    paziente = models.ForeignKey(Patient, on_delete=models.CASCADE) #paziente
     farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE) #farmaco
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE) #paziente
     scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
     type = models.CharField(max_length=50)
 
-
+'''
 class Reminder(models.Model):
     DAYS_OF_WEEK = [
         (0, 'Lunedì'),
@@ -57,8 +57,8 @@ class Reminder(models.Model):
         (6, 'Domenica'),
     ]
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='reminders')
-    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, related_name='shared_reminders', null=True, blank=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     is_visible = models.BooleanField(default=False)
     nome = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -79,7 +79,6 @@ class ReminderHour(models.Model):
         return f'{self.reminder} - {self.day_of_week} {self.hour}'
 
 
-'''
 #utente - dati sanitari 1,n
 #dati sanitari (health data) - pressione sanguigna
 class DSpressione(models.Model):

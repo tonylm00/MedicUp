@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-from app.models import Patient, Farmaco, Doctor, Reminder, FarmacoInArmadietto
+from django.contrib.auth.hashers import make_password
+from app.models import Patient, Farmaco, Doctor, FarmacoInArmadietto
 from .serializers import LoginSerializerDottore, LoginSerializerPaziente,FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer
 
 '''
@@ -37,7 +38,9 @@ class PatientRegistration(generics.CreateAPIView):
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
     
     def perform_create(self, serializer):
-        serializer.save()
+        password = serializer.validated_data.get("password")
+        # Utilizza una funzione di hash per crittografare la password
+        serializer.save(password=make_password(password))
 
 class DoctorList(generics.ListCreateAPIView):
     queryset = Doctor.objects.all()
@@ -59,7 +62,9 @@ class DoctorRegistration(generics.CreateAPIView):
         return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
     
     def perform_create(self, serializer):
-        serializer.save()
+        password = serializer.validated_data.get("password")
+        # Utilizza una funzione di hash per crittografare la password
+        serializer.save(password=make_password(password))
 
 class PatientLoginView(generics.RetrieveAPIView):
     serializer_class = LoginSerializerPaziente
