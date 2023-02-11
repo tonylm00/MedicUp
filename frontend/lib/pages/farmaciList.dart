@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
+import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/restClient.dart';
@@ -75,7 +76,7 @@ class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
   @override
   Widget build(BuildContext context) => FarmaciListView(this).getView(context);
 
-  List<FarmacoPaziente> listaFarmaci = [];
+  List<Farmaco> listaFarmaci = [];
   String messageEmpty = '';
 
   @override
@@ -86,19 +87,18 @@ class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
   }
 
   callBackToRestApi() async {
-    ResponseMessage responseMessage = await RestClient.listaFarmaci();
+    dynamic response = await RestCallback.listaFarmaci();
+    log(response.toString());
 
-    if (responseMessage.isOk()) {
-      log('$TAG response ok');
-
-      if (responseMessage.data != null) {
-        listaFarmaci = responseMessage.data;
-      } else {
-        listaFarmaci = [];
-        setState(() {
-          messageEmpty = 'Nessun elemento trovato.';
-        });
-      }
+    if (response != null) {
+      setState(() {
+        listaFarmaci = response;
+      });
+    } else {
+      listaFarmaci = [];
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
     }
   }
 }

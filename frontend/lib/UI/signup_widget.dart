@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/AppColors.dart';
 import 'package:intl/intl.dart';
 
 import '../pages/signup.dart';
@@ -20,26 +21,15 @@ class SignUpWidget {
             child: firstPage(context),
           ),
           Visibility(visible: state.isSecondPage, child: secondPage(context)),
-          /* Card(
-            elevation: 8,
-            child: Column(
-              children: <Widget>[
-                _buildLogo(),
-                _buildIntroText(),
-                toggleOptions(),
-                _buildUserNameField(context),
-                _buildUserSurnameField(context),
-                (state.isPaziente)
-                    ? _buildUserCfField(context)
-                    : _buildMedIdField(context),
-                _buildUserBirthDateField(context),
-                _buildEmailField(context),
-                _buildPasswordField(context),
-                _buildSignUpButton(context),
-              ],
-            ),
-          ), */
-          //_buildSignIn()
+          state.isPaziente
+              ? Visibility(
+                  visible: (state.isThirdPage), child: thirdPage(context))
+              : Visibility(
+                  visible: state.isFourthPage, child: fourthPage(context)),
+          state.isPaziente
+              ? Visibility(
+                  visible: state.isFourthPage, child: fourthPage(context))
+              : Container()
         ],
       ),
     );
@@ -51,6 +41,11 @@ class SignUpWidget {
       child: Column(
         children: <Widget>[
           const SizedBox(
+            height: 10,
+          ),
+          //  progressIndicator(context),
+
+          const SizedBox(
             height: 40,
           ),
           _buildIntroText(),
@@ -61,7 +56,161 @@ class SignUpWidget {
           const SizedBox(
             height: 30,
           ),
-          _buildNextTextFirst()
+          //navigator
+          Container(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        state.setState(() {
+                          Navigator.pushNamed(context, Routes.signin);
+                        });
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          "Indietro",
+                          style: TextStyle(
+                              color: ColorUtils.primaryColor,
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        state.setState(() {
+                          state.isFirstPage = false;
+                          state.isSecondPage = true;
+                        });
+                        state.nextStep();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          "Avanti",
+                          style: TextStyle(
+                              color: ColorUtils.primaryColor,
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                ]),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget secondPage(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
+          ),
+          // progressIndicator(context),
+          const SizedBox(
+            height: 40,
+          ),
+          insertDati(),
+          _buildUserNameField(context),
+          _buildUserSurnameField(context),
+          (state.isPaziente)
+              ? _buildUserCfField(context)
+              : _buildMedIdField(context),
+          const SizedBox(
+            height: 40,
+          ),
+          (state.isPaziente)
+              ?
+              //navigator
+              Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isFirstPage = true;
+                                state.isSecondPage = false;
+                              });
+                              state.previuosStep();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Indietro",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isSecondPage = false;
+                                state.isThirdPage = true;
+                              });
+                              state.nextStep();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Avanti",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                      ]),
+                )
+              : //navigator
+              Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isFirstPage = true;
+                                state.isSecondPage = false;
+                              });
+                              state.previuosStep();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Indietro",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isSecondPage = false;
+                                state.isFourthPage = true;
+                              });
+                              state.nextStep();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Avanti",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ))
+                      ]),
+                )
         ],
       ),
     );
@@ -72,12 +221,184 @@ class SignUpWidget {
       elevation: 8,
       child: Column(
         children: <Widget>[
-          _buildUserBirthDateField(context),
+          const SizedBox(
+            height: 10,
+          ),
+//          progressIndicator(context),
+
           const SizedBox(
             height: 40,
           ),
+          insertDati(),
+          _builCheck18(context),
+          (state.isChecked) ? _buildUserBirthDateField(context) : Container(),
+          const SizedBox(
+            height: 40,
+          ),
+
+          //navigator
+          Container(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        state.setState(() {
+                          state.isThirdPage = false;
+                          state.isSecondPage = true;
+                        });
+                        state.previuosStep();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          "Indietro",
+                          style: TextStyle(
+                              color: ColorUtils.primaryColor,
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        state.setState(() {
+                          state.isThirdPage = false;
+                          state.isFourthPage = true;
+                        });
+                        state.nextStep();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          "Avanti",
+                          style: TextStyle(
+                              color: ColorUtils.primaryColor,
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ))
+                ]),
+          )
         ],
       ),
+    );
+  }
+
+  Widget fourthPage(BuildContext context) {
+    return Card(
+      elevation: 8,
+      child: Column(
+        children: <Widget>[
+          const SizedBox(
+            height: 10,
+          ),
+          // progressIndicator(context),
+          const SizedBox(
+            height: 40,
+          ),
+          insertDati(),
+          _buildEmailField(context),
+          _buildPasswordField(context),
+          builCheckPrivacy(context),
+
+          _buildSignUpButton(context),
+
+          const SizedBox(
+            height: 40,
+          ),
+          (state.isPaziente)
+              ?
+              //navigator
+              Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isFourthPage = false;
+                                state.isThirdPage = true;
+                              });
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Indietro",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                      ]),
+                )
+              : Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              state.setState(() {
+                                state.isFourthPage = false;
+                                state.isSecondPage = true;
+                              });
+                              state.previuosStep();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Text(
+                                "Indietro",
+                                style: TextStyle(
+                                    color: ColorUtils.primaryColor,
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            )),
+                      ]),
+                )
+        ],
+      ),
+    );
+  }
+
+  Widget navigatorButtons(BuildContext context) {
+    return Container(
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        TextButton(
+            onPressed: () {
+              state.setState(() {
+                state.isFirstPage = false;
+                state.isSecondPage = true;
+              });
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Text(
+                "Indietro",
+                style: TextStyle(
+                    color: ColorUtils.primaryColor,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            )),
+        TextButton(
+            onPressed: () {
+              state.setState(() {
+                state.isFirstPage = false;
+                state.isSecondPage = true;
+              });
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Text(
+                "Avanti",
+                style: TextStyle(
+                    color: ColorUtils.primaryColor,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            )),
+      ]),
     );
   }
 
@@ -105,26 +426,6 @@ class SignUpWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget secondPage(BuildContext context) {
-    return Card(
-      elevation: 8,
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 40,
-          ),
-          insertDati(),
-          _buildUserNameField(context),
-          _buildUserSurnameField(context),
-          (state.isPaziente)
-              ? _buildUserCfField(context)
-              : _buildMedIdField(context),
-          _buildNextTextSecond()
-        ],
-      ),
     );
   }
 
@@ -256,6 +557,34 @@ class SignUpWidget {
               onPressed: () {
                 state.setState(() {
                   state.isSecondPage = false;
+                  state.isThirdPage = true;
+                });
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Text(
+                  "Avanti",
+                  style: TextStyle(
+                      color: ColorUtils.primaryColor,
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              )),
+        )
+      ],
+    );
+  }
+
+  Widget _buildNextTextThird() {
+    return Column(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+              onPressed: () {
+                state.setState(() {
+                  state.isThirdPage = false;
+                  state.isFourthPage = true;
                 });
               },
               child: const Padding(
@@ -348,6 +677,67 @@ class SignUpWidget {
         validator: (value) => state.validateFiscalCode(value!),
         decoration: CommonStyles.textFormFieldStyle(
             "Codice Fiscale", "es: CSLMTN98R63I422K"),
+      ),
+    );
+  }
+
+  Widget _builCheck18(BuildContext context) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Checkbox(
+              value: state.isChecked,
+              onChanged: (value) {
+                state.setState(() {
+                  state.isChecked = value!;
+                });
+              },
+            ),
+          ),
+          const Text(
+            "Ho almeno 18 anni",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 23.0,
+                fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget builCheckPrivacy(BuildContext context) {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Checkbox(
+            value: state.isAccepted,
+            onChanged: (value) {
+              state.setState(() {
+                state.isAccepted = value!;
+              });
+            },
+          ),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                text: "Ho letto e accetto la ",
+                style: DefaultTextStyle.of(context).style,
+                children: const <TextSpan>[
+                  TextSpan(
+                    text: "politica sulla privacy",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -452,7 +842,8 @@ class SignUpWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              state.signUpCallMethod();
+              state.nextStep();
+              state.signUpPaziente();
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.accentColor,
@@ -514,4 +905,51 @@ class SignUpWidget {
           ),
         ));
   }
+/* 
+  Widget progressIndicator(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          state.isPaziente
+              ? Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppColors.medicUpColor,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: LinearProgressIndicator(
+                      value: state.step / 4,
+                      backgroundColor: ColorUtils.lightTransPrimary,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        AppColors.medicUpColor,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppColors.medicUpColor,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: LinearProgressIndicator(
+                      value: state.step / 3,
+                      backgroundColor: ColorUtils.lightTransPrimary,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        AppColors.medicUpColor,
+                      ),
+                    ),
+                  ),
+                ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
+    );
+  } */
 }

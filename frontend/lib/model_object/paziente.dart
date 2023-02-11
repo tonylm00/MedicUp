@@ -1,18 +1,18 @@
 class Paziente {
-  late String nome;
-  late String cognome;
-  late String dataNascita;
-  late String cf;
-  late String email;
-  late String password;
+  String? nome;
+  String? cognome;
+  String? dataNascita;
+  String? cf;
+  String? email;
+  String? password;
 
   Paziente(
-      {required this.nome,
-      required this.cognome,
-      required this.cf,
-      required this.dataNascita,
-      required this.email,
-      required this.password});
+      {this.nome,
+      this.cognome,
+      this.cf,
+      this.dataNascita,
+      this.email,
+      this.password});
 
   Paziente.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
@@ -32,5 +32,9 @@ class Paziente {
     data['email'] = email;
     data['password'] = password;
     return data;
+  }
+
+  String toString() {
+    return ('Nome: $nome, Cognome: $cognome, Data di nascita: $dataNascita, Codice Fiscale: $cf, Email: $email, Password: $password');
   }
 }

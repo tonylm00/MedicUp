@@ -25,7 +25,10 @@ class SignInWidget {
                     ? _buildEmailField(context)
                     : _buildMedIdField(context),
                 _buildPasswordField(context),
-                _buildForgotPasswordWidget(context),
+                SizedBox(
+                  height: 30,
+                ),
+                //_buildForgotPasswordWidget(context),
                 _buildSignUpButton(context),
               ],
             ),
@@ -160,30 +163,10 @@ class SignInWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
-        validator: (value) => state.validateEmail(value!),
+        //validator: (value) => state.validateEmail(value!),
         decoration: CommonStyles.textFormFieldStyle("Email", ""),
       ),
     );
-  }
-
-  String? _emailValidation(String value) {
-    bool emailValid =
-        RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-    if (!emailValid) {
-      return "Inserisci una e-mail valida";
-    } else {
-      return null;
-    }
-  }
-
-  String? _medIdValidation(String value) {
-    bool emailValid =
-        RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-    if (!emailValid) {
-      return "Inserisci un ID valido";
-    } else {
-      return null;
-    }
   }
 
   Widget _buildPasswordField(BuildContext context) {
@@ -196,7 +179,7 @@ class SignInWidget {
         onFieldSubmitted: (_) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
         },
-        validator: (value) => state.validatePassword(value!),
+       // validator: (value) => state.validatePassword(value!),
         obscureText: state.isPasswordVisible,
         decoration: InputDecoration(
           labelText: "Password",
@@ -255,7 +238,7 @@ class SignInWidget {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () {
-              _signUpProcess(context);
+              (state.isPaziente) ? state.signInCallMethod_Paziente() : state.signInCallMethod_Medico();
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.accentColor,
@@ -270,26 +253,6 @@ class SignInWidget {
             ),
           )),
     );
-  }
-
-  void _signUpProcess(BuildContext context) {
-    var validate = state.formKey.currentState!.validate();
-    Navigator.pushNamed(context, Routes.homepage);
-
-    if (validate) {
-      //Do login stuff
-    } else {
-      state.setState(() {
-        var _autoValidate = true;
-      });
-    }
-  }
-
-  void _clearAllFields() {
-    state.setState(() {
-      state.userEmailController = TextEditingController(text: "");
-      state.userPasswordController = TextEditingController(text: "");
-    });
   }
 
   Widget _buildSignUp() {

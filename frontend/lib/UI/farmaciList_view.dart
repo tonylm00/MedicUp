@@ -99,7 +99,9 @@ class FarmaciListView {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                state.listaFarmaci[index].nome,
+                                                state.listaFarmaci[index]
+                                                        .nome ??
+                                                    '',
                                                 style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
@@ -128,7 +130,8 @@ class FarmaciListView {
                                             children: [
                                               Text(
                                                 state.listaFarmaci[index]
-                                                    .principio,
+                                                        .principio ??
+                                                    '',
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                 ),

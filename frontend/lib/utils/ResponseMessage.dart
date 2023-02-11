@@ -1,4 +1,3 @@
-
 enum ResponseMessageCode { SUCCESS, ERROR, WRONG_DATA, CONTRACT_ERROR }
 
 final ResponseStatusCode = {
@@ -14,12 +13,10 @@ class ResponseMessage {
   String? message;
   dynamic data;
 
-
   ResponseMessage({this.messageCode, this.statusCode, this.message, this.data});
 
   ResponseMessage.fromJson(Map<String, dynamic> json) {
     if (json == null) {
-     
       return;
     }
     messageCode = json['message_code'];
@@ -31,7 +28,6 @@ class ResponseMessage {
     } else {
       data = json['payload'];
     }
-   
   }
 
   Map<String, dynamic> toJson() {
@@ -40,7 +36,7 @@ class ResponseMessage {
     data['status_code'] = this.statusCode;
     data['message'] = this.message;
     data['data'] = this.data;
-  
+
     return data;
   }
 
@@ -82,4 +78,3 @@ class ResponseMessage {
     return "messageCode:$messageCode;statusCode:$statusCode;message:$message;data:$data";
   }
 }
-

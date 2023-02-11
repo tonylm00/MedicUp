@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/UI/farmacoDetail_view.dart';
+import 'package:frontend/api/restcallback.dart';
+import 'package:frontend/model_object/farmaco.dart';
 
 import '../utils/ColorUtils.dart';
 
@@ -69,6 +73,32 @@ class FarmacoDetailWidget extends StatefulWidget {
 }
 
 class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
+  Farmaco farmaco = Farmaco();
+  String messageEmpty = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+  }
+
+  callBackToRestApi() async {
+    dynamic response = await RestCallback.detailFarmaco(1);
+    log(response.toString());
+
+    if (response != null) {
+      setState(() {
+        farmaco = response;
+      });
+    } else {
+      farmaco = Farmaco();
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) =>
       FarmacoDetailView(this).getView(context);

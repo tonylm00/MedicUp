@@ -4,9 +4,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/api/api.dart';
+import 'package:frontend/api/restcallback.dart';
+import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
 import 'package:frontend/models/user.dart';
 import 'package:frontend/utils/RegExp_SignUp.dart';
+import 'package:frontend/utils/ResponseMessage.dart';
+import 'package:frontend/utils/routes.dart';
 
 import '../UI/signup_widget.dart';
 import '../utils/ColorUtils.dart';
@@ -91,10 +95,13 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
   bool toggle = true;
   bool isPaziente = true;
   bool isPasswordVisible = true;
-    bool isFirstPage = true;
-        bool isSecondPage = false;
+  bool isFirstPage = true;
+  bool isSecondPage = false;
+  bool isThirdPage = false;
+  bool isFourthPage = false;
 
-
+  bool isChecked = false;
+  bool isAccepted = false;
 
   late DateTime selectedDate = DateTime.now();
 
@@ -121,6 +128,20 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
         selectedDate = picked;
       });
     }
+  }
+
+  int step = 0;
+
+  void nextStep() {
+    setState(() {
+      step++;
+    });
+  }
+
+  void previuosStep() {
+    setState(() {
+      step -= 1;
+    });
   }
 
   validateMedCode(String value) {
@@ -257,15 +278,67 @@ class RegisterFormWidgetState extends State<RegisterFormWidget> {
     }
   }
 
-  signUpCallMethod() async {
+  signUpPaziente() async {
     Paziente paziente = Paziente(
-        nome: 'mario',
-        cognome: 'rossi',
-        email: 'email',
-        cf: 'pwasdfs',
-        dataNascita: '',
-        password: '');
-    await RestClient.registrazionePaziente(paziente);
-    log('USER REGISTER');
+        nome: userNameController.text,
+        cognome: userSurnameController.text,
+        email: userEmailController.text,
+        cf: userCFController.text,
+        dataNascita: userDataNascitaController.text,
+        password: userPasswordController.text);
+    log('PAZIENTE : ' + paziente.toString());
+
+    dynamic response = await RestCallback.registrazionePaziente(paziente);
+
+    log(response.toString());
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Registrazione effettuata!"),
+              content: const Text("Ora puoi effettuare il Login."),
+              actions: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.primaryColor,
+                  ),
+                  child: const Text("Login"),
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.signin);
+                  },
+                )
+              ]);
+        });
+  }
+
+  signUpMedico() async {
+    Medico medico = Medico(
+        fnomceo: medIdController.text,
+        nome: userNameController.text,
+        cognome: userSurnameController.text,
+        email: userEmailController.text,
+        password: userPasswordController.text);
+    log('MEDICO : ' + medico.toString());
+
+    dynamic response = await RestCallback.registrazioneMedico(medico);
+    log(response.toString());
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: const Text("Registrazione effettuata!"),
+              content: const Text("Ora puoi effettuare il Login."),
+              actions: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.primaryColor,
+                  ),
+                  child: const Text("Login"),
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.signin);
+                  },
+                )
+              ]);
+        });
   }
 }

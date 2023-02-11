@@ -1,8 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/ResponseMessage.dart';
+import 'package:frontend/utils/routes.dart';
 
 import '../UI/signin_widget.dart';
 import '../utils/ColorUtils.dart';
@@ -166,26 +169,25 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
   }
 
   signInCallMethod_Paziente() async {
-    Paziente paziente = Paziente(
-        nome: 'mario',
-        cognome: 'rossi',
-        email: 'email',
-        cf: 'pwasdfs',
+    Navigator.pushNamed(context, Routes.homepage);
+    /*   Paziente paziente = Paziente(
+        nome: '',
+        cognome: '',
+        email: '',
+        cf: '',
         dataNascita: '',
         password: '');
-    await RestClient.loginPaziente(paziente);
-    log('PAZIENTE LOGIN ');
+    dynamic response = await RestCallback.loginPaziente(
+        userEmailController.text, userPasswordController.text);
+    log(response.toString());  */
   }
 
   signInCallMethod_Medico() async {
-    Medico medico = Medico(
-        nome: 'mario',
-        cognome: 'rossi',
-        email: 'email',
-        id: 'id',
-        password: '');
-    await RestClient.loginMedico(medico);
-    log('MEDICO LOGIN ');
+    Medico medico =
+        Medico(nome: '', cognome: '', email: '', fnomceo: '', password: '');
+    dynamic response = await RestCallback.loginPaziente(
+        userEmailController.text, userPasswordController.text);
+    log(response.toString());
   }
 
   @override

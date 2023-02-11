@@ -3,10 +3,10 @@ class Medico {
   late String cognome;
   late String email;
   late String password;
-  late String id;
+  late String fnomceo;
 
   Medico(
-      {required this.id,
+      {required this.fnomceo,
       required this.nome,
       required this.cognome,
       required this.email,
@@ -15,7 +15,7 @@ class Medico {
   Medico.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
     cognome = json['cognome'];
-    id = json['id'];
+    fnomceo = json['fnomceo'];
     email = json['email'];
     password = json['password'];
   }
@@ -24,7 +24,7 @@ class Medico {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['nome'] = nome;
     data['cognome'] = cognome;
-    data['id'] = id;
+    data['fnomceo'] = fnomceo;
     data['email'] = email;
     data['password'] = password;
     return data;

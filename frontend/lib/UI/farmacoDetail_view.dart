@@ -30,7 +30,7 @@ class FarmacoDetailView {
                   ],
                 ),
               ),
-              Text('fuori dalla card')
+              const Text('fuori dalla card')
             ],
           ),
         ));
@@ -38,12 +38,12 @@ class FarmacoDetailView {
 
   Widget _buildIntroText() {
     return Column(
-      children: const <Widget>[
+      children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 5, bottom: 10),
+          padding: const EdgeInsets.only(top: 5, bottom: 10),
           child: Text(
-            "Nome farmaco",
-            style: TextStyle(
+            state.farmaco.nome ?? '',
+            style: const TextStyle(
                 color: ColorUtils.primaryColor,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold),

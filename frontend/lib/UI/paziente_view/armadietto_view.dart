@@ -98,11 +98,11 @@ class ArmadiettoWidgetView {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                state
+                                              Text(''
+                                              /*   state
                                                     .listaFarmaciArmadietto[
                                                         index]
-                                                    .nome,
+                                                    .nome */,
                                                 style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -130,11 +130,11 @@ class ArmadiettoWidgetView {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                state
+                                              Text(''
+                                                /* state
                                                     .listaFarmaciArmadietto[
                                                         index]
-                                                    .principio,
+                                                    .principio */,
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                 ),

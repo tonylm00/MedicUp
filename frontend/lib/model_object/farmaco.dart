@@ -1,83 +1,61 @@
-class FarmacoPaziente {
-  late int id;
-  late String nome, principio, informazioni;
+class Farmaco {
+  int? id;
+  String? nome;
+  String? principio;
 
   //paziente
-  late String descrizioneBug,
+  String? descrizioneBug,
       precauzioniBug,
       posologiaBug,
-      controindicazioniBug;
+      controindicazioniBug,
+      informazioniBug;
 
-  FarmacoPaziente(
-      {required this.id,
-      required this.nome,
-      required this.principio,
-      required this.informazioni,
-      required this.descrizioneBug,
-      required this.precauzioniBug,
-      required this.controindicazioniBug,
-      required this.posologiaBug});
+  //medico
+  String? descrizioneRCP,
+      precauzioniRCP,
+      posologiaRCP,
+      controindicazioniRCP,
+      informazioniRCP;
 
-  FarmacoPaziente.fromJson(Map<String, dynamic> json) {
+  Farmaco(
+      {this.id,
+      this.nome,
+      this.principio,
+      this.descrizioneBug,
+      this.precauzioniBug,
+      this.controindicazioniBug,
+      this.informazioniBug,
+      this.posologiaBug,
+      this.descrizioneRCP,
+      this.precauzioniRCP,
+      this.controindicazioniRCP,
+      this.posologiaRCP,
+      this.informazioniRCP});
+
+  Farmaco.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
     principio = json['principio'];
-    informazioni = json['informazioni'];
-    posologiaBug = json['posologia_bugiardino'];
-    descrizioneBug = json['descrizione_bugiardino'];
-    precauzioniBug = json['precauzioni_bugiardino'];
-    controindicazioniBug = json['controindicazioni_bugiardino'];
+    posologiaBug = json['posologiaBugiardino'];
+    descrizioneBug = json['descrizioneBugiardino'];
+    precauzioniBug = json['precauzioniBugiardino'];
+    controindicazioniBug = json['controindicazioniBugiardino'];
+    descrizioneRCP = json['descrizioneRCP'];
+    informazioniBug = json['informazioniBugiardino'];
+    informazioniRCP = json['informazioniRCP'];
+    precauzioniRCP = json['precauzioniRCP'];
+    controindicazioniRCP = json['controindicazioniRCP'];
+    posologiaRCP = json['posologiaRCP'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['nome'] = nome;
     data['id'] = id;
     data['principio'] = principio;
-    data['informazioni'] = informazioni;
     data['descrizione_bugiardino'] = descrizioneBug;
     data['precauzioni_bugiardino'] = precauzioniBug;
     data['controindicazioni_bugiardino'] = controindicazioniBug;
     data['posologia_bugiardino'] = posologiaBug;
-    return data;
-  }
-}
-
-class FarmacoMedico {
-  late int id;
-  late String nome, principio, informazioni;
-
-  //medico
-  late String descrizioneRCP,
-      precauzioniRCP,
-      posologiaRCP,
-      controindicazioniRCP;
-
-  FarmacoMedico(
-      {required this.id,
-      required this.nome,
-      required this.principio,
-      required this.informazioni,
-      required this.descrizioneRCP,
-      required this.precauzioniRCP,
-      required this.controindicazioniRCP,
-      required this.posologiaRCP});
-
-  FarmacoMedico.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    nome = json['nome'];
-    principio = json['principio'];
-    informazioni = json['informazioni'];
-    descrizioneRCP = json['descrizione_RCP'];
-    precauzioniRCP = json['precauzioni_RCP'];
-    controindicazioniRCP = json['controindicazioni_RCP'];
-    posologiaRCP = json['posologia_RCP'];
-  }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['nome'] = nome;
-    data['id'] = id;
-    data['principio'] = principio;
-    data['informazioni'] = informazioni;
     data['descrizione_RCP'] = descrizioneRCP;
     data['precauzioni_RCP'] = precauzioniRCP;
     data['controindicazioni_RCP'] = controindicazioniRCP;
