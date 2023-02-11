@@ -67,7 +67,7 @@ class DoctorRegistration(generics.CreateAPIView):
 class PatientLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
     serializer_class = PatientSerializer
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         email = request.query_params.get('email')
         password = request.query_params.get('password')
         patient = Patient.objects.get(email=email, password=password)
@@ -80,7 +80,7 @@ class PatientLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
 class DoctorLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
     serializer_class = DoctorSerializer
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         fnomceo = self.request.query_params.get("fnomceo")
         password = self.request.query_params.get('password')
 
