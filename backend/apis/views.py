@@ -65,12 +65,11 @@ class DoctorRegistration(generics.CreateAPIView):
         serializer.save()
 
 class PatientLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
-    #serializer_class = LoginSerializerPaziente
     serializer_class = PatientSerializer
 
     def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
-        password = request.data.get('password')
+        email = request.query_params.get('email')
+        password = request.query_params.get('password')
         patient = Patient.objects.get(email=email, password=password)
         if patient is not None:
             serializer = self.get_serializer(patient)
@@ -79,21 +78,20 @@ class PatientLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
             return Response({"error": "Paziente non registrato o Credenziali non valide"}, status=status.HTTP_401_UNAUTHORIZED)
 
 class DoctorLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
-    #serializer_class = LoginSerializerDottore
     serializer_class = DoctorSerializer
 
     def post(self, request, *args, **kwargs):
-        fnomceo = request.data.get('fnomceo')
-        password = request.data.get('password')
+        fnomceo = self.request.query_params.get("fnomceo")
+        password = self.request.query_params.get('password')
 
         doctor = Doctor.objects.get(fnomceo=fnomceo, password=password)
         if doctor is not None :#and doctor.is_active:
             doctor = Doctor.objects.get(fnomceo=fnomceo, password=password)
             serializer = self.get_serializer(doctor)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Dottore non registrato o Credenziali non valide"}, status=status.HTTP_401_UNAUTHORIZED)
-
+            
 #visualizzione di tutti i farmaci
 class ElencoFarmaciView(generics.ListCreateAPIView):
     queryset=Farmaco.objects.all()
