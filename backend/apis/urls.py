@@ -23,8 +23,8 @@ urlpatterns = [
     #path('doctors/reminders/', DoctorReminderListView.as_view(), name='doctor_reminders'),
     #path('patients/reminders/', PatientReminderListView.as_view(), name='patient_reminders'),
 
-    path('armadietto/', ArmadiettoView.as_view(), name='arm'),
-    path('armadietto/aggiungifarmaco/', AggiungiFarmacoArmadiettoView.as_view(), name='add_med_to_arm'),
+    path('armadietto/', ArmadiettoView.as_view(), name='visualizza armadietto'),
+    path('armadietto/aggiungifarmaco/', AggiungiFarmacoArmadiettoView.as_view(), name='aggiungi medicinale armadietto'),
 
     path('promemoria/add/', PromemoriaCreateView.as_view(), name='crea promemoria'),
     path('promemoria/schedule/add/', PromemoriaScheduleCreateView.as_view(), name='aggiungi schedule al promemoria'),
