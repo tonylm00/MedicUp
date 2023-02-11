@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
-from app.models import Patient, Farmaco, Doctor, FarmacoInArmadietto
-from .serializers import LoginSerializerDottore, LoginSerializerPaziente,FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer
+from app.models import Patient, Farmaco, Doctor, FarmacoInArmadietto, PromemoriaSchedule, Promemoria
+from .serializers import PromemoriaUpdateSerializer, FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer, PromemoriaScheduleSerializer, PromemoriaSerializer
 
 '''
 Login diversi, in cui restituisco tutto l'oggetto Paziente o Dottore, utilizzando queryparams
@@ -64,25 +64,25 @@ class DoctorRegistration(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
-class PatientLoginView(generics.RetrieveAPIView):
+class PatientLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
     #serializer_class = LoginSerializerPaziente
     serializer_class = PatientSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         email = request.data.get('email')
         password = request.data.get('password')
         patient = Patient.objects.get(email=email, password=password)
         if patient is not None:
             serializer = self.get_serializer(patient)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Paziente non registrato o Credenziali non valide"}, status=status.HTTP_401_UNAUTHORIZED)
 
-class DoctorLoginView(generics.RetrieveAPIView):
+class DoctorLoginView(generics.RetrieveAPIView, generics.CreateAPIView):
     #serializer_class = LoginSerializerDottore
     serializer_class = DoctorSerializer
 
-    def retrieve(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         fnomceo = request.data.get('fnomceo')
         password = request.data.get('password')
 
@@ -131,9 +131,6 @@ class FarmacoSearchPrincipioView(generics.ListCreateAPIView):
 
 #aggiungere farmaci all'armadietto
 class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
-    #serializer_class = FarmacoSerializer
-    #def perform_create(self, serializer):
-    #    serializer.save(patient=self.request.user.patient)
     serializer_class = FarmacoInArmadiettoSerializer
     queryset = FarmacoInArmadietto.objects.all()
 
@@ -159,27 +156,74 @@ class ArmadiettoView(generics.ListCreateAPIView):
         obj = get_object_or_404(queryset, **filter_kwargs)
         return obj
 
-        
+#aggiunta di un promemoria
+class PromemoriaCreateView(generics.CreateAPIView):
+    queryset = Promemoria.objects.all()
+    serializer_class = PromemoriaSerializer
 
-'''
-#visualizzazione dei suoi promemoria da parte di un paziente
-class PatientReminderListView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Reminder.objects.all()
-    serializer_class = ReminderSerializer
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def perform_create(self, serializer):
+        serializer.save()
+
+#aggiunta schedule promemoria
+class PromemoriaScheduleCreateView(generics.CreateAPIView):
+    serializer_class = PromemoriaScheduleSerializer
+    queryset = PromemoriaSchedule.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
+    
+    def perform_create(self, serializer):
+        serializer.save()
+
+#visualizza dettagli di un promemoria
+class PromemoriaDetailView(generics.RetrieveAPIView):
+    queryset = Promemoria.objects.all()
+    serializer_class = PromemoriaSerializer
+
+#visualizzazione scheduling
+class PromemoriaDetailScheduleView(generics.ListAPIView):
+    serializer_class = PromemoriaScheduleSerializer
+    queryset = PromemoriaSchedule.objects.all()
+    lookup_field = 'promemoria'
+    
+    def get_object(self):
+        queryset = self.get_queryset()
+        filter_kwargs = {self.lookup_field: self.request.query_params.get("promemoria")}
+        obj = get_object_or_404(queryset, **filter_kwargs)
+        return obj
+
+#delete promemoria
+class PromemoriaDeleteView(generics.DestroyAPIView):
+    queryset = Promemoria.objects.all()
+    serializer_class = PromemoriaSerializer
+
+#lista promemoria di un paziente
+class PromemoriaPazienteListView(generics.ListAPIView):
+    serializer_class = PromemoriaSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(patient=self.request.user)
+        paziente = self.kwargs.get('paziente_id')
+        return Promemoria.objects.filter(paziente=paziente)
 
-class ReminderCreateView(generics.CreateAPIView):
-    queryset = Reminder.objects.all()
-    serializer_class = ReminderSerializer
-
-#visualizzazione dei promemoria condivisi
-class DoctorReminderListView(generics.ListAPIView):
-    serializer_class = ReminderSerializer
+class PromemoriaDottoreListView(generics.ListAPIView):
+    serializer_class = PromemoriaSerializer
 
     def get_queryset(self):
-        doctor = self.request.user
-        return Reminder.objects.filter(doctor=doctor, is_visible=True)
+        dottore = self.kwargs.get('dottore_id')
+        return Promemoria.objects.filter(dottore=dottore)
 
-'''
+#aggiornamento di un promemoria
+class PromemoriaUpdateView(generics.UpdateAPIView):
+    queryset = Promemoria.objects.all()
+    serializer_class = PromemoriaUpdateSerializer

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import FarmacoSearchNomeView, FarmacoSearchPrincipioView,PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, DoctorLoginView, PatientLoginView, ElencoFarmaciView, DettaglioFarmacoView, ArmadiettoView, AggiungiFarmacoArmadiettoView
+from .views import PromemoriaUpdateView, PromemoriaDetailScheduleView, PromemoriaPazienteListView, PromemoriaDottoreListView, PromemoriaCreateView, PromemoriaDetailView, PromemoriaDeleteView, PromemoriaScheduleCreateView, FarmacoSearchNomeView, FarmacoSearchPrincipioView,PatientList, PatientDetail, PatientRegistration, DoctorRegistration, DoctorList, DoctorDetail, DoctorLoginView, PatientLoginView, ElencoFarmaciView, DettaglioFarmacoView, ArmadiettoView, AggiungiFarmacoArmadiettoView
 
 urlpatterns = [
     path('farmaco/', ElencoFarmaciView.as_view(), name="Elenco dei farmaci"),
@@ -26,4 +26,12 @@ urlpatterns = [
     path('armadietto/', ArmadiettoView.as_view(), name='arm'),
     path('armadietto/aggiungifarmaco/', AggiungiFarmacoArmadiettoView.as_view(), name='add_med_to_arm'),
 
+    path('promemoria/add/', PromemoriaCreateView.as_view(), name='crea promemoria'),
+    path('promemoria/schedule/add/', PromemoriaScheduleCreateView.as_view(), name='aggiungi schedule al promemoria'),
+    path('promemoria/schedule/<pk>/', PromemoriaDetailScheduleView.as_view(), name='dettagli promemoria'),
+    path('promemoria/<pk>/', PromemoriaDetailView.as_view(), name='dettagli promemoria'),
+    path('promemoria/delete/<pk>', PromemoriaDeleteView.as_view(), name='elimina promemoria'),
+    path('promemoria/paziente/<int:paziente_id>/', PromemoriaPazienteListView.as_view(), name='promemoria-list-paziente'),
+    path('promemoria/dottore/<int:dottore_id>/', PromemoriaDottoreListView.as_view(), name='promemoria-list-dottore'),
+    path('promemoria/update/<pk>/', PromemoriaUpdateView.as_view(), name='promemoria-update') #not work
 ]

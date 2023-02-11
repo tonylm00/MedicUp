@@ -42,40 +42,20 @@ class FarmacoInArmadietto(models.Model):
     quantity = models.PositiveIntegerField()
     type = models.CharField(max_length=50)
 
-'''
-class Reminder(models.Model):
-    DAYS_OF_WEEK = [
-        (0, 'Lunedì'),
-        (1, 'Martedì'),
-        (2, 'Mercoledì'),
-        (3, 'Giovedì'),
-        (4, 'Venerdì'),
-        (5, 'Sabato'),
-        (6, 'Domenica'),
-    ]
-
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
-    is_visible = models.BooleanField(default=False)
-    nome = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.text
+#promemoria
+class Promemoria(models.Model):
+    paziente = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    dottore = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
+    nome = models.TextField(null=False)
+    descrizione = models.TextField(null=True)
 
 #memorizza le ore di un promemoria in un giorno specifico
-class ReminderHour(models.Model):
-    reminder = models.ForeignKey(Reminder, on_delete=models.CASCADE, related_name='hours')
-    day_of_week = models.PositiveSmallIntegerField(choices=Reminder.DAYS_OF_WEEK)
-    hour = models.TimeField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class PromemoriaSchedule(models.Model):
+    promemoria = models.ForeignKey(Promemoria, on_delete=models.CASCADE)
+    giorno = models.CharField(max_length=10)
+    orario = models.CharField(max_length=8)
 
-    def __str__(self):
-        return f'{self.reminder} - {self.day_of_week} {self.hour}'
-
-
+'''
 #utente - dati sanitari 1,n
 #dati sanitari (health data) - pressione sanguigna
 class DSpressione(models.Model):
