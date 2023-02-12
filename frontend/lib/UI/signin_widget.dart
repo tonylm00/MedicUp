@@ -144,6 +144,9 @@ class SignInWidget {
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
         onFieldSubmitted: (_) {
+          state.setState(() {
+            state.isSubmittedMedId = true;
+          });
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
         validator: (value) => state.validateMedCode(value!),
@@ -160,7 +163,11 @@ class SignInWidget {
         controller: state.userEmailController,
         keyboardType: TextInputType.emailAddress,
         textInputAction: TextInputAction.next,
-        onFieldSubmitted: (_) {
+        onFieldSubmitted: (value) {
+          /* if (value.isNotEmpty)
+            state.setState(() {
+              state.isSubmittedEmail = true;
+            }); */
           FocusScope.of(context).requestFocus(state.passwordFocusNode);
         },
         //validator: (value) => state.validateEmail(value!),
@@ -176,10 +183,14 @@ class SignInWidget {
         controller: state.userPasswordController,
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.next,
-        onFieldSubmitted: (_) {
+        onFieldSubmitted: (value) {
           FocusScope.of(context).requestFocus(state.emailFocusNode);
+          /*  if (value.isNotEmpty)
+            state.setState(() {
+              state.isSubmittedPassword = true;
+            }); */
         },
-       // validator: (value) => state.validatePassword(value!),
+        // validator: (value) => state.validatePassword(value!),
         obscureText: state.isPasswordVisible,
         decoration: InputDecoration(
           labelText: "Password",
@@ -236,9 +247,14 @@ class SignInWidget {
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           width: double.infinity,
-          child: ElevatedButton(
+          child: Visibility(
+              /*  visible: (state.isSubmittedEmail || state.isSubmittedMedId) &&
+                  (state.isSubmittedPassword), */
+              child: ElevatedButton(
             onPressed: () {
-              (state.isPaziente) ? state.signInCallMethod_Paziente() : state.signInCallMethod_Medico();
+              (state.isPaziente)
+                  ? state.signInCallMethod_Paziente()
+                  : state.signInCallMethod_Medico();
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: ColorUtils.accentColor,
@@ -251,7 +267,7 @@ class SignInWidget {
                   fontSize: 23,
                   fontWeight: FontWeight.w600),
             ),
-          )),
+          ))),
     );
   }
 

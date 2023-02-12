@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/routes.dart';
 import 'package:frontend/utils/session/SessionManager.dart';
 
 import '../utils/ColorUtils.dart';
@@ -74,44 +75,17 @@ class AccountPageWidgetState extends State<AccountPageWidget> {
   dynamic medico;
   Paziente pazienteObj = Paziente();
 
-  // late Paziente getPaziente;
+  dynamic userObjectData;
 
   @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
-
-    /*  final org = businessCode ?? await SessionManager.getBusinessCode();*/
+  Widget build(BuildContext context) {
+    userObjectData = ModalRoute.of(context)!.settings.arguments;
+    return AccountInfoView(this).getView(context);
   }
 
-  callBackToRestApi() async {
-    paziente = await SessionManager.getPaziente();
+  logOutCall() async {
+    SessionManager.clearSession();
 
-    medico = await SessionManager.getMedico();
-
-    if (paziente != null) {
-      pazienteObj.nome = await SessionManager.getPazienteNome();
-      pazienteObj.cognome = await SessionManager.getPazienteCognome();
-      pazienteObj.cf = await SessionManager.getPazienteCf();
-      pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
-      pazienteObj.email = await SessionManager.getPazienteEmail();
-      pazienteObj.password = await SessionManager.getPazientePassword();
-    }
-
-    log(pazienteObj.toString());
-    //CREARE UN SERVIZIO CHE RESTITUISCE I DATI DI UN PAZIENTE
-    //ResponseMessage responseMessage = await RestClient.armadietto();
-/* 
-    if (responseMessage.isOk()) {
-      log('$TAG response ok');
-
-      if (responseMessage.data != null) {
-        getPaziente = responseMessage.data;
-      }
-    } */
+    Navigator.pushNamed(context, Routes.intro);
   }
-
-  @override
-  Widget build(BuildContext context) => AccountInfoView(this).getView(context);
 }

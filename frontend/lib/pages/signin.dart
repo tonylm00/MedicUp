@@ -96,10 +96,10 @@ class LoginFormWidget extends StatefulWidget {
 
 class LoginFormWidgetState extends State<LoginFormWidget> {
   final formKey = GlobalKey<FormState>();
-  var userEmailController = TextEditingController(text: "");
-  var medIdController = TextEditingController(text: "");
+  var userEmailController = TextEditingController();
+  var medIdController = TextEditingController();
 
-  var userPasswordController = TextEditingController(text: "");
+  var userPasswordController = TextEditingController();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   bool isPasswordVisible = true;
@@ -109,6 +109,10 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
   bool isValidate_email = false;
   bool isValidate_password = false;
   bool isValidate_medCode = false;
+
+  bool isSubmittedEmail = false;
+  bool isSubmittedMedId = false;
+  bool isSubmittedPassword = false;
 
 /* LoginData loginData = response.data;
       SessionManager.setSessionFromLogin(loginData); */

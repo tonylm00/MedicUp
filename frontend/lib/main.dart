@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       home: const IntroPage(),
       navigatorKey: MyApp.navigatorKey,
       routes: <String, WidgetBuilder>{
+        '/intro': (context) => const IntroPage(),
         '/signup': (context) => SignUpPage(),
         '/signin': (context) => const SignInPage(),
         '/homepage': (context) => const Homepage(),

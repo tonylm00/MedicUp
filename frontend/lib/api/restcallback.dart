@@ -171,14 +171,16 @@ class RestCallback {
   static Future<dynamic> loginPaziente(String email, String password) async {
     try {
       Paziente paziente = Paziente();
-      final response =
-          await makeGet('/paziente/login/?email=$email&password=$password');
+      if (email != null && password != null) {
+        final response =
+            await makeGet('/paziente/login/?email=$email&password=$password');
 
-      if (response.statusCode == 200) {
-        log("${TAG} LOGIN paziente: SUCCESS");
-        log(response.body);
+        if (response.statusCode == 200) {
+          log("${TAG} LOGIN paziente: SUCCESS");
+          log(response.body);
 
-        paziente = Paziente.fromJson(json.decode(response.body));
+          paziente = Paziente.fromJson(json.decode(response.body));
+        }
       }
       return paziente;
     } catch (e) {

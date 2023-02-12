@@ -17,10 +17,10 @@ class LoginData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.paziente != null) {
-      data['paziente'] = this.paziente!.toJson();
+      data['paziente'] = this.paziente.toJson();
     }
     if (this.medico != null) {
-      data['medico'] = this.medico!.toJson();
+      data['medico'] = this.medico.toJson();
     }
     return data;
   }

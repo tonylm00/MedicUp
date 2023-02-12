@@ -30,6 +30,7 @@ class AccountInfoView {
                   )
                 ],
               ),
+              _buildLogoutButton(context),
             ]),
           )
         ],
@@ -46,7 +47,7 @@ class AccountInfoView {
             "I tuoi dati",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 21.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -54,119 +55,245 @@ class AccountInfoView {
     );
   }
 
-  Widget _buildCardDatiPersonali() {
-    return Card(
-      color: ColorUtils.lightTransPrimary,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 10,
-      margin: const EdgeInsets.all(20),
+  Widget _buildLogoutButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
       child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          width: double.infinity,
+          child: Visibility(
+              /*  visible: (state.isSubmittedEmail || state.isSubmittedMedId) &&
+                  (state.isSubmittedPassword), */
+              child: ElevatedButton(
+            onPressed: () {
+              state.logOutCall();
+            },
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade900,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))),
+            child: const Text(
+              "Logout",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600),
+            ),
+          ))),
+    );
+  }
+
+  Widget _buildCardDatiPersonali() {
+    return Container(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Nome",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(Icons.account_box),
+                        SizedBox(width: 5),
+                        Text(
+                          "Nome",
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(width: 25),
+                        Text(
+                          state.userObjectData.nome ?? '',
+                          style: const TextStyle(
+                            fontSize: 21,
+                            color: ColorUtils.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                Column(
+                  children: [
+                    Row(children: const [
+                      Icon(Icons.account_box),
+                      SizedBox(width: 5),
+                      Text(
+                        "Cognome",
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ]),
+                    Text(
+                      state.userObjectData.cognome ?? '',
+                      style: const TextStyle(
+                        fontSize: 21,
+                        color: ColorUtils.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.nome ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
+            const SizedBox(
+              height: 20,
             ),
-            const SizedBox(height: 10),
-            const Text(
-              "Cognome",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            Column(
+              children: [
+                Row(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: <Widget>[
+                    const Icon(Icons.calendar_today),
+                    const SizedBox(width: 5),
+                    const Text(
+                      "Data di nascita",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(width: 27),
+                    Text(state.userObjectData.dataNascita ?? '',
+                        style: const TextStyle(
+                          fontSize: 21,
+                          color: ColorUtils.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                )
+              ],
             ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.cognome ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
+            const SizedBox(
+              height: 20,
             ),
-            const SizedBox(height: 10),
-            const Text(
-              "Data di nascita",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            Column(
+              children: [
+                Row(
+                  children: const [
+                    Icon(Icons.lock_person_outlined),
+                    SizedBox(width: 5),
+                    Text(
+                      "Codice fiscale",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 27,
+                    ),
+                    Text(
+                      state.userObjectData.cf ?? '',
+                      style: const TextStyle(
+                        fontSize: 21,
+                        color: ColorUtils.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.dataNascita ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                Row(
+                  children: const [
+                    Icon(Icons.email),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      "Email",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 29,
+                    ),
+                    Text(
+                      state.userObjectData.email ?? '',
+                      style: const TextStyle(
+                        fontSize: 21,
+                        color: ColorUtils.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            const Text(
-              "Codice fiscale",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                Row(
+                  children: const [
+                    Icon(Icons.key),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      "Password",
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Text(
+                      state.userObjectData.password ?? '',
+                      style: const TextStyle(
+                        fontSize: 21,
+                        color: ColorUtils.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.cf ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "email",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.email ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Password",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              state.pazienteObj.password ?? '',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 10),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _buildCardRicerca() {

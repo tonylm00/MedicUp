@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/model_object/medico.dart';
+import 'package:frontend/model_object/paziente.dart';
 
 import '../UI/paziente_view/homepage_view.dart';
 import '../utils/ColorUtils.dart';
-
+import '../utils/session/SessionManager.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -63,6 +67,33 @@ class HomepageColumnWidget extends StatefulWidget {
 }
 
 class HomepageColumnWidgetState extends State<HomepageColumnWidget> {
+  dynamic paziente ,medico ;
+  Paziente pazienteObj = Paziente();
+
+  @override
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+
+    /*  final org = businessCode ?? await SessionManager.getBusinessCode();*/
+  }
+
+  callBackToRestApi() async {
+    paziente = (await SessionManager.getPaziente());
+
+    medico = (await SessionManager.getMedico()) ;
+
+    pazienteObj.nome = await SessionManager.getPazienteNome();
+    pazienteObj.cognome = await SessionManager.getPazienteCognome();
+    pazienteObj.cf = await SessionManager.getPazienteCf();
+    pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
+    pazienteObj.email = await SessionManager.getPazienteEmail();
+    pazienteObj.password = await SessionManager.getPazientePassword();
+
+    log(pazienteObj.toString());
+  }
+
   @override
   Widget build(BuildContext context) => HomePageView(this).getView(context);
 }

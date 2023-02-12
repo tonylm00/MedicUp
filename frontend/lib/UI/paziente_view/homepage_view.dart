@@ -153,7 +153,8 @@ class HomePageView {
                       size: 35,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(state.context, Routes.accountInfo);
+                      Navigator.pushNamed(state.context, Routes.accountInfo,
+                          arguments: state.pazienteObj);
                     },
                   ),
                 ],
