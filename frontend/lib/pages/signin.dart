@@ -6,6 +6,8 @@ import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/routes.dart';
+import 'package:frontend/utils/session/LoginData.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
 
 import '../UI/signin_widget.dart';
 import '../utils/ColorUtils.dart';
@@ -169,8 +171,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
   }
 
   signInCallMethod_Paziente() async {
-    Navigator.pushNamed(context, Routes.homepage);
-    /*   Paziente paziente = Paziente(
+    Paziente paziente = Paziente(
         nome: '',
         cognome: '',
         email: '',
@@ -179,15 +180,33 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
         password: '');
     dynamic response = await RestCallback.loginPaziente(
         userEmailController.text, userPasswordController.text);
-    log(response.toString());  */
+
+    paziente = response;
+    log(paziente.toString());
+
+    LoginData loginData = LoginData(paziente: paziente, medico: Medico());
+    SessionManager.setSessionFromLogin(loginData);
+
+    if (paziente != null) {
+      Navigator.pushNamed(context, Routes.homepage);
+    }
   }
 
   signInCallMethod_Medico() async {
     Medico medico =
         Medico(nome: '', cognome: '', email: '', fnomceo: '', password: '');
-    dynamic response = await RestCallback.loginPaziente(
-        userEmailController.text, userPasswordController.text);
+
+    dynamic response = await RestCallback.loginMedico(
+        medIdController.text, userPasswordController.text);
     log(response.toString());
+
+    LoginData loginData = LoginData(paziente: Paziente(), medico: medico);
+    loginData.medico = medico;
+    SessionManager.setSessionFromLogin(loginData);
+
+    if (medico != null) {
+      Navigator.pushNamed(context, Routes.homepage);
+    }
   }
 
   @override

@@ -146,7 +146,7 @@ class RestClient {
  * MEDICO
  */
 
-  static Future<ResponseMessage> registrazioneMedico(Medico medico) async {
+  /*  static Future<ResponseMessage> registrazioneMedico(Medico medico) async {
     try {
       //quey params, lista param medico
       //return bool
@@ -182,7 +182,7 @@ class RestClient {
       log("${TAG} REGISTRAZIONE medico: Error ${e.toString()}");
       return ResponseMessage.buildError();
     }
-  }
+  } */
 
   static Future<ResponseMessage> loginMedico(
       String fnomceo, String password) async {

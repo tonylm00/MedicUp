@@ -1,4 +1,5 @@
 class Paziente {
+  int? id;
   String? nome;
   String? cognome;
   String? dataNascita;
@@ -7,7 +8,8 @@ class Paziente {
   String? password;
 
   Paziente(
-      {this.nome,
+      {this.id,
+      this.nome,
       this.cognome,
       this.cf,
       this.dataNascita,
@@ -15,6 +17,8 @@ class Paziente {
       this.password});
 
   Paziente.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+
     nome = json['nome'];
     cognome = json['cognome'];
     cf = json['cf'];
@@ -25,6 +29,7 @@ class Paziente {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['nome'] = nome;
     data['cognome'] = cognome;
     data['cf'] = cf;

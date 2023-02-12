@@ -59,7 +59,7 @@ class RestCallback {
 
       httpResponse = await client.get(
         headers: headers,
-        Uri.parse('$url?$data'),
+        Uri.parse('$url'),
       );
       return httpResponse;
     } on Exception catch (e) {
@@ -125,20 +125,20 @@ class RestCallback {
       Map<String, dynamic> dataToSend = {};
 
       if (medico != null) {
-        if (medico.nome.isNotEmpty) {
+        if (medico.nome!.isNotEmpty) {
           dataToSend['nome'] = medico.nome;
         }
-        if (medico.cognome.isNotEmpty) {
+        if (medico.cognome!.isNotEmpty) {
           dataToSend['cognome'] = medico.cognome;
         }
-        if (medico.fnomceo.isNotEmpty) {
+        if (medico.fnomceo!.isNotEmpty) {
           dataToSend['fnomceo'] = medico.fnomceo;
         }
 
-        if (medico.email.isNotEmpty) {
+        if (medico.email!.isNotEmpty) {
           dataToSend['email'] = medico.email;
         }
-        if (medico.password.isNotEmpty) {
+        if (medico.password!.isNotEmpty) {
           dataToSend['password'] = medico.password;
         }
       }
@@ -170,25 +170,17 @@ class RestCallback {
 
   static Future<dynamic> loginPaziente(String email, String password) async {
     try {
-      Map<String, dynamic> dataToSend = {};
-
-      if (email != null) {
-        dataToSend['email'] = email;
-      }
-
-      if (password != null) {
-        dataToSend['password'] = password;
-      }
-
-      final response = await makePost('/paziente/login/', data: dataToSend);
+      Paziente paziente = Paziente();
+      final response =
+          await makeGet('/paziente/login/?email=$email&password=$password');
 
       if (response.statusCode == 200) {
         log("${TAG} LOGIN paziente: SUCCESS");
-        log(json.decode(response.body));
+        log(response.body);
 
-        return json.decode(response.body);
+        paziente = Paziente.fromJson(json.decode(response.body));
       }
-      return response.body;
+      return paziente;
     } catch (e) {
       log("${TAG} LOGIN paziente: Error ${e.toString()}");
 
@@ -201,25 +193,18 @@ class RestCallback {
  */
   static Future<dynamic> loginMedico(String fnomceo, String password) async {
     try {
-      Map<String, dynamic> dataToSend = {};
+      Medico medico = Medico();
 
-      if (fnomceo != null) {
-        dataToSend['fnomceo'] = fnomceo;
-      }
-
-      if (password != null) {
-        dataToSend['password'] = password;
-      }
-
-      final response = await makePost('/dottore/login/', data: dataToSend);
+      final response =
+          await makeGet('/dottore/login/?fnomceo=$fnomceo&password=$password');
 
       if (response.statusCode == 200) {
         log("${TAG} LOGIN medico: SUCCESS");
-        log(json.decode(response.body));
+        log(response.body);
 
-        return json.decode(response.body);
+        medico = Medico.fromJson(json.decode(response.body));
       }
-      return response.body;
+      return medico;
     } catch (e) {
       log("${TAG} LOGIN medico: Error ${e.toString()}");
 
@@ -274,4 +259,128 @@ class RestCallback {
       throw Exception('Failed to load data');
     }
   }
+
+  //********************************************************************************
+  //  RICERCA FARMACI
+  //********************************************************************************
+
+/**
+ * PER NOME
+ */
+
+  static Future<dynamic> ricercaFarmacoNome(String nome) async {
+    try {
+      final response = await makeGet('/farmaco/cerca/nome/?nome=$nome');
+
+      Farmaco farmaco = Farmaco();
+
+      if (response.statusCode == 200) {
+        log("${TAG} RICERCA PER NOME FARMACO: SUCCESS");
+        log(response.body);
+        farmaco = Farmaco.fromJson(json.decode(response.body));
+        log(farmaco.toString());
+      }
+      return farmaco;
+    } catch (e) {
+      log("${TAG} RICERCA PER NOME FARMACO: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
+
+/**
+ * PER PRINCIPIO ATTIVO
+ */
+
+  static Future<dynamic> ricercaFarmacoPrincipio(String principio) async {
+    try {
+      final response =
+          await makeGet('/farmaco/cerca/principio/principio=$principio');
+
+      Farmaco farmaco = Farmaco();
+
+      if (response.statusCode == 200) {
+        log("${TAG} RICERCA PER PRINCIPIO FARMACO: SUCCESS");
+        log(response.body);
+        farmaco = Farmaco.fromJson(json.decode(response.body));
+        log(farmaco.toString());
+      }
+      return farmaco;
+    } catch (e) {
+      log("${TAG} RICERCA PER PRINCIPIO FARMACO: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
+
+  //********************************************************************************
+  //  ARMADIETTO
+  //********************************************************************************
+
+//id paziente non posseduto se non restituito in login
+  static Future<List<dynamic>> armadietto(int idPaziente) async {
+    try {
+      final response = await makeGet('/armadietto/?paziente=1');
+
+      List<Farmaco> list = [];
+
+      if (response.statusCode == 200) {
+        log("${TAG} ARMADIETTO: SUCCESS");
+        // log(response.body);
+        List<dynamic> mapList = [{}];
+        mapList = json.decode(response.body);
+
+        for (int i = 0; i < mapList.length; i++) {
+          list.add(Farmaco.fromJson(mapList[i]));
+        }
+      }
+
+      return list;
+    } catch (e) {
+      log("${TAG} ARMADIETTO: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
+
+  static Future<dynamic> addFarmaco(int idPaziente, int idFarmaco,
+      String scadenza, int quantity, String type) async {
+    try {
+      Map<String, dynamic> dataToSend = {};
+
+      if (idPaziente != null) {
+        dataToSend['paziente'] = idPaziente;
+      }
+      if (idFarmaco != null) {
+        dataToSend['farmaco'] = idFarmaco;
+      }
+      if (scadenza.isNotEmpty) {
+        dataToSend['scadenza'] = scadenza;
+      }
+
+      if (quantity != null) {
+        dataToSend['quantity'] = quantity;
+      }
+      if (type.isNotEmpty) {
+        dataToSend['type'] = type;
+      }
+
+      final response =
+          await makePost('armadietto/aggiungifarmaco/', data: dataToSend);
+
+      if (response.statusCode == 200) {
+        log("${TAG} ARMADIETTO: SUCCESS");
+      }
+      return response.body;
+    } catch (e) {
+      log("${TAG} ARMADIETTO: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
+
+  //********************************************************************************
+  //  PROMEMORIA
+  //********************************************************************************
+
 }

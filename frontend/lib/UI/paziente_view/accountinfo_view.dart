@@ -76,7 +76,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.nome ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -92,7 +92,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.cognome ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -108,7 +108,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.dataNascita ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -124,7 +124,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.cf ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -140,7 +140,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.email ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -156,7 +156,7 @@ class AccountInfoView {
             ),
             const SizedBox(height: 10),
             Text(
-              "state.nomeutente",
+              state.pazienteObj.password ?? '',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],

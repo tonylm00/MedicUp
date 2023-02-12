@@ -80,10 +80,10 @@ class PromemoriaListPageWidgetState extends State<PromemoriaListPageWidget> {
   void initState() {
     super.initState();
 
-    callBackToRestApi();
+    //callBackToRestApi();
   }
 
-  callBackToRestApi() async {
+  /*  callBackToRestApi() async {
     ResponseMessage responseMessage = await RestClient.getReminderPaziente();
 
     if (responseMessage.isOk()) {
@@ -97,8 +97,8 @@ class PromemoriaListPageWidgetState extends State<PromemoriaListPageWidget> {
           messageEmpty = 'Nessun promemoria trovato.';
         });
       }
-    }
-  }
+    } 
+  }*/
 
   @override
   Widget build(BuildContext context) =>

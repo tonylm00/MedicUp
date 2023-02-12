@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
 
 import '../utils/ColorUtils.dart';
 import '../utils/ResponseMessage.dart';
@@ -69,8 +70,11 @@ class AccountPageWidget extends StatefulWidget {
 
 class AccountPageWidgetState extends State<AccountPageWidget> {
   String TAG = '[PAZIENTE GET ACCOUNT INFO] : ';
+  dynamic paziente;
+  dynamic medico;
+  Paziente pazienteObj = Paziente();
 
-  late Paziente getPaziente;
+  // late Paziente getPaziente;
 
   @override
   void initState() {
@@ -82,6 +86,20 @@ class AccountPageWidgetState extends State<AccountPageWidget> {
   }
 
   callBackToRestApi() async {
+    paziente = await SessionManager.getPaziente();
+
+    medico = await SessionManager.getMedico();
+
+    if (paziente != null) {
+      pazienteObj.nome = await SessionManager.getPazienteNome();
+      pazienteObj.cognome = await SessionManager.getPazienteCognome();
+      pazienteObj.cf = await SessionManager.getPazienteCf();
+      pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
+      pazienteObj.email = await SessionManager.getPazienteEmail();
+      pazienteObj.password = await SessionManager.getPazientePassword();
+    }
+
+    log(pazienteObj.toString());
     //CREARE UN SERVIZIO CHE RESTITUISCE I DATI DI UN PAZIENTE
     //ResponseMessage responseMessage = await RestClient.armadietto();
 /* 

@@ -78,10 +78,10 @@ class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
   void initState() {
     super.initState();
 
-    callBackToRestApi();
+  //  callBackToRestApi();
   }
 
-  callBackToRestApi() async {
+  /* callBackToRestApi() async {
     ResponseMessage responseMessage = await RestClient.armadietto();
 
     if (responseMessage.isOk()) {
@@ -96,7 +96,7 @@ class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
         });
       }
     }
-  }
+  } */
 
   @override
   Widget build(BuildContext context) =>
