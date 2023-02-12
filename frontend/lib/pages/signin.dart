@@ -209,7 +209,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
     SessionManager.setSessionFromLogin(loginData);
 
     if (medico != null) {
-      Navigator.pushNamed(context, Routes.homepage);
+      Navigator.pushNamed(context, Routes.homepageMed);
     }
   }
 

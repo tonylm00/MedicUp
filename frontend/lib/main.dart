@@ -4,6 +4,7 @@ import 'package:frontend/pages/armadiettoPage.dart';
 import 'package:frontend/pages/farmaciList.dart';
 import 'package:frontend/pages/farmacoDetail.dart';
 import 'package:frontend/pages/getReminders.dart';
+import 'package:frontend/pages/homepageMed.dart';
 import 'package:frontend/pages/intropage.dart';
 import 'package:frontend/pages/signin.dart';
 import 'package:frontend/pages/signup.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpPage(),
         '/signin': (context) => const SignInPage(),
         '/homepage': (context) => const Homepage(),
+        '/homepageMed': (context) => const HomepageMed(),
         '/accountinfo': (context) => const AccountPage(),
         '/armadietto': (context) => const ArmadiettoPage(),
         '/farmaci': (context) => const FarmaciListPage(),

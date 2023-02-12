@@ -71,74 +71,77 @@ class FarmaciListView {
             children: [
               const Text("Ecco la lista dei farmaci : "),
               (state.listaFarmaci != null && state.listaFarmaci.isNotEmpty)
-                  ? ListView.builder(
+                  ? ListView.separated(
                       shrinkWrap: true,
                       itemCount: state.listaFarmaci.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10),
-                            title: Card(
-                                color: ColorUtils.lightTransPrimary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 10,
-                                margin: const EdgeInsets.all(20),
-                                child: Container(
-                                    width: 300,
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
+                            title: Container(
+                                width: 300,
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                state.listaFarmaci[index]
-                                                        .nome ??
-                                                    '',
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: const Icon(
-                                                  Icons.zoom_in,
-                                                  color: Colors.black,
-                                                  size: 30,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      state.context,
-                                                      Routes.farmacoDetail,
-                                                      arguments: {
-                                                        'id': state
-                                                            .listaFarmaci[index]
-                                                            .id
-                                                      });
-                                                },
-                                              ),
-                                            ],
+                                          Text(
+                                            state.listaFarmaci[index].nome ??
+                                                '',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                state.listaFarmaci[index]
-                                                        .principio ??
-                                                    '',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ],
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.zoom_in,
+                                              color: Colors.black,
+                                              size: 30,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pushNamed(state.context,
+                                                  Routes.farmacoDetail,
+                                                  arguments:
+                                                      1
+                                                  /* arguments: state
+                                                      .listaFarmaci[index].id */
+                                                  );
+                                            },
                                           ),
-                                        ]))));
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text('Principio attivo : ',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Text(
+                                            state.listaFarmaci[index]
+                                                    .principio ??
+                                                '',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorUtils.primaryColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ])));
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          thickness: 3,
+                          height: 8,
+                          color: ColorUtils.primaryColor,
+                        );
                       },
                     )
                   : SizedBox(height: 35, child: Container()),

@@ -5,6 +5,7 @@ import 'package:frontend/pages/armadiettoPage.dart';
 import 'package:frontend/pages/farmaciList.dart';
 import 'package:frontend/pages/farmacoDetail.dart';
 import 'package:frontend/pages/getReminders.dart';
+import 'package:frontend/pages/homepageMed.dart';
 import 'package:frontend/utils/routes.dart';
 
 import '../pages/homepage.dart';
@@ -19,6 +20,13 @@ var introHandler =
     rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
   Navigator.of(context!).pushNamed(Routes.intro);
   return const IntroPage();
+});
+
+
+var homepageMedHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.homepageMed);
+  return const HomepageMed();
 });
 
 var promemoriaHandler =

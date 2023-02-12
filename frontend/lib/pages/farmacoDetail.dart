@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -75,13 +76,30 @@ class FarmacoDetailWidget extends StatefulWidget {
 class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
   Farmaco farmaco = Farmaco();
   String messageEmpty = '';
+  bool isClicked = false;
+
+  TextEditingController scadenzaController = TextEditingController();
+  TextEditingController quantitaController = TextEditingController();
+
+  TextEditingController tipoController = TextEditingController();
+
+  dynamic userObjectData;
 
   @override
   void initState() {
     super.initState();
-
     callBackToRestApi();
   }
+
+  /*    dynamic farmacoId;
+    farmacoId = ModalRoute.of(context)!.settings.arguments;
+    if (farmacoId != null) {
+      log(farmacoId.toString());
+
+      state.callBackToRestApi(id: farmacoId);
+
+      
+    } */
 
   callBackToRestApi() async {
     dynamic response = await RestCallback.detailFarmaco(1);
@@ -99,7 +117,54 @@ class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
     }
   }
 
+  sendToArmadietto() async {
+    dynamic response = await RestCallback.addFarmaco(1, 1,
+        scadenzaController.text, quantitaController.text, tipoController.text);
+    log(response.toString());
+
+    Navigator.of(context).pop();
+
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Aggiunta farmaco con successo"),
+              content:
+                  Text('Hai appena aggiunto un farmaco al tuo armadietto!'),
+              actions: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                  child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
+                      width: double.infinity,
+                      child: Visibility(
+                          /*  visible: (state.isSubmittedEmail || state.isSubmittedMedId) &&
+                  (state.isSubmittedPassword), */
+                          child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorUtils.accentColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0))),
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 21,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ))),
+                )
+              ]);
+        });
+  }
+
   @override
-  Widget build(BuildContext context) =>
-      FarmacoDetailView(this).getView(context);
+  Widget build(BuildContext context) {
+    userObjectData = ModalRoute.of(context)!.settings.arguments;
+    return FarmacoDetailView(this).getView(context);
+  }
 }

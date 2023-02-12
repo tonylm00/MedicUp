@@ -106,7 +106,8 @@ class HomePageView {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(state.context, Routes.armadietto);
+                    Navigator.pushNamed(state.context, Routes.armadietto,
+                        arguments: state.pazienteObj.id);
                   },
                 ),
               ],
@@ -247,7 +248,7 @@ class HomePageView {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(state.context, Routes.farmaci);
+                    Navigator.pushNamed(state.context, Routes.farmaci, arguments: state.pazienteObj.id);
                   },
                 ),
               ],

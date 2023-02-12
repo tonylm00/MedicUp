@@ -73,8 +73,13 @@ class FarmaciListPageWidget extends StatefulWidget {
 
 class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
   String TAG = '[FARMACI LIST] : ';
+  dynamic userObjectData;
+
   @override
-  Widget build(BuildContext context) => FarmaciListView(this).getView(context);
+  Widget build(BuildContext context) {
+    userObjectData = ModalRoute.of(context)!.settings.arguments;
+    return FarmaciListView(this).getView(context);
+  }
 
   List<Farmaco> listaFarmaci = [];
   String messageEmpty = '';

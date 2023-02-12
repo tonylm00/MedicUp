@@ -8,6 +8,8 @@ class Routes {
   static String signup = '/signup';
   static String signin = '/signin';
   static String homepage = '/homepage';
+    static String homepageMed = '/homepageMed';
+
   static String armadietto = '/armadietto';
   static String farmaci = '/farmaci';
   static String promemoria = '/promemoria';
@@ -21,6 +23,11 @@ class Routes {
     // INTRO
     router.define(intro,
         handler: introHandler, transitionType: TransitionType.none);
+
+         // HOMEPAGE MEDICO
+    router.define(homepageMed,
+        handler: homepageMedHandler, transitionType: TransitionType.none);
+
 
   // PROMEMORIA
     router.define(promemoria,

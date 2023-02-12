@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/model_object/farmaco.dart';
+import 'package:frontend/model_object/farmacoArmadietto.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
 import 'package:http/http.dart' as http;
@@ -319,12 +321,11 @@ class RestCallback {
   //  ARMADIETTO
   //********************************************************************************
 
-//id paziente non posseduto se non restituito in login
   static Future<List<dynamic>> armadietto(int idPaziente) async {
     try {
       final response = await makeGet('/armadietto/?paziente=1');
 
-      List<Farmaco> list = [];
+      List<FarmacoArmadietto> list = [];
 
       if (response.statusCode == 200) {
         log("${TAG} ARMADIETTO: SUCCESS");
@@ -333,7 +334,7 @@ class RestCallback {
         mapList = json.decode(response.body);
 
         for (int i = 0; i < mapList.length; i++) {
-          list.add(Farmaco.fromJson(mapList[i]));
+          list.add(FarmacoArmadietto.fromJson(mapList[i]));
         }
       }
 
@@ -346,7 +347,7 @@ class RestCallback {
   }
 
   static Future<dynamic> addFarmaco(int idPaziente, int idFarmaco,
-      String scadenza, int quantity, String type) async {
+      String scadenza, String quantity, String type) async {
     try {
       Map<String, dynamic> dataToSend = {};
 
@@ -368,10 +369,11 @@ class RestCallback {
       }
 
       final response =
-          await makePost('armadietto/aggiungifarmaco/', data: dataToSend);
+          await makePost('/armadietto/aggiungifarmaco/', data: dataToSend);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == '201 Created') {
         log("${TAG} ARMADIETTO: SUCCESS");
+        
       }
       return response.body;
     } catch (e) {

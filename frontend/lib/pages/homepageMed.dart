@@ -2,25 +2,22 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/paziente_view/armadietto_view.dart';
-import 'package:frontend/api/restcallback.dart';
-import 'package:frontend/model_object/farmaco.dart';
-import 'package:frontend/model_object/farmacoArmadietto.dart';
+import 'package:frontend/UI/medico_view/homepage_medview.dart';
+import 'package:frontend/model_object/medico.dart';
+import 'package:frontend/model_object/paziente.dart';
 
+import '../UI/paziente_view/homepage_view.dart';
 import '../utils/ColorUtils.dart';
-import '../utils/ResponseMessage.dart';
-import '../utils/restClient.dart';
+import '../utils/session/SessionManager.dart';
 
-class ArmadiettoPage extends StatefulWidget {
-  const ArmadiettoPage({super.key});
+class HomepageMed extends StatefulWidget {
+  const HomepageMed({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return ArmadiettoPageState();
-  }
+  State<StatefulWidget> createState() => _HomepageState();
 }
 
-class ArmadiettoPageState extends State<ArmadiettoPage> {
+class _HomepageState extends State<HomepageMed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +37,7 @@ class ArmadiettoPageState extends State<ArmadiettoPage> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 80),
                     child: Text(
-                      "Armadietto",
+                      "Homepage",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
@@ -51,7 +48,7 @@ class ArmadiettoPageState extends State<ArmadiettoPage> {
                 top: 150,
                 left: 10,
                 right: 10,
-                child: ArmadiettoWidget(),
+                child: HomepageColumnMedWidget(),
               )
             ],
           ),
@@ -61,45 +58,42 @@ class ArmadiettoPageState extends State<ArmadiettoPage> {
   }
 }
 
-class ArmadiettoWidget extends StatefulWidget {
-  const ArmadiettoWidget({super.key});
+class HomepageColumnMedWidget extends StatefulWidget {
+  const HomepageColumnMedWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return ArmadiettoWidgetState();
+    return HomepageColumnMedWidgetState();
   }
 }
 
-class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
-  String TAG = '[ARMADIETTO FARMACI LIST] : ';
-
-  List<FarmacoArmadietto> listaFarmaciArmadietto = [];
-  String messageEmpty = '';
+class HomepageColumnMedWidgetState extends State<HomepageColumnMedWidget> {
+  dynamic paziente ,medico ;
+  Medico medicoObj = Medico();
 
   @override
   void initState() {
     super.initState();
 
     callBackToRestApi();
+
+   
   }
 
   callBackToRestApi() async {
-    dynamic response = await RestCallback.armadietto(1);
-    log(response.toString());
+    paziente = (await SessionManager.getPaziente());
 
-    if (response != null) {
-      setState(() {
-        listaFarmaciArmadietto = response;
-      });
-    } else {
-      listaFarmaciArmadietto = [];
-      setState(() {
-        messageEmpty = 'Nessun elemento trovato.';
-      });
-    }
+    medico = (await SessionManager.getMedico()) ;
+
+    medicoObj.nome = await SessionManager.getMedicoNome();
+    medicoObj.cognome = await SessionManager.getMedicoCognome();
+    medicoObj.fnomceo = await SessionManager.getMedicFnomceo();
+    medicoObj.email = await SessionManager.getMedicoEmail();
+    medicoObj.password = await SessionManager.getMedicoPassword();
+
+    log(medicoObj.toString());
   }
 
   @override
-  Widget build(BuildContext context) =>
-      ArmadiettoWidgetView(this).getView(context);
+  Widget build(BuildContext context) => HomePageMedView(this).getView(context);
 }

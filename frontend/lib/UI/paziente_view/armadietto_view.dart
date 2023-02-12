@@ -71,77 +71,67 @@ class ArmadiettoWidgetView {
               const Text("Ecco la lista dei tuoi farmaci : "),
               (state.listaFarmaciArmadietto != null &&
                       state.listaFarmaciArmadietto.isNotEmpty)
-                  ? ListView.builder(
+                  ? ListView.separated(
                       shrinkWrap: true,
-                      itemCount: 10,
+                      itemCount: state.listaFarmaciArmadietto.length,
                       itemBuilder: (context, index) {
                         return ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10),
-                            title: Card(
-                                color: ColorUtils.lightTransPrimary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 10,
-                                margin: const EdgeInsets.all(20),
-                                child: Container(
-                                    width: 300,
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
+                            title: Container(
+                                width: 300,
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(''
-                                              /*   state
-                                                    .listaFarmaciArmadietto[
-                                                        index]
-                                                    .nome */,
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: const Icon(
-                                                  Icons.zoom_in,
-                                                  color: Colors.black,
-                                                  size: 30,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      state.context,
-                                                      Routes.farmacoDetail,
-                                                      arguments: {
-                                                        'data': state
-                                                            .listaFarmaciArmadietto[
-                                                                index]
-                                                            .id
-                                                      }); //ancora da definire
-                                                },
-                                              ),
-                                            ],
+                                          Text(
+                                            state.listaFarmaciArmadietto[index]
+                                                    .tipo!
+                                                    .toUpperCase() ??
+                                                '',
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(''
-                                                /* state
-                                                    .listaFarmaciArmadietto[
-                                                        index]
-                                                    .principio */,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ],
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Quantità : ${state.listaFarmaciArmadietto[index].quantita}' ??
+                                                '',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
                                           ),
-                                        ]))));
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Scadenza : ${state.listaFarmaciArmadietto[index].scadenza}' ??
+                                                '',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ])));
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          thickness: 3,
+                          height: 8,
+                          color: ColorUtils.primaryColor,
+                        );
                       },
                     )
                   : SizedBox(height: 35, child: Container()),

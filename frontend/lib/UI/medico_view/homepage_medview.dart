@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:frontend/utils/routes.dart';
 
 import '../../pages/homepage.dart';
+import '../../pages/homepageMed.dart';
 import '../../utils/ColorUtils.dart';
 
 class HomePageMedView {
-  final HomepageColumnWidgetState state;
+  final HomepageColumnMedWidgetState state;
   HomePageMedView(this.state) : super();
 
   Widget getView(BuildContext context) {
