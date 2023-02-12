@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('promemoria/add/', PromemoriaCreateView.as_view(), name='crea promemoria'),
     path('promemoria/schedule/add/', PromemoriaScheduleCreateView.as_view(), name='aggiungi schedule al promemoria'),
-    path('promemoria/schedule/<pk>/', PromemoriaDetailScheduleView.as_view(), name='dettagli promemoria'),
+    path('promemoria/schedule/', PromemoriaDetailScheduleView.as_view(), name='dettagli promemoria'),
     path('promemoria/<pk>/', PromemoriaDetailView.as_view(), name='dettagli promemoria'),
     path('promemoria/delete/<pk>', PromemoriaDeleteView.as_view(), name='elimina promemoria'),
     path('promemoria/paziente/<int:paziente_id>/', PromemoriaPazienteListView.as_view(), name='promemoria-list-paziente'),
