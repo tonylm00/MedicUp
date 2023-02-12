@@ -1,0 +1,55 @@
+[
+    {
+      "pk": 1,
+      "model": "app.Patient",
+      "fields": {
+        "cf": "RSSMRA81E04F839O",
+        "data_nascita": "05/07/1986",
+        "email": "mario@medicup.it",
+        "nome": "Mario",
+        "cognome": "Rossi",
+        "password": "mariorossi"
+      }
+    },
+    {
+      "pk": 2,
+      "model": "app.Patient",
+      "fields": {
+        "cf": "FBBMRA81E04F839O",
+        "data_nascita": "15/04/1997",
+        "email": "fabio@medicup.it",
+        "nome": "Fabio",
+        "cognome": "Giallo",
+        "password": "fabiogiallo"
+      }
+    },
+    {
+      "pk": 1,
+      "model": "app.Doctor",
+      "fields": {
+        "fnomceo": "MNMNM13",
+        "email": "giuseppe@medicup.it",
+        "nome": "Giuseppe",
+        "cognome": "Verdi",
+        "password": "giuseppe"
+      }
+    },
+    {
+      "pk": 1,
+      "model": "app.Farmaco",
+      "fields": {
+        "nome": "Tachipirina 500 mg",
+        "principio": "Paracetamolo",
+        "descrizioneBugiardino": "Tachipirina contiene il principio attivo paracetamolo che agisce riducendo la febbre (antipiretico) e alleviando il dolore (analgesico). \n Tachipirina e' utilizzato negli adulti, adolescenti e bambini per: \n(1) il trattamento sintomatico degli stati febbrili quali l’influenza, le malattie esantematiche, le malattie acute del tratto respiratorio, ecc. \n(2) dolori di varia origine e natura (mal di testa, nevralgie, dolori muscolari ed altre manifestazioni dolorose di media entita').",
+        "descrizioneRCP": "(1) Come antipiretico: trattamento sintomatico di affezioni febbrili quali l'influenza, le malattie esantematiche, le affezioni acute del tratto respiratorio, ecc. \n(2) Come analgesico: cefalee, nevralgie, mialgie ed altre manifestazioni dolorose di media entita', di varia origine.",
+        "precauzioniBugiardino": "Nei seguenti casi usi Tachipirina con cautela se chi deve assumere il medicinale: \n- fa uso di alcol in modo cronico o ne fa un uso eccessivo (3 o piu' bevande alcoliche al giorno) \n- soffre di anoressia (disturbo del comportamento alimentare caratterizzato dalla mancanza o riduzione dell'appetito) \n- soffre di bulimia (disturbo del comportamento alimentare per cui una persona ingurgita una quantita' di cibo eccessiva per poi ricorrere a diversi metodi per eliminarlo) \n- soffre di cachessia (stato caratterizzato da estrema magrezza, riduzione delle masse muscolari e assottigliamento della pelle a causa di malattie croniche) \n- segue da lungo tempo una alimentazione non corretta (malnutrizione cronica) \n- soffre di disidratazione (grave perdita di acqua/liquidi dall’organismo) \n- soffre di ipovolemia (ridotto volume di sangue in circolo)\n- soffre di malattie del fegato che ne riducono la funzionalita' (insufficienza epatica, epatite, sindrome di Gilbert) \n- e' in trattamento concomitante con medicinali che alterano la funzionalita' del fegato (vedere “Altri medicinali e Tachipirina”) \n- soffre di carenza di glucosio-6-fosfato deidrogenasi (sostanza normalmente presente nel corpo umano, la cui carenza puo' causare una malattia del sangue) \n- soffre di anemia emolitica (distruzione dei globuli rossi del sangue).",
+        "precauzioniRCP": "Nei rari casi di reazioni allergiche, la somministrazione deve essere sospesa e deve essere istituito un idoneo trattamento. Usare con cautela in caso di alcolismo cronico, eccessiva assunzione di alcool (3 o piu' bevande alcoliche al giorno), anoressia, bulimia o cachessia, malnutrizione cronica (basse riserve di glutatione epatico) disidratazione, ipovolemia. Il paracetamolo deve essere somministrato con cautela a pazienti con insufficienza epatocellulare da lieve a moderata (compresa la sindrome di Gilbert), insufficienza epatica grave (Child-Pugh>9), epatite acuta, in trattamento concomitante con farmaci che alterano la funzionalita' epatica, carenza di glucosio-6-fosfato deidrogenasi, anemia emolitica. Dosi elevate o prolungate del prodotto possono provocare alterazioni a carico del rene e del sangue anche gravi, percio' la somministrazione nei soggetti con insufficienza renale deve essere effettuata solo se effettivamente necessaria e sotto il diretto controllo medico. In caso di uso protratto e' consigliabile monitorare la funzione epatica e renale e la crasi ematica. Durante il trattamento con paracetamolo prima di assumere qualsiasi altro farmaco controllare che non contenga lo stesso principio attivo, poiché se il paracetamolo e' assunto in dosi elevate si possono verificare gravi reazioni avverse. Invitare il paziente a contattare il medico prima di associare qualsiasi altro farmaco.",
+        "posologiaBugiardino": "Sciogliere il granulato effervescente in un bicchiere d’acqua. \n- Bambini di peso compreso tra 26 e 40 kg (approssimativamente tra gli 8 e gli 11 anni): 1 bustina alla volta, da ripetere se necessario dopo 6 ore, senza superare le 4 somministrazioni al giorno. \n- Ragazzi di peso compreso tra 41 e 50 kg (approssimativamente tra i 12 ed i 15 anni): 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. \n- Ragazzi di peso superiore a 50 kg (approssimativamente sopra i 15 anni): 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. \n- Adulti: 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. Nel caso di forti dolori o febbre alta, 2 bustine da 500 mg da ripetere se necessario dopo non meno di 4 ore.",
+        "posologiaRCP": "Sciogliere il granulato effervescente in un bicchiere d’acqua. \n- Bambini di peso compreso tra 26 e 40 kg (approssimativamente tra gli 8 e gli 11 anni): 1 bustina alla volta, da ripetere se necessario dopo 6 ore, senza superare le 4 somministrazioni al giorno. \n- Ragazzi di peso compreso tra 41 e 50 kg (approssimativamente tra i 12 ed i 15 anni): 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. \n- Ragazzi di peso superiore a 50 kg (approssimativamente sopra i 15 anni): 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. \n- Adulti: 1 bustina alla volta, da ripetere se necessario dopo 4 ore, senza superare le 6 somministrazioni al giorno. Nel caso di forti dolori o febbre alta, 2 bustine da 500 mg da ripetere se necessario dopo non meno di 4 ore.",
+        "controindicazioniBugiardino": "Se lei/il bambino manifesta i seguenti effetti indesiderati INTERROMPA il trattamento con questo medicinale e contatti immediatamente il medico: \n- reazioni allergiche con: \n- arrossamenti della pelle accompagnati da prurito (orticaria) \n- gonfiore della gola (edema della laringe) \n- gonfiore di mani, piedi, caviglie, viso, labbra, lingua e/o gola (angioedema) \n- grave reazione allergica (shock anafilattico). \nInoltre, chi assume il medicinale potrebbe manifestare i seguenti effetti indesiderati, per i quali non sono disponibili dati sufficienti per stabilire la frequenza.\n- riduzione del numero di piastrine nel sangue (trombocitopenia) \n- riduzione del numero di globuli bianchi nel sangue (leucopenia/agranulocitosi) \n- riduzione dell’emoglobina nel sangue, sostanza che trasporta l’ossigeno nel sangue (anemia) \n- vertigini \n- disturbi allo stomaco e all’intestino \n- funzionalita' anomala del fegato \n- infiammazione del fegato (epatite) \n- macchie rosse, lesioni bollose con aree di distacco della pelle, vesciche, eruzioni della pelle (eritema multiforme, sindrome di Stevens Johnson, necrolisi epidermica tossica) \n- riduzione della funzionalita' dei reni (insufficienza renale acuta) \n- infiammazione dei reni (nefrite interstiziale) \n- sangue nelle urine (ematuria) \n- cessazione o riduzione della produzione di urine (anuria). \nSono stati segnalati casi molto rari di reazioni cutanee gravi. ",
+        "controindicazioniRCP": "Di seguito sono riportati gli effetti indesiderati del paracetamolo organizzati secondo la classificazione sistemica e organica MedDRA. Non sono disponibili dati sufficienti per stabilire la frequenza dei singoli effetti elencati. \nPatologie del sistema emolinfopoietico: Trombocitopenia, leucopenia, anemia, agranulocitosi\nDisturbi del sistema immunitario: Reazioni di ipersensibilita' (orticaria, edema della laringe, angioedema, shock anafilattico).\nPatologie del sistema nervoso: Vertigini\nPatologie gastrointestinali: Reazione gastrointestinale.\nPatologie epatobiliari: Funzionalita' epatica anormale, epatite.\nPatologie della cute e del tessuto sottocutaneo: Eritema multiforme, Sindrome di Stevens Johnson, Necrolisi epidermica, eruzione cutanea",
+        "informazioniBugiardino": "Conservi questo medicinale fuori dalla vista e dalla portata dei bambini.Non usi questo medicinale dopo la data di scadenza che e' riportata sulla scatola dopo Scad. La data di scadenza si riferisce all’ultimo giorno di quel mese.\nLa mezza compressa puo' essere conservata per 24 ore nella confezione originale.\nQuesto medicinale non richiede alcuna condizione particolare di conservazione.\nNon getti alcun medicinale nell’acqua di scarico e nei rifiuti domestici. Chieda al farmacista come eliminarei medicinali che non utilizza piu'. Questo aiutera' a proteggere l’ambiente.\n\nCosa contiene Tachipirina \n- il principio attivo e': paracetamolo (ogni compressa contiene 500 mg di paracetamolo) \n- gli altri componenti sono: cellulosa microcristallina, povidone, amido pregelatinizzato, acido stearico, croscarmellosa sodica. ",
+        "informazioniRCP": "Categoria farmacoterapeutica: analgesici ed antipiretici, anilidi.\nL'effetto analgesico del paracetamolo e' riconducibile ad un’azione diretta a livello del Sistema Nervoso Centrale, probabilmente mediata dal sistema oppioide e serotoninergico, oltre che da una azione di inibizione della sintesi delle prostaglandine a livello centrale. Inoltre, il paracetamolo possiede una spiccata attivita' antipiretica. Elenco degli eccipienti \n- Compresse: cellulosa microcristallina, povidone, amido pregelatinizzato, acido stearico, croscarmellosa sodica. \n- Granulato effervescente: maltitolo, mannitolo, sodio bicarbonato, acido citrico anidro, aroma agrumi, aspartame, sodio docusato. \n- Supposte: gliceridi semisintetici solidi. "
+      }
+    }
+  ]
