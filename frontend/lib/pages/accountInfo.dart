@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
+import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/paziente.dart';
 import 'package:frontend/utils/routes.dart';
 import 'package:frontend/utils/session/SessionManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/ColorUtils.dart';
 import '../utils/ResponseMessage.dart';
@@ -76,10 +78,35 @@ class AccountPageWidgetState extends State<AccountPageWidget> {
   Paziente pazienteObj = Paziente();
 
   dynamic userObjectData;
+  var pazienteNome;
+
+  @override
+  void initState() {
+    super.initState();
+
+    callBackToRestApi();
+
+    /*  final org = businessCode ?? await SessionManager.getBusinessCode();*/
+  }
+
+  callBackToRestApi() async {
+    /*    paziente = (await SessionManager.getPaziente());
+
+    medico = (await SessionManager.getMedico()); */
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    pazienteNome = sharedPreferences.getString('pazienteNome');
+
+    log('PAZIENTE NOME FROM SHARED PREFERENCES: $pazienteNome');
+    pazienteObj = await RestCallback.getLoginPaziente();
+
+    log('PAZIENTE DA ACCOUNT INFO' + pazienteObj.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
     userObjectData = ModalRoute.of(context)!.settings.arguments;
+    log(userObjectData.toString());
     return AccountInfoView(this).getView(context);
   }
 

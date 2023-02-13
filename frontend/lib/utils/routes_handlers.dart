@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluro/fluro.dart' as rManager;
 import 'package:frontend/pages/accountInfo.dart';
 import 'package:frontend/pages/armadiettoPage.dart';
+import 'package:frontend/pages/farmaciDetailMed.dart';
 import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/farmaciMedList.dart';
 import 'package:frontend/pages/farmacoDetail.dart';
 import 'package:frontend/pages/getReminders.dart';
 import 'package:frontend/pages/homepageMed.dart';
@@ -22,6 +24,18 @@ var introHandler =
   return const IntroPage();
 });
 
+var farmaciListMedHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.farmaciListMed);
+  return const FarmaciListPageMed();
+});
+
+
+var farmaciDetailMedHandler =
+    rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {
+  Navigator.of(context!).pushNamed(Routes.farmaciDetailMed);
+  return const FarmacoDetailPageMed();
+});
 
 var homepageMedHandler =
     rManager.Handler(handlerFunc: (context, Map<String, List<String>> params) {

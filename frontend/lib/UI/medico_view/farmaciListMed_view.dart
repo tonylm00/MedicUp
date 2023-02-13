@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/farmaciMedList.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/armadiettoPage.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/CommonStyle.dart';
-import '../utils/routes.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/routes.dart';
 
-class FarmaciListView {
-  final FarmaciListPageWidgetState state;
-  FarmaciListView(this.state) : super();
+class FarmaciListViewMed {
+  final FarmaciListPageWidgetMedState state;
+  FarmaciListViewMed(this.state) : super();
 
   Widget getView(BuildContext context) {
     return Container(
@@ -109,7 +108,7 @@ class FarmaciListView {
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(state.context,
-                                                  Routes.farmacoDetail,
+                                                  Routes.farmaciDetailMed,
                                                   arguments: 1
                                                   /* arguments: state
                                                       .listaFarmaci[index].id */

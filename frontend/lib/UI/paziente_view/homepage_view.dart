@@ -11,27 +11,30 @@ class HomePageView {
   HomePageView(this.state) : super();
 
   Widget getView(BuildContext context) {
-    return SingleChildScrollView(
-        child: Column(
-      children: <Widget>[
-        Card(
-          elevation: 8,
-          child: Column(
-            children: <Widget>[
-              //_buildLogo(),
-              const SizedBox(
-                height: 30,
+    return Container(
+        height: 650,
+        padding: const EdgeInsets.all(10),
+        child: SingleChildScrollView(
+            child: Column(
+          children: <Widget>[
+            Card(
+              elevation: 8,
+              child: Column(
+                children: <Widget>[
+                  //_buildLogo(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  _buildIntroText(),
+                  _buildCardArmadietto(),
+                  _buildCardPromemoria(),
+                  _buildCardFarmaci(),
+                  _buildCardAreaPersonale()
+                ],
               ),
-              _buildIntroText(),
-              _buildCardArmadietto(),
-              _buildCardPromemoria(),
-              _buildCardFarmaci(),
-              _buildCardAreaPersonale()
-            ],
-          ),
-        ),
-      ],
-    ));
+            ),
+          ],
+        )));
   }
 
   Widget _buildIntroText() {
@@ -43,7 +46,7 @@ class HomePageView {
             "I servizi di Medic Up",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 21.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -84,10 +87,10 @@ class HomePageView {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 10,
+      elevation: 5,
       margin: const EdgeInsets.all(20),
       child: Container(
-          width: 300,
+          width: 360,
           padding: const EdgeInsets.all(20),
           child: Column(children: [
             Row(
@@ -96,7 +99,7 @@ class HomePageView {
                 const Text(
                   "Armadietto",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 21,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -112,15 +115,14 @@ class HomePageView {
                 ),
               ],
             ),
-            Row(
-              children: const [
-                Text(
-                  "Descrizione",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            const Text(
+              "Qui troverai la lista dei tuoi farmaci.",
+              textAlign: TextAlign.left,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 17,
+              ),
             ),
           ])),
     );
@@ -132,10 +134,10 @@ class HomePageView {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        elevation: 10,
+        elevation: 5,
         margin: const EdgeInsets.all(20),
         child: Container(
-            width: 300,
+            width: 360,
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               Row(
@@ -144,7 +146,7 @@ class HomePageView {
                   const Text(
                     "Profilo",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 21,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -160,15 +162,14 @@ class HomePageView {
                   ),
                 ],
               ),
-              Row(
-                children: const [
-                  Text(
-                    "Descrizione",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+              const Text(
+                "Qui troverai i tuoi dati personali inseriti nella fase di registrazione.",
+                textAlign: TextAlign.left,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 17,
+                ),
               ),
             ])));
   }
@@ -179,10 +180,10 @@ class HomePageView {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        elevation: 10,
+        elevation: 5,
         margin: const EdgeInsets.all(20),
         child: Container(
-          width: 300,
+          width: 360,
           padding: const EdgeInsets.all(20),
           child: Column(children: [
             Row(
@@ -206,15 +207,14 @@ class HomePageView {
                 ),
               ],
             ),
-            Row(
-              children: const [
-                Text(
-                  "Descrizione",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            const Text(
+              "Qui troverai la lista dei tuoi promemoria.",
+              textAlign: TextAlign.left,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 17,
+              ),
             ),
           ]),
         ));
@@ -226,10 +226,10 @@ class HomePageView {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 10,
+      elevation: 5,
       margin: const EdgeInsets.all(20),
       child: Container(
-          width: 300,
+          width: 360,
           padding: const EdgeInsets.all(20),
           child: Column(children: [
             Row(
@@ -238,7 +238,7 @@ class HomePageView {
                 const Text(
                   "Farmaci",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 21,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -248,20 +248,20 @@ class HomePageView {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(state.context, Routes.farmaci, arguments: state.pazienteObj.id);
+                    Navigator.pushNamed(state.context, Routes.farmaci,
+                        arguments: state.pazienteObj.id);
                   },
                 ),
               ],
             ),
-            Row(
-              children: const [
-                Text(
-                  "Descrizione",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            const Text(
+              "Qui troverai la lista dei farmaci disponibili.",
+              textAlign: TextAlign.left,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 17,
+              ),
             ),
           ])),
     );

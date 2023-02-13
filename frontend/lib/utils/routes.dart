@@ -8,10 +8,12 @@ class Routes {
   static String signup = '/signup';
   static String signin = '/signin';
   static String homepage = '/homepage';
-    static String homepageMed = '/homepageMed';
-
+  static String homepageMed = '/homepageMed';
+  static String farmaciListMed = '/farmaciListMed';
   static String armadietto = '/armadietto';
   static String farmaci = '/farmaci';
+  static String farmaciDetailMed = '/farmaciDetailMed';
+
   static String promemoria = '/promemoria';
   static String farmacoDetail = '/farmacodetail';
   static String research = '/research';
@@ -24,17 +26,23 @@ class Routes {
     router.define(intro,
         handler: introHandler, transitionType: TransitionType.none);
 
-         // HOMEPAGE MEDICO
+    // FARMACI LIST MED
+    router.define(farmaciListMed,
+        handler: farmaciListMedHandler, transitionType: TransitionType.none);
+
+    // FARMACI LIST MED
+    router.define(farmaciDetailMed,
+        handler: farmaciDetailMedHandler, transitionType: TransitionType.none);
+
+    // HOMEPAGE MEDICO
     router.define(homepageMed,
         handler: homepageMedHandler, transitionType: TransitionType.none);
 
-
-  // PROMEMORIA
+    // PROMEMORIA
     router.define(promemoria,
         handler: promemoriaHandler, transitionType: TransitionType.none);
 
-
-  // PROMEMORIA
+    // PROMEMORIA
     router.define(farmacoDetail,
         handler: farmacoDetailHandler, transitionType: TransitionType.none);
 

@@ -42,7 +42,7 @@ class HomePageMedView {
             "I servizi di Medic Up",
             style: TextStyle(
                 color: ColorUtils.primaryColor,
-                fontSize: 18.0,
+                fontSize: 22.0,
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -68,7 +68,7 @@ class HomePageMedView {
                   const Text(
                     "Profilo",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 21,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -78,20 +78,19 @@ class HomePageMedView {
                       size: 35,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(state.context, Routes.accountInfo);
+                      // Navigator.pushNamed(state.context, Routes.accountInfo);
                     },
                   ),
                 ],
               ),
-              Row(
-                children: const [
-                  Text(
-                    "Descrizione",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+              const Text(
+                "Qui troverai i tuoi dati personali inseriti in fase di registrazione",
+                style: TextStyle(
+                  fontSize: 17,
+                ),
+                textAlign: TextAlign.left,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
               ),
             ])));
   }
@@ -129,15 +128,14 @@ class HomePageMedView {
                 ),
               ],
             ),
-            Row(
-              children: const [
-                Text(
-                  "Descrizione",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            const Text(
+              "Qui troverai la lista dei tuoi promemoria condivisi.",
+              style: TextStyle(
+                fontSize: 17,
+              ),
+              textAlign: TextAlign.left,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ]),
         ));
@@ -161,7 +159,7 @@ class HomePageMedView {
                 const Text(
                   "Farmaci",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 21,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -171,20 +169,19 @@ class HomePageMedView {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(state.context, Routes.farmaci);
+                    Navigator.pushNamed(state.context, Routes.farmaciListMed);
                   },
                 ),
               ],
             ),
-            Row(
-              children: const [
-                Text(
-                  "Descrizione",
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            const Text(
+              "Qui troverai la lista dei farmaci disponibili.",
+              style: TextStyle(
+                fontSize: 17,
+              ),
+              textAlign: TextAlign.left,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ])),
     );

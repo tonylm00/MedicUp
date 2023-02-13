@@ -7,7 +7,9 @@ import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/model_object/farmacoArmadietto.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Environmments {
   static const ENV_API = "http://tonylm.pythonanywhere.com";
@@ -66,6 +68,36 @@ class RestCallback {
       return httpResponse;
     } on Exception catch (e) {
       return throw Exception('Failed to make post call');
+    }
+  }
+
+  //********************************************************************************
+  //  GET SESSION DATA PAZIENTE
+  //********************************************************************************
+
+  static Future<dynamic> getLoginPaziente() async {
+    try {
+      Paziente pazienteObj = Paziente();
+
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var pazienteNome = sharedPreferences.getString('pazienteNome');
+
+      log('PAZIENTE NOME FROM SHARED PREFERENCES: $pazienteNome');
+
+      pazienteObj.nome = await SessionManager.getPazienteNome();
+      pazienteObj.cognome = await SessionManager.getPazienteCognome();
+      pazienteObj.cf = await SessionManager.getPazienteCf();
+      pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
+      pazienteObj.email = await SessionManager.getPazienteEmail();
+      pazienteObj.password = await SessionManager.getPazientePassword();
+
+      log("${TAG} GET LOGIN paziente: SUCCESS");
+      return pazienteObj;
+    } catch (e) {
+      log("${TAG} GET LOGIN paziente: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
     }
   }
 
@@ -373,7 +405,6 @@ class RestCallback {
 
       if (response.statusCode == '201 Created') {
         log("${TAG} ARMADIETTO: SUCCESS");
-        
       }
       return response.body;
     } catch (e) {

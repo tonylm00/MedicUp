@@ -111,7 +111,7 @@ class AccountInfoView {
                       children: [
                         const SizedBox(width: 25),
                         Text(
-                          state.userObjectData.nome ?? '',
+                          state.pazienteObj.nome ?? '',
                           style: const TextStyle(
                             fontSize: 21,
                             color: ColorUtils.primaryColor,
@@ -139,7 +139,7 @@ class AccountInfoView {
                       ),
                     ]),
                     Text(
-                      state.userObjectData.cognome ?? '',
+                      state.pazienteObj.cognome ?? '',
                       style: const TextStyle(
                         fontSize: 21,
                         color: ColorUtils.primaryColor,
@@ -173,7 +173,7 @@ class AccountInfoView {
                 Row(
                   children: [
                     const SizedBox(width: 27),
-                    Text(state.userObjectData.dataNascita ?? '',
+                    Text(state.pazienteObj.dataNascita ?? '',
                         style: const TextStyle(
                           fontSize: 21,
                           color: ColorUtils.primaryColor,
@@ -208,7 +208,7 @@ class AccountInfoView {
                       width: 27,
                     ),
                     Text(
-                      state.userObjectData.cf ?? '',
+                      state.pazienteObj.cf ?? '',
                       style: const TextStyle(
                         fontSize: 21,
                         color: ColorUtils.primaryColor,
@@ -244,7 +244,7 @@ class AccountInfoView {
                       width: 29,
                     ),
                     Text(
-                      state.userObjectData.email ?? '',
+                      state.pazienteObj.email ?? '',
                       style: const TextStyle(
                         fontSize: 21,
                         color: ColorUtils.primaryColor,
@@ -280,7 +280,7 @@ class AccountInfoView {
                       width: 30,
                     ),
                     Text(
-                      state.userObjectData.password ?? '',
+                      state.pazienteObj.password ?? '',
                       style: const TextStyle(
                         fontSize: 21,
                         color: ColorUtils.primaryColor,

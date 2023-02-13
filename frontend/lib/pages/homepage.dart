@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../UI/paziente_view/homepage_view.dart';
 import '../utils/ColorUtils.dart';
@@ -67,7 +68,7 @@ class HomepageColumnWidget extends StatefulWidget {
 }
 
 class HomepageColumnWidgetState extends State<HomepageColumnWidget> {
-  dynamic paziente ,medico ;
+  dynamic paziente, medico;
   Paziente pazienteObj = Paziente();
 
   @override
@@ -82,7 +83,7 @@ class HomepageColumnWidgetState extends State<HomepageColumnWidget> {
   callBackToRestApi() async {
     paziente = (await SessionManager.getPaziente());
 
-    medico = (await SessionManager.getMedico()) ;
+    medico = (await SessionManager.getMedico());
 
     pazienteObj.nome = await SessionManager.getPazienteNome();
     pazienteObj.cognome = await SessionManager.getPazienteCognome();
@@ -91,7 +92,14 @@ class HomepageColumnWidgetState extends State<HomepageColumnWidget> {
     pazienteObj.email = await SessionManager.getPazienteEmail();
     pazienteObj.password = await SessionManager.getPazientePassword();
 
-    log(pazienteObj.toString());
+    usingSharedPreferences();
+    // log(pazienteObj.toString());
+  }
+
+  usingSharedPreferences() async{
+      SharedPreferences sharedPreferences =  await SharedPreferences.getInstance();
+    sharedPreferences.setString('pazienteNome', pazienteObj.nome);;
+
   }
 
   @override

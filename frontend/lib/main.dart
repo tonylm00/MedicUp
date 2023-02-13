@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/accountInfo.dart';
 import 'package:frontend/pages/armadiettoPage.dart';
+import 'package:frontend/pages/farmaciDetailMed.dart';
 import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/farmaciMedList.dart';
 import 'package:frontend/pages/farmacoDetail.dart';
 import 'package:frontend/pages/getReminders.dart';
 import 'package:frontend/pages/homepageMed.dart';
@@ -36,6 +38,8 @@ class MyApp extends StatelessWidget {
       home: const IntroPage(),
       navigatorKey: MyApp.navigatorKey,
       routes: <String, WidgetBuilder>{
+        '/farmaciListMed': (context) => const FarmaciListPageMed(),
+        '/farmaciDetailMed': (context) => const FarmacoDetailPageMed(),
         '/intro': (context) => const IntroPage(),
         '/signup': (context) => SignUpPage(),
         '/signin': (context) => const SignInPage(),
