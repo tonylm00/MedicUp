@@ -835,29 +835,31 @@ class SignUpWidget {
   }
 
   Widget _buildSignUpButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              state.nextStep();
-              state.signUpPaziente();
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: ColorUtils.accentColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0))),
-            child: const Text(
-              "Registrati",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 23,
-                  fontWeight: FontWeight.w600),
-            ),
-          )),
-    );
+    return Visibility(
+        visible: state.isAccepted,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+          child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  state.nextStep();
+                  state.signUpPaziente();
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorUtils.accentColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0))),
+                child: const Text(
+                  "Registrati",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                      fontWeight: FontWeight.w600),
+                ),
+              )),
+        ));
   }
 
   void _signUpProcess(BuildContext context) {
