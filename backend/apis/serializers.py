@@ -28,7 +28,7 @@ class FarmacoInArmadiettoSerializer(serializers.ModelSerializer):
 class PromemoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Promemoria
-        fields =  ['paziente', 'nome', 'descrizione', 'dottore']
+        fields =  '__all__'
         extra_kwargs = {
             'dottore': {'allow_null': True, 'required': False}
         }
@@ -36,7 +36,7 @@ class PromemoriaSerializer(serializers.ModelSerializer):
 class PromemoriaScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = PromemoriaSchedule
-        fields = ['promemoria', 'giorno', 'orario']
+        fields = '__all__'
 
 class PromemoriaUpdateSerializer(serializers.ModelSerializer):
     class Meta:

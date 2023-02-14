@@ -1,3 +1,5 @@
+#python manage.py migrate --run-syncdb
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -20,6 +22,7 @@ class Doctor(models.Model):
 class Farmaco(models.Model):
     nome = models.CharField(max_length=20, unique=True)
     principio = models.CharField(max_length=30)
+    tipo = models.CharField(max_length=12)
     descrizioneBugiardino = models.TextField()
     descrizioneRCP = models.TextField()
     precauzioniBugiardino = models.TextField()
@@ -31,7 +34,6 @@ class Farmaco(models.Model):
     informazioniBugiardino = models.TextField()
     informazioniRCP = models.TextField()
 
-
     def __str__(self):
         return self.nome
 
@@ -40,13 +42,13 @@ class FarmacoInArmadietto(models.Model):
     farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE) #farmaco
     scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
-    type = models.CharField(max_length=50)
 
 #promemoria
 class Promemoria(models.Model):
     paziente = models.ForeignKey(Patient, on_delete=models.CASCADE)
     dottore = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
     nome = models.TextField(null=False)
+    fine = models.CharField(max_length=10)
     descrizione = models.TextField(null=True)
 
 #memorizza le ore di un promemoria in un giorno specifico

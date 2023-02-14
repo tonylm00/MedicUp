@@ -39,6 +39,7 @@
       "model": "app.Farmaco",
       "fields": {
         "nome": "Tachipirina 500 mg",
+        "tipo": "Compressa effrevescente",
         "principio": "Paracetamolo",
         "descrizioneBugiardino": "Tachipirina contiene il principio attivo paracetamolo che agisce riducendo la febbre (antipiretico) e alleviando il dolore (analgesico). \n Tachipirina e' utilizzato negli adulti, adolescenti e bambini per: \n(1) il trattamento sintomatico degli stati febbrili quali l’influenza, le malattie esantematiche, le malattie acute del tratto respiratorio, ecc. \n(2) dolori di varia origine e natura (mal di testa, nevralgie, dolori muscolari ed altre manifestazioni dolorose di media entita').",
         "descrizioneRCP": "(1) Come antipiretico: trattamento sintomatico di affezioni febbrili quali l'influenza, le malattie esantematiche, le affezioni acute del tratto respiratorio, ecc. \n(2) Come analgesico: cefalee, nevralgie, mialgie ed altre manifestazioni dolorose di media entita', di varia origine.",
