@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/paziente/farmaciList.dart';
+import 'package:frontend/utils/toggleForSearch.dart';
 import 'package:intl/intl.dart';
 
 import '../../pages/paziente/armadiettoPage.dart';
@@ -26,13 +29,82 @@ class FarmaciListView {
                       height: 30,
                     ),
                     _buildIntroText(),
-                    farmaciList()
+                    toggleOptions(),
+                    searchBar(),
+                    farmaciList(),
                   ],
                 ),
               ),
             ],
           ),
         ));
+  }
+
+  toggleOptions() {
+    return GestureDetector(
+      onTap: () {
+        state.setState(() {
+          state.toggle = !state.toggle;
+          state.searchByName = !state.searchByName;
+          state.searchByPrincipio = !state.searchByPrincipio;
+        });
+        log('$state.searchByName + $state.searchByPrincipio');
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.all(8.0),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              decoration: BoxDecoration(
+                color: state.toggle
+                    ? ColorUtils.gradientStart
+                    : ColorUtils.lightPrimary,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                ),
+              ),
+              child: Text(
+                'Nome',
+                style: TextStyle(
+                  color: state.toggle ? Colors.white : Colors.black,
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              decoration: BoxDecoration(
+                color: state.toggle
+                    ? ColorUtils.lightPrimary
+                    : ColorUtils.gradientStart,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                ),
+              ),
+              child: Text(
+                'Principio Attivo',
+                style: TextStyle(
+                  color: state.toggle ? Colors.black : Colors.white,
+                  fontSize: 14.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buildIntroText() {
@@ -176,7 +248,7 @@ class FarmaciListView {
     return SizedBox(
         height: 140,
         child: Column(children: [
-          Text(state.messageEmpty),
+          Text('Nessun elemento trovato'),
           const SizedBox(
             height: 50,
           ),
@@ -193,5 +265,35 @@ class FarmaciListView {
             ),
           )
         ]));
+  }
+
+  searchBar() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32.0),
+        color: ColorUtils.lightTransPrimary,
+      ),
+      child: TextField(
+        controller: state.searchController,
+        decoration: InputDecoration(
+          hintText: (state.searchByName)
+              ? 'Cerca per nome ...'
+              : 'Cerca per principio attivo ...',
+          suffixIcon: IconButton(
+            onPressed: () {
+              (state.searchByName)
+                  ? state.searchByNameCall()
+                  : state.searchByPrincipioCall();
+            },
+            icon: const Icon(Icons.search),
+            color: ColorUtils.primaryColor,
+          ),
+          border: InputBorder.none,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+        ),
+      ),
+    );
   }
 }

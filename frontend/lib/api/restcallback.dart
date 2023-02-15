@@ -309,14 +309,16 @@ class RestCallback {
       final response = await makeGet('/farmaco/cerca/nome/?nome=$nome');
 
       Farmaco farmaco = Farmaco();
+      List<Farmaco> list = [];
 
       if (response.statusCode == 200) {
         log("${TAG} RICERCA PER NOME FARMACO: SUCCESS");
         log(response.body);
-        farmaco = Farmaco.fromJson(json.decode(response.body));
-        log(farmaco.toString());
+        list.add(Farmaco.fromJson(json.decode(response.body)));
+        // farmaco = Farmaco.fromJson(json.decode(response.body));
+        log(list.toString());
       }
-      return farmaco;
+      return list;
     } catch (e) {
       log("${TAG} RICERCA PER NOME FARMACO: Error ${e.toString()}");
 
@@ -331,17 +333,24 @@ class RestCallback {
   static Future<dynamic> ricercaFarmacoPrincipio(String principio) async {
     try {
       final response =
-          await makeGet('/farmaco/cerca/principio/principio=$principio');
+          await makeGet('/farmaco/cerca/principio/?principio=$principio');
 
       Farmaco farmaco = Farmaco();
+      List<Farmaco> list = [];
 
       if (response.statusCode == 200) {
         log("${TAG} RICERCA PER PRINCIPIO FARMACO: SUCCESS");
+        List<dynamic> mapList = [{}];
+        mapList = json.decode(response.body);
+
+        for (int i = 0; i < mapList.length; i++) {
+          list.add(Farmaco.fromJson(mapList[i]));
+        }
         log(response.body);
-        farmaco = Farmaco.fromJson(json.decode(response.body));
-        log(farmaco.toString());
+
+        log(list.toString());
       }
-      return farmaco;
+      return list;
     } catch (e) {
       log("${TAG} RICERCA PER PRINCIPIO FARMACO: Error ${e.toString()}");
 

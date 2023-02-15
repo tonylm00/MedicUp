@@ -75,6 +75,7 @@ class FarmaciListPageWidgetState
     extends AbstractBaseState<FarmaciListPageWidget> {
   String TAG = '[FARMACI LIST] : ';
   dynamic userObjectData;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +85,9 @@ class FarmaciListPageWidgetState
 
   List<Farmaco> listaFarmaci = [];
   String messageEmpty = '';
+  bool toggle = true;
+  bool searchByName = true;
+  bool searchByPrincipio = false;
 
   @override
   calledFromInitState() async {
@@ -105,5 +109,33 @@ class FarmaciListPageWidgetState
         messageEmpty = 'Nessun elemento trovato.';
       });
     }
+  }
+
+  searchByNameCall() async {
+    dynamic response =
+        await RestCallback.ricercaFarmacoNome(searchController.text);
+    log(response.toString());
+    if (response == []) {
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
+    }
+    setState(() {
+      listaFarmaci = response;
+    });
+  }
+
+   searchByPrincipioCall() async {
+    dynamic response =
+        await RestCallback.ricercaFarmacoPrincipio(searchController.text);
+    log(response.toString());
+    if (response == []) {
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
+    }
+    setState(() {
+      listaFarmaci = response;
+    });
   }
 }
