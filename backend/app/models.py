@@ -40,6 +40,7 @@ class Farmaco(models.Model):
 class FarmacoInArmadietto(models.Model):
     paziente = models.ForeignKey(Patient, on_delete=models.CASCADE) #paziente
     farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE) #farmaco
+    nomeFarmaco = models.CharField(max_length=30)
     scadenza = models.CharField(max_length=10)
     quantity = models.PositiveIntegerField()
 

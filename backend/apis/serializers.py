@@ -1,9 +1,6 @@
 from rest_framework import serializers
 from app.models import *
 
-from rest_framework import serializers
-from app.models import Patient, Doctor, FarmacoInArmadietto, Farmaco, Promemoria, PromemoriaSchedule
-
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
@@ -20,7 +17,6 @@ class FarmacoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FarmacoInArmadiettoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = FarmacoInArmadietto
         fields = '__all__'

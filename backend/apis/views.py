@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password
 from app.models import Patient, Farmaco, Doctor, FarmacoInArmadietto, PromemoriaSchedule, Promemoria
 from .serializers import PromemoriaUpdateSerializer, FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer, PromemoriaScheduleSerializer, PromemoriaSerializer
-
+import json
 '''
 Login diversi, in cui restituisco tutto l'oggetto Paziente o Dottore, utilizzando queryparams
 
@@ -133,6 +133,15 @@ class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
     queryset = FarmacoInArmadietto.objects.all()
 
     def create(self, request, *args, **kwargs):
+            body = json.loads(request.body.decode('utf-8'))
+            print(body.get("farmaco"))
+            farmacoAdded = Farmaco.objects.get(id=body.get("farmaco"))
+            pazienteArm = Patient.objects.get(id=body.get("paziente"))
+            farmacoArmadietto = FarmacoInArmadietto(paziente=pazienteArm, farmaco=farmacoAdded, nomeFarmaco=farmacoAdded.nome,  scadenza=body.get("scadenza"), quantity=body.get("quantity"))
+            farmacoArmadietto.save()
+            return Response({"success": True},status=status.HTTP_201_CREATED)
+'''
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -141,7 +150,8 @@ class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
     
     def perform_create(self, serializer):
         serializer.save()
-        
+'''
+
 #visualizzazione armadietto dei farmaci
 class ArmadiettoView(generics.ListCreateAPIView):
     serializer_class = FarmacoInArmadiettoSerializer
