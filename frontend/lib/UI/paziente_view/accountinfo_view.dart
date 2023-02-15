@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bootstrap/flutter_bootstrap.dart';
 
-import '../../pages/accountInfo.dart';
+import '../../pages/paziente/accountInfo.dart';
 import '../../utils/ColorUtils.dart';
 
 class AccountInfoView {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/paziente/farmaciList.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/armadiettoPage.dart';
-import '../pages/getReminders.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/CommonStyle.dart';
-import '../utils/routes.dart';
+import '../../pages/paziente/armadiettoPage.dart';
+import '../../pages/paziente/getReminders.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/CommonStyle.dart';
+import '../../utils/routes.dart';
 
 class PromemoriaListView {
   final PromemoriaListPageWidgetState state;

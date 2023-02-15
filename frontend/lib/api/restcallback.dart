@@ -78,12 +78,12 @@ class RestCallback {
   static Future<dynamic> getLoginPaziente() async {
     try {
       Paziente pazienteObj = Paziente();
-
+/* 
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       var pazienteNome = sharedPreferences.getString('pazienteNome');
 
-      log('PAZIENTE NOME FROM SHARED PREFERENCES: $pazienteNome');
+      log('PAZIENTE NOME FROM SHARED PREFERENCES: $pazienteNome'); */
 
       pazienteObj.nome = await SessionManager.getPazienteNome();
       pazienteObj.cognome = await SessionManager.getPazienteCognome();

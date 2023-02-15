@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/AbstractBase.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/routes.dart';
 import 'package:frontend/utils/session/LoginData.dart';
@@ -94,7 +95,7 @@ class LoginFormWidget extends StatefulWidget {
   }
 }
 
-class LoginFormWidgetState extends State<LoginFormWidget> {
+class LoginFormWidgetState extends AbstractBaseState<LoginFormWidget> {
   final formKey = GlobalKey<FormState>();
   var userEmailController = TextEditingController();
   var medIdController = TextEditingController();
@@ -190,6 +191,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
 
     LoginData loginData = LoginData(paziente: paziente, medico: Medico());
     SessionManager.setSessionFromLogin(loginData);
+    loadSessionManager(context, loginData: loginData);
 
     if (paziente != null) {
       Navigator.pushNamed(context, Routes.homepage);
@@ -207,6 +209,7 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
     LoginData loginData = LoginData(paziente: Paziente(), medico: medico);
     loginData.medico = medico;
     SessionManager.setSessionFromLogin(loginData);
+    loadSessionManager(context, loginData: loginData);
 
     if (medico != null) {
       Navigator.pushNamed(context, Routes.homepageMed);
@@ -215,4 +218,9 @@ class LoginFormWidgetState extends State<LoginFormWidget> {
 
   @override
   Widget build(BuildContext context) => SignInWidget(this).getView(context);
+
+  @override
+  calledFromInitState() {
+    print('HELLO');
+  }
 }

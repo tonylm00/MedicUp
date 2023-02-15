@@ -2,22 +2,23 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/medico_view/homepage_medview.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/AbstractBase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../UI/paziente_view/homepage_view.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/session/SessionManager.dart';
+import '../../UI/paziente_view/homepage_view.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/session/SessionManager.dart';
 
-class HomepageMed extends StatefulWidget {
-  const HomepageMed({super.key});
+class Homepage extends StatefulWidget {
+  const Homepage({super.key});
 
   @override
   State<StatefulWidget> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<HomepageMed> {
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +49,7 @@ class _HomepageState extends State<HomepageMed> {
                 top: 150,
                 left: 10,
                 right: 10,
-                child: HomepageColumnMedWidget(),
+                child: HomepageColumnWidget(),
               )
             ],
           ),
@@ -58,42 +59,37 @@ class _HomepageState extends State<HomepageMed> {
   }
 }
 
-class HomepageColumnMedWidget extends StatefulWidget {
-  const HomepageColumnMedWidget({super.key});
+class HomepageColumnWidget extends StatefulWidget {
+  const HomepageColumnWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return HomepageColumnMedWidgetState();
+    return HomepageColumnWidgetState();
   }
 }
 
-class HomepageColumnMedWidgetState extends State<HomepageColumnMedWidget> {
-  dynamic paziente ,medico ;
-  Medico medicoObj = Medico();
+class HomepageColumnWidgetState
+    extends AbstractBaseState<HomepageColumnWidget> {
+  dynamic paziente, medico;
+  Paziente pazienteObj = Paziente();
 
   @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
-
-   
+  calledFromInitState() async {
+    await callBackToRestApi();
+    showLoading(false, msg: 'Caricamento ...');
   }
 
   callBackToRestApi() async {
-    paziente = (await SessionManager.getPaziente());
+    pazienteObj.nome = await SessionManager.getPazienteNome();
+    pazienteObj.cognome = await SessionManager.getPazienteCognome();
+    pazienteObj.cf = await SessionManager.getPazienteCf();
+    pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
+    pazienteObj.email = await SessionManager.getPazienteEmail();
+    pazienteObj.password = await SessionManager.getPazientePassword();
 
-    medico = (await SessionManager.getMedico()) ;
-
-    medicoObj.nome = await SessionManager.getMedicoNome();
-    medicoObj.cognome = await SessionManager.getMedicoCognome();
-    medicoObj.fnomceo = await SessionManager.getMedicFnomceo();
-    medicoObj.email = await SessionManager.getMedicoEmail();
-    medicoObj.password = await SessionManager.getMedicoPassword();
-
-    log(medicoObj.toString());
+    print(pazienteObj.toJson().toString());
   }
 
   @override
-  Widget build(BuildContext context) => HomePageMedView(this).getView(context);
+  Widget build(BuildContext context) => HomePageView(this).getView(context);
 }

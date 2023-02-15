@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/utils/AbstractBase.dart';
 import 'package:frontend/utils/routes.dart';
 import 'package:frontend/utils/session/SessionManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/ColorUtils.dart';
-import '../utils/ResponseMessage.dart';
-import '../utils/restClient.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/ResponseMessage.dart';
+import '../../utils/restClient.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -71,7 +72,7 @@ class AccountPageWidget extends StatefulWidget {
   }
 }
 
-class AccountPageWidgetState extends State<AccountPageWidget> {
+class AccountPageWidgetState extends AbstractBaseState<AccountPageWidget> {
   String TAG = '[PAZIENTE GET ACCOUNT INFO] : ';
   dynamic paziente;
   dynamic medico;
@@ -80,27 +81,15 @@ class AccountPageWidgetState extends State<AccountPageWidget> {
   dynamic userObjectData;
   var pazienteNome;
 
-  @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
-
-    /*  final org = businessCode ?? await SessionManager.getBusinessCode();*/
-  }
-
   callBackToRestApi() async {
-    /*    paziente = (await SessionManager.getPaziente());
+    pazienteObj.nome = await SessionManager.getPazienteNome();
+    pazienteObj.cognome = await SessionManager.getPazienteCognome();
+    pazienteObj.cf = await SessionManager.getPazienteCf();
+    pazienteObj.dataNascita = await SessionManager.getPazienteDataNascita();
+    pazienteObj.email = await SessionManager.getPazienteEmail();
+    pazienteObj.password = await SessionManager.getPazientePassword();
 
-    medico = (await SessionManager.getMedico()); */
-
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    pazienteNome = sharedPreferences.getString('pazienteNome');
-
-    log('PAZIENTE NOME FROM SHARED PREFERENCES: $pazienteNome');
-    pazienteObj = await RestCallback.getLoginPaziente();
-
-    log('PAZIENTE DA ACCOUNT INFO' + pazienteObj.toString());
+    print('ACCOUNT INFO ABSTRACT STATE: ' + pazienteObj.toJson().toString());
   }
 
   @override
@@ -114,5 +103,11 @@ class AccountPageWidgetState extends State<AccountPageWidget> {
     SessionManager.clearSession();
 
     Navigator.pushNamed(context, Routes.intro);
+  }
+
+  @override
+  calledFromInitState() async {
+    await callBackToRestApi();
+    showLoading(false, msg: 'Caricamento ...');
   }
 }

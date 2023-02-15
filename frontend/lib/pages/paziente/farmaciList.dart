@@ -2,27 +2,28 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/medico_view/farmaciListMed_view.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/restClient.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
 import 'package:http/http.dart';
 
-import '../UI/farmaciList_view.dart';
-import '../utils/ColorUtils.dart';
+import '../../UI/paziente_view/farmaciList_view.dart';
+import '../../utils/AbstractBase.dart';
+import '../../utils/ColorUtils.dart';
 
-class FarmaciListPageMed extends StatefulWidget {
-  const FarmaciListPageMed({super.key});
+class FarmaciListPage extends StatefulWidget {
+  const FarmaciListPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return FarmaciListPageMedState();
+    return FarmaciListPageState();
   }
 }
 
-class FarmaciListPageMedState extends State<FarmaciListPageMed> {
+class FarmaciListPageState extends State<FarmaciListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class FarmaciListPageMedState extends State<FarmaciListPageMed> {
                 top: 150,
                 left: 10,
                 right: 10,
-                child: FarmaciListPageWidgetMed(),
+                child: FarmaciListPageWidget(),
               )
             ],
           ),
@@ -63,33 +64,31 @@ class FarmaciListPageMedState extends State<FarmaciListPageMed> {
   }
 }
 
-class FarmaciListPageWidgetMed extends StatefulWidget {
-  const FarmaciListPageWidgetMed({super.key});
+class FarmaciListPageWidget extends StatefulWidget {
+  const FarmaciListPageWidget({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return FarmaciListPageWidgetMedState();
-  }
+  FarmaciListPageWidgetState createState() => FarmaciListPageWidgetState();
 }
 
-class FarmaciListPageWidgetMedState extends State<FarmaciListPageWidgetMed> {
+class FarmaciListPageWidgetState
+    extends AbstractBaseState<FarmaciListPageWidget> {
   String TAG = '[FARMACI LIST] : ';
   dynamic userObjectData;
 
   @override
   Widget build(BuildContext context) {
     userObjectData = ModalRoute.of(context)!.settings.arguments;
-    return FarmaciListViewMed(this).getView(context);
+    return FarmaciListView(this).getView(context);
   }
 
   List<Farmaco> listaFarmaci = [];
   String messageEmpty = '';
 
   @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
+  calledFromInitState() async {
+    await callBackToRestApi();
+    showLoading(false, msg: 'Caricamento ...');
   }
 
   callBackToRestApi() async {

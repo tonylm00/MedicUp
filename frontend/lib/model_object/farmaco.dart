@@ -1,7 +1,7 @@
 class Farmaco {
   int? id;
   String? nome;
-  String? principio;
+  String? principio, tipo;
 
   //paziente
   String? descrizioneBug,
@@ -21,6 +21,7 @@ class Farmaco {
       {this.id,
       this.nome,
       this.principio,
+      this.tipo,
       this.descrizioneBug,
       this.precauzioniBug,
       this.controindicazioniBug,
@@ -36,6 +37,7 @@ class Farmaco {
     id = json['id'];
     nome = json['nome'];
     principio = json['principio'];
+    tipo = json['tipo'];
     posologiaBug = json['posologiaBugiardino'];
     descrizioneBug = json['descrizioneBugiardino'];
     precauzioniBug = json['precauzioniBugiardino'];
@@ -52,6 +54,7 @@ class Farmaco {
     data['nome'] = nome;
     data['id'] = id;
     data['principio'] = principio;
+    data['tipo'] = tipo;
     data['descrizione_bugiardino'] = descrizioneBug;
     data['precauzioni_bugiardino'] = precauzioniBug;
     data['controindicazioni_bugiardino'] = controindicazioniBug;

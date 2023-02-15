@@ -1,9 +1,8 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/routes.dart';
 
-import '../../pages/homepage.dart';
+import '../../pages/paziente/homepage.dart';
 import '../../utils/ColorUtils.dart';
 
 class HomePageView {

@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluro/fluro.dart' as rManager;
-import 'package:frontend/pages/accountInfo.dart';
-import 'package:frontend/pages/armadiettoPage.dart';
-import 'package:frontend/pages/farmaciDetailMed.dart';
-import 'package:frontend/pages/farmaciList.dart';
-import 'package:frontend/pages/farmaciMedList.dart';
-import 'package:frontend/pages/farmacoDetail.dart';
-import 'package:frontend/pages/getReminders.dart';
-import 'package:frontend/pages/homepageMed.dart';
+import 'package:frontend/pages/paziente/accountInfo.dart';
+import 'package:frontend/pages/paziente/armadiettoPage.dart';
+import 'package:frontend/pages/medico/farmaciDetailMed.dart';
+import 'package:frontend/pages/paziente/farmaciList.dart';
+import 'package:frontend/pages/medico/farmaciMedList.dart';
+import 'package:frontend/pages/paziente/farmacoDetail.dart';
+import 'package:frontend/pages/paziente/getReminders.dart';
+import 'package:frontend/pages/medico/homepageMed.dart';
 import 'package:frontend/utils/routes.dart';
 
-import '../pages/homepage.dart';
+import '../pages/paziente/homepage.dart';
 import '../pages/intropage.dart';
 import '../pages/searchByName.dart';
 import '../pages/searchByPrincipioAttivo.dart';

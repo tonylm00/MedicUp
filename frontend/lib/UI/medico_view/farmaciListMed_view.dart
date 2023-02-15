@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/farmaciList.dart';
-import 'package:frontend/pages/farmaciMedList.dart';
+import 'package:frontend/pages/paziente/farmaciList.dart';
+import 'package:frontend/pages/medico/farmaciMedList.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/ColorUtils.dart';

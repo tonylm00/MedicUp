@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/farmacoDetail.dart';
+import 'package:frontend/pages/paziente/farmacoDetail.dart';
+import 'package:frontend/utils/mydropdown.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/armadiettoPage.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/CommonStyle.dart';
-import '../utils/routes.dart';
+import '../../pages/paziente/armadiettoPage.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/CommonStyle.dart';
+import '../../utils/routes.dart';
 
 class FarmacoDetailView {
   final FarmacoDetailWidgetState state;
@@ -71,7 +72,7 @@ class FarmacoDetailView {
                                             title: const Text(
                                                 "Aggiungi queste informazioni : "),
                                             content: Container(
-                                              height: 220,
+                                              height: 150,
                                               child: Column(
                                                 children: [
                                                   TextField(
@@ -98,19 +99,6 @@ class FarmacoDetailView {
                                                     onSubmitted: (value) {
                                                       state.setState(() {
                                                         state.quantitaController
-                                                            .text = value;
-                                                      });
-                                                    },
-                                                  ),
-                                                  TextField(
-                                                    controller:
-                                                        state.tipoController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                            labelText: 'Tipo'),
-                                                    onSubmitted: (value) {
-                                                      state.setState(() {
-                                                        state.tipoController
                                                             .text = value;
                                                       });
                                                     },
@@ -172,88 +160,12 @@ class FarmacoDetailView {
                           ),
                           Column(
                             children: [
-                              const Text(
-                                "Nome",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                state.farmaco.nome ?? '',
-                                textAlign: TextAlign.left,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(
-                            children: [
-                              const Text(
-                                "Principio",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                state.farmaco.principio ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(children: [
-                            Row(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: <Widget>[
-                                const Text(
-                                  "Descrizione",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            Text(state.farmaco.descrizioneBug ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ]),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Column(
-                            children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
                                   Text(
-                                    "Precauzioni",
+                                    "Nome",
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
@@ -261,27 +173,35 @@ class FarmacoDetailView {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                state.farmaco.precauzioniBug ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.farmaco.nome ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 30,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: ColorUtils.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Column(
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
                                   Text(
-                                    "Posologia",
+                                    "Tipo",
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
@@ -289,11 +209,70 @@ class FarmacoDetailView {
                                   ),
                                 ],
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.farmaco.tipo ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 30,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: ColorUtils.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Principio",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.farmaco.principio ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 100,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: ColorUtils.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          MyDropdownButton(
+                            title: 'Descrizione',
+                            content: Column(children: [
                               const SizedBox(height: 10),
                               Text(
-                                state.farmaco.posologiaBug ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
+                                state.farmaco.descrizioneBug ?? '',
+                                textAlign: TextAlign.left,
+                                maxLines: 100,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                   fontSize: 17,
@@ -301,66 +280,85 @@ class FarmacoDetailView {
                                   fontWeight: FontWeight.bold,
                                 ),
                               )
-                            ],
+                            ]),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          MyDropdownButton(
+                            title: 'Precauzioni',
+                            content: Column(
+                              children: [
+                                Text(
+                                  state.farmaco.precauzioniBug ?? '',
+                                  textAlign: TextAlign.left,
+                                  maxLines: 100,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 17,
+                                    color: ColorUtils.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 20),
-                          Column(
-                            children: [
-                              Row(
-                                children: const [
+                          MyDropdownButton(
+                              title: 'Posologia',
+                              content: Column(
+                                children: [
                                   Text(
-                                    "Controindicazioni",
-                                    style: TextStyle(
+                                    state.farmaco.posologiaBug ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 100,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
                                       fontSize: 17,
+                                      color: ColorUtils.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              )),
+                          const SizedBox(height: 20),
+                          MyDropdownButton(
+                              title: 'Controindicazioni',
+                              content: Column(
+                                children: [
+                                  Text(
+                                    state.farmaco.controindicazioniBug ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 100,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      color: ColorUtils.primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  const SizedBox(height: 10),
                                 ],
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                state.farmaco.controindicazioniBug ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
+                              )),
                           const SizedBox(height: 20),
-                          Column(
-                            children: [
-                              Row(
-                                children: const [
+                          MyDropdownButton(
+                              title: 'Informazioni',
+                              content: Column(
+                                children: [
                                   Text(
-                                    "Informazioni",
-                                    style: TextStyle(
+                                    state.farmaco.informazioniBug ?? '',
+                                    textAlign: TextAlign.left,
+                                    maxLines: 100,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
                                       fontSize: 17,
+                                      color: ColorUtils.primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  const SizedBox(height: 10),
                                 ],
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                state.farmaco.informazioniBug ?? '',
-                                textAlign: TextAlign.justify,
-                                maxLines: 30,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  color: ColorUtils.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
+                              )),
                         ],
                       ))
                   : Container(),

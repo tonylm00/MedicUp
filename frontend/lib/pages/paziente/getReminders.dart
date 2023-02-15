@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/model_object/reminder.dart';
 
-import '../UI/farmaciList_view.dart';
-import '../UI/remindersList_view.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/ResponseMessage.dart';
-import '../utils/restClient.dart';
+import '../../UI/paziente_view/farmaciList_view.dart';
+import '../../UI/paziente_view/remindersList_view.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/ResponseMessage.dart';
+import '../../utils/restClient.dart';
 
 class PromemoriaListPage extends StatefulWidget {
   const PromemoriaListPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../pages/armadiettoPage.dart';
+import '../../pages/paziente/armadiettoPage.dart';
 import '../../utils/ColorUtils.dart';
 import '../../utils/CommonStyle.dart';
 import '../../utils/routes.dart';

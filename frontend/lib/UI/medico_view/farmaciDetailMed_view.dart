@@ -2,12 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/farmaciDetailMed.dart';
-import 'package:frontend/pages/farmacoDetail.dart';
+import 'package:frontend/pages/medico/farmaciDetailMed.dart';
+import 'package:frontend/pages/paziente/farmacoDetail.dart';
 import 'package:frontend/utils/ColorUtils.dart';
 import 'package:frontend/utils/routes.dart';
 import 'package:intl/intl.dart';
-
 
 class FarmacoDetailViewMed {
   final FarmacoDetailPageMedWidgetState state;
@@ -44,9 +43,7 @@ class FarmacoDetailViewMed {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
-                            children: [
-                             
-                            ],
+                            children: [],
                           ),
                           const SizedBox(
                             height: 20,
@@ -88,7 +85,7 @@ class FarmacoDetailViewMed {
                               ),
                               Text(
                                 state.farmaco.principio ?? '',
-                                textAlign: TextAlign.justify,
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -116,8 +113,8 @@ class FarmacoDetailViewMed {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            Text(state.farmaco.descrizioneBug ?? '',
-                                textAlign: TextAlign.justify,
+                            Text(state.farmaco.descrizioneRCP ?? '',
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -144,8 +141,8 @@ class FarmacoDetailViewMed {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                state.farmaco.precauzioniBug ?? '',
-                                textAlign: TextAlign.justify,
+                                state.farmaco.precauzioniRCP ?? '',
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -172,8 +169,8 @@ class FarmacoDetailViewMed {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                state.farmaco.posologiaBug ?? '',
-                                textAlign: TextAlign.justify,
+                                state.farmaco.posologiaRCP ?? '',
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -200,8 +197,8 @@ class FarmacoDetailViewMed {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                state.farmaco.controindicazioniBug ?? '',
-                                textAlign: TextAlign.justify,
+                                state.farmaco.controindicazioniRCP ?? '',
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
@@ -229,8 +226,8 @@ class FarmacoDetailViewMed {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                state.farmaco.informazioniBug ?? '',
-                                textAlign: TextAlign.justify,
+                                state.farmaco.informazioniRCP ?? '',
+                                textAlign: TextAlign.left,
                                 maxLines: 30,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(

@@ -5,11 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/medico_view/farmaciDetailMed_view.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
-import 'package:frontend/UI/farmacoDetail_view.dart';
+import 'package:frontend/UI/paziente_view/farmacoDetail_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
 
-import '../utils/ColorUtils.dart';
+import '../../utils/ColorUtils.dart';
 
 class FarmacoDetailPageMed extends StatefulWidget {
   const FarmacoDetailPageMed({super.key});

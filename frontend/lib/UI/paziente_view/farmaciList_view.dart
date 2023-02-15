@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/farmaciList.dart';
+import 'package:frontend/pages/paziente/farmaciList.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/armadiettoPage.dart';
-import '../utils/ColorUtils.dart';
-import '../utils/CommonStyle.dart';
-import '../utils/routes.dart';
+import '../../pages/paziente/armadiettoPage.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/CommonStyle.dart';
+import '../../utils/routes.dart';
 
 class FarmaciListView {
   final FarmaciListPageWidgetState state;
@@ -105,7 +105,7 @@ class FarmaciListView {
                                             icon: const Icon(
                                               Icons.zoom_in,
                                               color: Colors.black,
-                                              size: 30,
+                                              size: 40,
                                             ),
                                             onPressed: () {
                                               Navigator.pushNamed(state.context,
@@ -115,6 +115,23 @@ class FarmaciListView {
                                                       .listaFarmaci[index].id */
                                                   );
                                             },
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text('Tipo : ',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Text(
+                                            state.listaFarmaci[index].tipo ??
+                                                '',
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: ColorUtils.primaryColor),
                                           ),
                                         ],
                                       ),

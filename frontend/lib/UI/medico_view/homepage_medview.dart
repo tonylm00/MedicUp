@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/routes.dart';
 
-import '../../pages/homepage.dart';
-import '../../pages/homepageMed.dart';
+import '../../pages/paziente/homepage.dart';
+import '../../pages/medico/homepageMed.dart';
 import '../../utils/ColorUtils.dart';
 
 class HomePageMedView {

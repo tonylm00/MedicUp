@@ -5,23 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
-import 'package:frontend/utils/ResponseMessage.dart';
-import 'package:frontend/utils/restClient.dart';
-import 'package:http/http.dart';
+import 'package:frontend/model_object/farmacoArmadietto.dart';
 
-import '../UI/farmaciList_view.dart';
-import '../utils/ColorUtils.dart';
+import '../../utils/ColorUtils.dart';
+import '../../utils/ResponseMessage.dart';
+import '../../utils/restClient.dart';
 
-class FarmaciListPage extends StatefulWidget {
-  const FarmaciListPage({super.key});
+class ArmadiettoPage extends StatefulWidget {
+  const ArmadiettoPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return FarmaciListPageState();
+    return ArmadiettoPageState();
   }
 }
 
-class FarmaciListPageState extends State<FarmaciListPage> {
+class ArmadiettoPageState extends State<ArmadiettoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +40,7 @@ class FarmaciListPageState extends State<FarmaciListPage> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 80),
                     child: Text(
-                      "Farmaci",
+                      "Armadietto",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
@@ -52,7 +51,7 @@ class FarmaciListPageState extends State<FarmaciListPage> {
                 top: 150,
                 left: 10,
                 right: 10,
-                child: FarmaciListPageWidget(),
+                child: ArmadiettoWidget(),
               )
             ],
           ),
@@ -62,26 +61,19 @@ class FarmaciListPageState extends State<FarmaciListPage> {
   }
 }
 
-class FarmaciListPageWidget extends StatefulWidget {
-  const FarmaciListPageWidget({super.key});
+class ArmadiettoWidget extends StatefulWidget {
+  const ArmadiettoWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return FarmaciListPageWidgetState();
+    return ArmadiettoWidgetState();
   }
 }
 
-class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
-  String TAG = '[FARMACI LIST] : ';
-  dynamic userObjectData;
+class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
+  String TAG = '[ARMADIETTO FARMACI LIST] : ';
 
-  @override
-  Widget build(BuildContext context) {
-    userObjectData = ModalRoute.of(context)!.settings.arguments;
-    return FarmaciListView(this).getView(context);
-  }
-
-  List<Farmaco> listaFarmaci = [];
+  List<FarmacoArmadietto> listaFarmaciArmadietto = [];
   String messageEmpty = '';
 
   @override
@@ -92,18 +84,22 @@ class FarmaciListPageWidgetState extends State<FarmaciListPageWidget> {
   }
 
   callBackToRestApi() async {
-    dynamic response = await RestCallback.listaFarmaci();
+    dynamic response = await RestCallback.armadietto(1);
     log(response.toString());
 
     if (response != null) {
       setState(() {
-        listaFarmaci = response;
+        listaFarmaciArmadietto = response;
       });
     } else {
-      listaFarmaci = [];
+      listaFarmaciArmadietto = [];
       setState(() {
         messageEmpty = 'Nessun elemento trovato.';
       });
     }
   }
+
+  @override
+  Widget build(BuildContext context) =>
+      ArmadiettoWidgetView(this).getView(context);
 }
