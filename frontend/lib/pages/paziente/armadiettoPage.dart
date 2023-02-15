@@ -6,6 +6,8 @@ import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/model_object/farmacoArmadietto.dart';
+import 'package:frontend/utils/AbstractBase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/ColorUtils.dart';
 import '../../utils/ResponseMessage.dart';
@@ -70,17 +72,21 @@ class ArmadiettoWidget extends StatefulWidget {
   }
 }
 
-class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
+class ArmadiettoWidgetState extends AbstractBaseState<ArmadiettoWidget> {
   String TAG = '[ARMADIETTO FARMACI LIST] : ';
 
   List<FarmacoArmadietto> listaFarmaciArmadietto = [];
   String messageEmpty = '';
+  TextEditingController nomePromemoria = TextEditingController();
+  TextEditingController descrizione = TextEditingController();
+
+  TextEditingController dataFine = TextEditingController();
+
+  bool isShared = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
+  calledFromInitState() async {
+    await callBackToRestApi();
   }
 
   callBackToRestApi() async {
@@ -96,6 +102,45 @@ class ArmadiettoWidgetState extends State<ArmadiettoWidget> {
       setState(() {
         messageEmpty = 'Nessun elemento trovato.';
       });
+    }
+  }
+
+  setSharedPreferencesFarmacoNome(String nomeFarmaco) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString('nomeFarmaco', nomeFarmaco);
+
+    print(nomeFarmaco);
+  }
+
+  setPromemoria() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    dynamic nomeFarmaco = sharedPreferences.getString('nomeFarmaco');
+
+    dynamic response = await RestCallback.addPromemoria(
+        1, nomeFarmaco, descrizione.text, dataFine.text);
+
+    print(response.toString());
+
+    Navigator.of(context).pop();
+
+    if (response != null) {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: const Text("Promemoria aggiunto!"),
+                actions: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorUtils.primaryColor,
+                    ),
+                    child: const Text("Ok"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ]);
+          });
     }
   }
 

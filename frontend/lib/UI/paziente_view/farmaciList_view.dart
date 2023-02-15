@@ -180,12 +180,13 @@ class FarmaciListView {
                                               size: 40,
                                             ),
                                             onPressed: () {
-                                              Navigator.pushNamed(state.context,
-                                                  Routes.farmacoDetail,
-                                                  arguments: 1
-                                                  /* arguments: state
-                                                      .listaFarmaci[index].id */
-                                                  );
+                                              state.setState(() {
+                                                state
+                                                    .setIndexFarmacoToSharedPref(
+                                                        state
+                                                            .listaFarmaci[index]
+                                                            .id!);
+                                              });
                                             },
                                           ),
                                         ],

@@ -73,7 +73,8 @@ class FarmaciListPageWidgetMed extends StatefulWidget {
   }
 }
 
-class FarmaciListPageWidgetMedState extends AbstractBaseState<FarmaciListPageWidgetMed> {
+class FarmaciListPageWidgetMedState
+    extends AbstractBaseState<FarmaciListPageWidgetMed> {
   String TAG = '[FARMACI LIST] : ';
   dynamic userObjectData;
 
@@ -104,6 +105,8 @@ class FarmaciListPageWidgetMedState extends AbstractBaseState<FarmaciListPageWid
     if (response != null) {
       setState(() {
         listaFarmaci = response;
+        listaFarmaci.sort();
+        listaFarmaci.sort(((a, b) => a.nome!.compareTo(b.nome!)));
       });
     } else {
       listaFarmaci = [];
@@ -127,7 +130,7 @@ class FarmaciListPageWidgetMedState extends AbstractBaseState<FarmaciListPageWid
     });
   }
 
-   searchByPrincipioCall() async {
+  searchByPrincipioCall() async {
     dynamic response =
         await RestCallback.ricercaFarmacoPrincipio(searchController.text);
     log(response.toString());

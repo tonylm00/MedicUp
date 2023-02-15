@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,7 +33,7 @@ class SessionManager {
     return _getField(_SessionField.Paziente);
   }
 
-  static Future<String> getPazienteId() async {
+  static Future<Future<String>> getPazienteId() async {
     return _getField(_SessionField.PazienteId);
   }
 

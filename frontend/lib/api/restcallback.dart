@@ -7,6 +7,7 @@ import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/model_object/farmacoArmadietto.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
+import 'package:frontend/model_object/reminder.dart';
 import 'package:frontend/utils/session/SessionManager.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -427,4 +428,58 @@ class RestCallback {
   //  PROMEMORIA
   //********************************************************************************
 
+  static Future<dynamic> addPromemoria(int idPaziente, String nomeFarmaco,
+      String descrizione, String dataFine) async {
+    try {
+      Map<String, dynamic> dataToSend = {};
+
+      if (idPaziente != null) {
+        dataToSend['paziente'] = idPaziente;
+      }
+      if (nomeFarmaco != null) {
+        dataToSend['nome'] = nomeFarmaco;
+      }
+      if (descrizione.isNotEmpty) {
+        dataToSend['descrizione'] = descrizione;
+      }
+
+      if (dataFine != null) {
+        dataToSend['fine'] = dataFine;
+      }
+
+      final response = await makePost('/promemoria/add/', data: dataToSend);
+
+      if (response.statusCode == '201 Created') {
+        log("${TAG} PROMEMORIA CREATE: SUCCESS");
+      }
+      return response.body;
+    } catch (e) {
+      log("${TAG} PROMEMORIA CREATE: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
+
+  static Future<dynamic> getReminderPaziente(int idPaziente) async {
+    try {
+      final response = await makeGet('/promemoria/paziente/$idPaziente/');
+      List<Reminder> list = [];
+
+      if (response.statusCode == '200 OK') {
+        log("${TAG} PROMEMORIA PAZIENTE GET: SUCCESS");
+      }
+      List<dynamic> mapList = [{}];
+      mapList = json.decode(response.body);
+
+      for (int i = 0; i < mapList.length; i++) {
+        list.add(Reminder.fromJson(mapList[i]));
+      }
+
+      return list;
+    } catch (e) {
+      log("${TAG} PROMEMORIA PAZIENTE GET: Error ${e.toString()}");
+
+      throw Exception('Failed to load data');
+    }
+  }
 }

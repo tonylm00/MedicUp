@@ -4,7 +4,6 @@ import '../pages/intropage.dart';
 import '../utils/ColorUtils.dart';
 import '../utils/routes.dart';
 
-
 class IntroWidget {
   final IntroPage state;
   IntroWidget(this.state) : super();
@@ -60,7 +59,50 @@ class IntroWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Routes.signin);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Attenzione : "),
+                          content: Container(
+                            height: 150,
+                            child: const Text(
+                                'Si prega di notare che l\'applicazione che state utilizzando ha solo scopo informativo e non sostituisce in alcun modo il parere di un professionista qualificato o le raccomandazioni mediche.'),
+                          ),
+                          actions: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 15.0),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0),
+                                  width: double.infinity,
+                                  child: Visibility(
+                                      /*  visible: (state.isSubmittedEmail || state.isSubmittedMedId) &&
+                  (state.isSubmittedPassword), */
+                                      child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, Routes.signin);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: ColorUtils.accentColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0))),
+                                    child: const Text(
+                                      "Ho capito.",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ))),
+                            )
+                          ],
+                        );
+                      },
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: ColorUtils.accentColor),

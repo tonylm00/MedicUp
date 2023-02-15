@@ -1,4 +1,4 @@
-class Farmaco {
+class Farmaco implements Comparable {
   int? id;
   String? nome;
   String? principio, tipo;
@@ -64,5 +64,10 @@ class Farmaco {
     data['controindicazioni_RCP'] = controindicazioniRCP;
     data['posologia_RCP'] = posologiaRCP;
     return data;
+  }
+
+  @override
+  int compareTo(other) {
+    return nome!.compareTo(other.nome);
   }
 }

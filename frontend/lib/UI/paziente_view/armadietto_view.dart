@@ -92,14 +92,186 @@ class ArmadiettoWidgetView {
                                         children: [
                                           Text(
                                             state.listaFarmaciArmadietto[index]
-                                                    .tipo!
-                                                    .toUpperCase() ??
-                                                '',
+                                                    .nome ??
+                                                '', //qua ci vuole il nome del farmaco e non il tipo come label
                                             style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
+                                          MouseRegion(
+                                            child: IconButton(
+                                              onPressed: () {
+                                                state.setState(() {
+                                                  state.setSharedPreferencesFarmacoNome(
+                                                      state
+                                                          .listaFarmaciArmadietto[
+                                                              index]
+                                                          .nome!);
+                                                });
+                                                showDialog(
+                                                  context: state.context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      icon: IconButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        icon: const Icon(
+                                                            Icons.close),
+                                                        color: ColorUtils
+                                                            .primaryColor,
+                                                        iconSize: 30,
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                      ),
+                                                      title: const Text(
+                                                          "Aggiungi promemoria"),
+                                                      content: Container(
+                                                        height: 250,
+                                                        child: Column(
+                                                          children: [
+                                                            TextField(
+                                                              controller: state
+                                                                  .nomePromemoria,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      labelText:
+                                                                          'Nome promemoria'),
+                                                              onSubmitted:
+                                                                  (value) {
+                                                                state.setState(
+                                                                    () {
+                                                                  state.nomePromemoria
+                                                                          .text =
+                                                                      value;
+                                                                });
+                                                              },
+                                                            ),
+                                                            TextField(
+                                                              controller: state
+                                                                  .descrizione,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      labelText:
+                                                                          'Descrizione'),
+                                                              onSubmitted:
+                                                                  (value) {
+                                                                state.setState(
+                                                                    () {
+                                                                  state.descrizione
+                                                                          .text =
+                                                                      value;
+                                                                });
+                                                              },
+                                                            ),
+                                                            TextField(
+                                                              controller: state
+                                                                  .dataFine,
+                                                              decoration:
+                                                                  const InputDecoration(
+                                                                      labelText:
+                                                                          'Data fine assunzione'),
+                                                              onSubmitted:
+                                                                  (value) {
+                                                                state.setState(
+                                                                    () {
+                                                                  state.dataFine
+                                                                          .text =
+                                                                      value;
+                                                                });
+                                                              },
+                                                            ),
+                                                            Container(
+                                                              child: Row(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Checkbox(
+                                                                    value: state
+                                                                        .isShared,
+                                                                    onChanged:
+                                                                        (value) {
+                                                                      state.setState(
+                                                                          () {
+                                                                        state.isShared =
+                                                                            value!;
+                                                                      });
+                                                                    },
+                                                                  ),
+                                                                  Expanded(
+                                                                      child: RichText(
+                                                                          text: TextSpan(
+                                                                    text:
+                                                                        "Condividi con il tuo medico",
+                                                                    style: DefaultTextStyle.of(
+                                                                            context)
+                                                                        .style,
+                                                                  )))
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      15.0,
+                                                                  vertical:
+                                                                      15.0),
+                                                          child: Container(
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      15.0),
+                                                              width: double
+                                                                  .infinity,
+                                                              child: Visibility(
+                                                                  child:
+                                                                      ElevatedButton(
+                                                                onPressed: () {
+                                                                  state
+                                                                      .setPromemoria();
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                    backgroundColor:
+                                                                        ColorUtils
+                                                                            .accentColor,
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10.0))),
+                                                                child:
+                                                                    const Text(
+                                                                  "Conferma promemoria",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          21,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                              ))),
+                                                        )
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              icon: const Icon(Icons.add_alarm),
+                                              iconSize: 35,
+                                              color: ColorUtils.primaryColor,
+                                            ),
+                                            onHover: (event) => const Tooltip(
+                                              message: 'Aggiungi promemoria',
+                                            ),
+                                          )
                                         ],
                                       ),
                                       Row(

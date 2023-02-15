@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
+import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/reminder.dart';
+import 'package:frontend/utils/AbstractBase.dart';
 
 import '../../UI/paziente_view/farmaciList_view.dart';
 import '../../UI/paziente_view/remindersList_view.dart';
@@ -70,35 +72,32 @@ class PromemoriaListPageWidget extends StatefulWidget {
   }
 }
 
-class PromemoriaListPageWidgetState extends State<PromemoriaListPageWidget> {
+class PromemoriaListPageWidgetState
+    extends AbstractBaseState<PromemoriaListPageWidget> {
   String TAG = '[REMINDERS LIST] : ';
 
   List<Reminder> listaReminder = [];
   String messageEmpty = '';
-
   @override
-  void initState() {
-    super.initState();
-
-    //callBackToRestApi();
+  calledFromInitState() async {
+    await callBackToRestApi();
   }
 
-  /*  callBackToRestApi() async {
-    ResponseMessage responseMessage = await RestClient.getReminderPaziente();
+  callBackToRestApi() async {
+    dynamic response = await RestCallback.getReminderPaziente(1);
 
-    if (responseMessage.isOk()) {
-      log('$TAG response ok');
-
-      if (responseMessage.data != null) {
-        listaReminder = responseMessage.data;
-      } else {
+    if (response != []) {
+      setState(() {
+        listaReminder = response;
+      });
+    } else {
+      setState(() {
         listaReminder = [];
-        setState(() {
-          messageEmpty = 'Nessun promemoria trovato.';
-        });
-      }
-    } 
-  }*/
+
+        messageEmpty = 'Nessun promemoria trovato.';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) =>

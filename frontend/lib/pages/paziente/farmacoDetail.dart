@@ -7,6 +7,9 @@ import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/UI/paziente_view/farmacoDetail_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
+import 'package:frontend/utils/AbstractBase.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/ColorUtils.dart';
 
@@ -23,8 +26,6 @@ class FarmacoDetailPageState extends State<FarmacoDetailPage> {
   @override
   Widget build(BuildContext context) {
     //testare quando ci sono farmaci nel db
-    /* final data = ModalRoute.of(context)!.settings.arguments as Map;
-    print(data['id']); */
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -73,7 +74,7 @@ class FarmacoDetailWidget extends StatefulWidget {
   }
 }
 
-class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
+class FarmacoDetailWidgetState extends AbstractBaseState<FarmacoDetailWidget> {
   Farmaco farmaco = Farmaco();
   String messageEmpty = '';
   bool isClicked = false;
@@ -86,23 +87,14 @@ class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
   dynamic userObjectData;
 
   @override
-  void initState() {
-    super.initState();
-    callBackToRestApi();
+  calledFromInitState() async {
+    await callBackToRestApi();
   }
 
-  /*    dynamic farmacoId;
-    farmacoId = ModalRoute.of(context)!.settings.arguments;
-    if (farmacoId != null) {
-      log(farmacoId.toString());
-
-      state.callBackToRestApi(id: farmacoId);
-
-      
-    } */
-
   callBackToRestApi() async {
-    dynamic response = await RestCallback.detailFarmaco(1);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    dynamic index = sharedPreferences.get('index');
+    dynamic response = await RestCallback.detailFarmaco(index);
     log(response.toString());
 
     if (response != null) {
@@ -118,7 +110,12 @@ class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
   }
 
   sendToArmadietto() async {
-    dynamic response = await RestCallback.addFarmaco(1, 1,
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    dynamic index = sharedPreferences.get('index');
+
+    dynamic idPaziente = SessionManager.getPazienteId();
+    print('PAZIENTEEEEEEEE ID : ${idPaziente.toString()}');
+    dynamic response = await RestCallback.addFarmaco(1, index,
         scadenzaController.text, quantitaController.text, tipoController.text);
     log(response.toString());
 
@@ -164,7 +161,6 @@ class FarmacoDetailWidgetState extends State<FarmacoDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    userObjectData = ModalRoute.of(context)!.settings.arguments;
     return FarmacoDetailView(this).getView(context);
   }
 }

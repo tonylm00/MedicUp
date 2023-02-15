@@ -123,7 +123,7 @@ class HomePageMedView {
                     size: 35,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(state.context, Routes.promemoria);
+                    //    Navigator.pushNamed(state.context, Routes.promemoria);
                   },
                 ),
               ],
@@ -157,7 +157,7 @@ class HomePageMedView {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Farmaci",
+                  "Cerca farmaco",
                   style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.bold,

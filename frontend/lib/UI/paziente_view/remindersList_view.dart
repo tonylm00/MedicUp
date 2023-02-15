@@ -49,16 +49,6 @@ class PromemoriaListView {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        /*  Padding(
-            padding:
-                const EdgeInsets.only(top: 5, right: 0, bottom: 10, left: 290),
-            child: IconButton(
-                iconSize: 37,
-                color: ColorUtils.primaryColor,
-                onPressed: (() {
-                  Navigator.pushNamed(state.context, Routes.accountInfo);
-                }),
-                icon: const Icon(Icons.account_circle))), */
       ],
     );
   }
@@ -72,65 +62,65 @@ class PromemoriaListView {
             children: [
               const Text("Ecco la lista dei tuoi promemoria : "),
               (state.listaReminder != null && state.listaReminder.isNotEmpty)
-                  ? ListView.builder(
+                  ? ListView.separated(
                       shrinkWrap: true,
                       itemCount: 10,
                       itemBuilder: (context, index) {
                         return ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10),
-                            title: Card(
-                                color: ColorUtils.lightTransPrimary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                elevation: 10,
-                                margin: const EdgeInsets.all(20),
-                                child: Container(
-                                    width: 300,
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
+                            title: Container(
+                                width: 300,
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                state.listaReminder[index].nome,
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: const Icon(
-                                                  Icons.zoom_in,
-                                                  color: Colors.black,
-                                                  size: 30,
-                                                ),
-                                                onPressed: () {
-                                                  // Navigator.pushNamed(state.context, Routes.accountInfo);
-                                                },
-                                              ),
-                                            ],
+                                          Text(
+                                            'Promemoria ${state.listaReminder[index].nome}',
+                                            style: const TextStyle(
+                                              fontSize: 21,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                state
-                                                    .listaReminder[index].giorni
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ],
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            state.listaReminder[index]
+                                                .descrizione
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                        ]))));
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Periodo fine assunzione : ${state.listaReminder[index].dataFine}'
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ])));
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          thickness: 3,
+                          height: 8,
+                          color: ColorUtils.primaryColor,
+                        );
                       },
                     )
                   : SizedBox(height: 35, child: Container()),

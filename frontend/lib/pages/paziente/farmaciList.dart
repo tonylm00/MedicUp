@@ -7,8 +7,10 @@ import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/restClient.dart';
+import 'package:frontend/utils/routes.dart';
 import 'package:frontend/utils/session/SessionManager.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../UI/paziente_view/farmaciList_view.dart';
 import '../../utils/AbstractBase.dart';
@@ -102,6 +104,14 @@ class FarmaciListPageWidgetState
     if (response != null) {
       setState(() {
         listaFarmaci = response;
+        listaFarmaci.sort();
+        listaFarmaci.sort(
+          (a, b) => a.nome!.compareTo(b.nome!),
+        );
+
+        for (var element in listaFarmaci) {
+          print(element.nome!.toString());
+        }
       });
     } else {
       listaFarmaci = [];
@@ -109,6 +119,13 @@ class FarmaciListPageWidgetState
         messageEmpty = 'Nessun elemento trovato.';
       });
     }
+  }
+
+  setIndexFarmacoToSharedPref(int index) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setInt('index', index);
+
+    Navigator.pushNamed(context, Routes.farmacoDetail);
   }
 
   searchByNameCall() async {
@@ -125,7 +142,7 @@ class FarmaciListPageWidgetState
     });
   }
 
-   searchByPrincipioCall() async {
+  searchByPrincipioCall() async {
     dynamic response =
         await RestCallback.ricercaFarmacoPrincipio(searchController.text);
     log(response.toString());
