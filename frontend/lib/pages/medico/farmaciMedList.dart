@@ -6,6 +6,7 @@ import 'package:frontend/UI/medico_view/farmaciListMed_view.dart';
 import 'package:frontend/UI/paziente_view/armadietto_view.dart';
 import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/farmaco.dart';
+import 'package:frontend/utils/AbstractBase.dart';
 import 'package:frontend/utils/ResponseMessage.dart';
 import 'package:frontend/utils/restClient.dart';
 import 'package:http/http.dart';
@@ -72,7 +73,7 @@ class FarmaciListPageWidgetMed extends StatefulWidget {
   }
 }
 
-class FarmaciListPageWidgetMedState extends State<FarmaciListPageWidgetMed> {
+class FarmaciListPageWidgetMedState extends AbstractBaseState<FarmaciListPageWidgetMed> {
   String TAG = '[FARMACI LIST] : ';
   dynamic userObjectData;
 
@@ -82,14 +83,18 @@ class FarmaciListPageWidgetMedState extends State<FarmaciListPageWidgetMed> {
     return FarmaciListViewMed(this).getView(context);
   }
 
+  TextEditingController searchController = TextEditingController();
+
   List<Farmaco> listaFarmaci = [];
   String messageEmpty = '';
+  bool toggle = true;
+  bool searchByName = true;
+  bool searchByPrincipio = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    callBackToRestApi();
+  calledFromInitState() async {
+    await callBackToRestApi();
+    showLoading(false, msg: 'Caricamento ...');
   }
 
   callBackToRestApi() async {
@@ -106,5 +111,33 @@ class FarmaciListPageWidgetMedState extends State<FarmaciListPageWidgetMed> {
         messageEmpty = 'Nessun elemento trovato.';
       });
     }
+  }
+
+  searchByNameCall() async {
+    dynamic response =
+        await RestCallback.ricercaFarmacoNome(searchController.text);
+    log(response.toString());
+    if (response == []) {
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
+    }
+    setState(() {
+      listaFarmaci = response;
+    });
+  }
+
+   searchByPrincipioCall() async {
+    dynamic response =
+        await RestCallback.ricercaFarmacoPrincipio(searchController.text);
+    log(response.toString());
+    if (response == []) {
+      setState(() {
+        messageEmpty = 'Nessun elemento trovato.';
+      });
+    }
+    setState(() {
+      listaFarmaci = response;
+    });
   }
 }
