@@ -48,6 +48,7 @@ class FarmacoInArmadietto(models.Model):
 class Promemoria(models.Model):
     paziente = models.ForeignKey(Patient, on_delete=models.CASCADE)
     dottore = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True, blank=True)
+    #farmaco = models.ForeignKey(Farmaco, on_delete=models.CASCADE)
     nome = models.TextField(null=False)
     fine = models.CharField(max_length=10)
     descrizione = models.TextField(null=True)

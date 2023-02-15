@@ -7,17 +7,7 @@ from django.contrib.auth.hashers import make_password
 from app.models import Patient, Farmaco, Doctor, FarmacoInArmadietto, PromemoriaSchedule, Promemoria
 from .serializers import PromemoriaUpdateSerializer, FarmacoSerializer, PatientSerializer, DoctorSerializer, FarmacoInArmadiettoSerializer, PromemoriaScheduleSerializer, PromemoriaSerializer
 import json
-'''
-Login diversi, in cui restituisco tutto l'oggetto Paziente o Dottore, utilizzando queryparams
 
-Paziente login -> email, pass
-Dottore login -> codefnomceo, pass
-
-Registrazione Paziente, Dottore
-Restituire true e false
-
-Aggiungere campi al farmaco
-'''
 class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
@@ -118,15 +108,11 @@ class FarmacoSearchNomeView(generics.RetrieveAPIView):
 #ricerca di un farmaco per principio attivo
 class FarmacoSearchPrincipioView(generics.ListCreateAPIView):
     serializer_class = FarmacoSerializer
-    queryset = Farmaco.objects.all()
-    lookup_field = 'principio'
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        filter_kwargs = {self.lookup_field: self.request.query_params.get("principio")}
-        obj = get_object_or_404(queryset, **filter_kwargs)
-        return obj
-
+    def get_queryset(self):
+        principio = self.request.query_params.get("principio")
+        return Farmaco.objects.filter(principio=principio)
+    
 #aggiungere farmaci all'armadietto
 class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
     serializer_class = FarmacoInArmadiettoSerializer
@@ -140,17 +126,6 @@ class AggiungiFarmacoArmadiettoView(generics.CreateAPIView):
             farmacoArmadietto = FarmacoInArmadietto(paziente=pazienteArm, farmaco=farmacoAdded, nomeFarmaco=farmacoAdded.nome,  scadenza=body.get("scadenza"), quantity=body.get("quantity"))
             farmacoArmadietto.save()
             return Response({"success": True},status=status.HTTP_201_CREATED)
-'''
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response({"success": True}, status=status.HTTP_201_CREATED, headers=headers)
-    
-    def perform_create(self, serializer):
-        serializer.save()
-'''
 
 #visualizzazione armadietto dei farmaci
 class ArmadiettoView(generics.ListCreateAPIView):
@@ -178,7 +153,7 @@ class PromemoriaCreateView(generics.CreateAPIView):
     
     def perform_create(self, serializer):
         serializer.save()
-
+    
 #aggiunta schedule promemoria
 class PromemoriaScheduleCreateView(generics.CreateAPIView):
     serializer_class = PromemoriaScheduleSerializer
