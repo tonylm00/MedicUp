@@ -18,6 +18,8 @@ class Routes {
   static String farmacoDetail = '/farmacodetail';
   static String research = '/research';
   static String accountInfo = '/accountinfo';
+  static String accountInfoMed = '/accountinfomed';
+
   static String searchByName = '/searchbyname';
   static String searchByPrincipioAttivo = '/searchbyprincipioattivo';
 
@@ -29,6 +31,10 @@ class Routes {
     // FARMACI LIST MED
     router.define(farmaciListMed,
         handler: farmaciListMedHandler, transitionType: TransitionType.none);
+
+    // ACCOUNT INFO MED
+    router.define(accountInfoMed,
+        handler: accountInfoMedHandler, transitionType: TransitionType.none);
 
     // FARMACI LIST MED
     router.define(farmaciDetailMed,

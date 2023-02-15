@@ -78,7 +78,7 @@ class HomePageMedView {
                       size: 35,
                     ),
                     onPressed: () {
-                      // Navigator.pushNamed(state.context, Routes.accountInfo);
+                      Navigator.pushNamed(state.context, Routes.accountInfoMed);
                     },
                   ),
                 ],

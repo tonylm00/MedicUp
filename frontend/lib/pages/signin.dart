@@ -204,10 +204,10 @@ class LoginFormWidgetState extends AbstractBaseState<LoginFormWidget> {
 
     dynamic response = await RestCallback.loginMedico(
         medIdController.text, userPasswordController.text);
+    medico = response;
     log(response.toString());
 
     LoginData loginData = LoginData(paziente: Paziente(), medico: medico);
-    loginData.medico = medico;
     SessionManager.setSessionFromLogin(loginData);
     loadSessionManager(context, loginData: loginData);
 

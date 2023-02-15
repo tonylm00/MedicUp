@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/medico/accountInfoMed.dart';
 import 'package:frontend/pages/paziente/accountInfo.dart';
 import 'package:frontend/pages/paziente/armadiettoPage.dart';
 import 'package:frontend/pages/medico/farmaciDetailMed.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => const Homepage(),
         '/homepageMed': (context) => const HomepageMed(),
         '/accountinfo': (context) => const AccountPage(),
+        '/accountinfomed': (context) => const AccountPageMed(),
         '/armadietto': (context) => const ArmadiettoPage(),
         '/farmaci': (context) => const FarmaciListPage(),
         '/promemoria': (context) => const PromemoriaListPage(),

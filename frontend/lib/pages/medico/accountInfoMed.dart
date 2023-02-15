@@ -1,24 +1,30 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/UI/medico_view/homepage_medview.dart';
+import 'package:frontend/UI/medico_view/accountInfoMedView.dart';
+import 'package:frontend/UI/paziente_view/accountinfo_view.dart';
+import 'package:frontend/api/restcallback.dart';
 import 'package:frontend/model_object/medico.dart';
 import 'package:frontend/model_object/paziente.dart';
 import 'package:frontend/utils/AbstractBase.dart';
+import 'package:frontend/utils/routes.dart';
+import 'package:frontend/utils/session/SessionManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../UI/paziente_view/homepage_view.dart';
 import '../../utils/ColorUtils.dart';
-import '../../utils/session/SessionManager.dart';
+import '../../utils/ResponseMessage.dart';
+import '../../utils/restClient.dart';
 
-class HomepageMed extends StatefulWidget {
-  const HomepageMed({super.key});
+class AccountPageMed extends StatefulWidget {
+  const AccountPageMed({super.key});
 
   @override
-  State<StatefulWidget> createState() => _HomepageState();
+  State<StatefulWidget> createState() {
+    return AccountPageMedState();
+  }
 }
 
-class _HomepageState extends State<HomepageMed> {
+class AccountPageMedState extends State<AccountPageMed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +44,7 @@ class _HomepageState extends State<HomepageMed> {
                   child: Padding(
                     padding: EdgeInsets.only(top: 80),
                     child: Text(
-                      "Homepage",
+                      "Profilo utente",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
@@ -49,7 +55,7 @@ class _HomepageState extends State<HomepageMed> {
                 top: 150,
                 left: 10,
                 right: 10,
-                child: HomepageColumnMedWidget(),
+                child: AccountPageMedWidget(),
               )
             ],
           ),
@@ -59,25 +65,24 @@ class _HomepageState extends State<HomepageMed> {
   }
 }
 
-class HomepageColumnMedWidget extends StatefulWidget {
-  const HomepageColumnMedWidget({super.key});
+class AccountPageMedWidget extends StatefulWidget {
+  const AccountPageMedWidget({super.key});
 
   @override
-  HomepageColumnMedWidgetState createState() {
-    return HomepageColumnMedWidgetState();
+  State<StatefulWidget> createState() {
+    return AccountPageMedWidgetState();
   }
 }
 
-class HomepageColumnMedWidgetState
-    extends AbstractBaseState<HomepageColumnMedWidget> {
-  dynamic paziente, medico;
+class AccountPageMedWidgetState
+    extends AbstractBaseState<AccountPageMedWidget> {
+  String TAG = '[MEDICO GET ACCOUNT INFO] : ';
+  dynamic paziente;
+  dynamic medico;
   Medico medicoObj = Medico();
 
-  @override
-  calledFromInitState() async {
-    await callBackToRestApi();
-    showLoading(false, msg: 'Caricamento ...');
-  }
+  dynamic userObjectData;
+  var pazienteNome;
 
   callBackToRestApi() async {
     medicoObj.nome = await SessionManager.getMedicoNome();
@@ -86,9 +91,25 @@ class HomepageColumnMedWidgetState
     medicoObj.email = await SessionManager.getMedicoEmail();
     medicoObj.password = await SessionManager.getMedicoPassword();
 
-    log(medicoObj.toString());
+    print('ACCOUNT INFO ABSTRACT STATE: ' + medicoObj.toJson().toString());
   }
 
   @override
-  Widget build(BuildContext context) => HomePageMedView(this).getView(context);
+  Widget build(BuildContext context) {
+    userObjectData = ModalRoute.of(context)!.settings.arguments;
+    log(userObjectData.toString());
+    return AccountInfoViewMed(this).getView(context);
+  }
+
+  logOutCall() async {
+    SessionManager.clearSession();
+
+    Navigator.pushNamed(context, Routes.intro);
+  }
+
+  @override
+  calledFromInitState() async {
+    await callBackToRestApi();
+    showLoading(false, msg: 'Caricamento ...');
+  }
 }
